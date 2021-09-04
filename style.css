@@ -1,0 +1,195 @@
+nav {
+    list-style-type: none;
+    overflow: hidden;
+    margin: 2rem;
+    margin-top: 0.5rem;
+    padding: 0;
+    font-family: 'Nanum Myeongjo', serif;
+    text-decoration: none;
+    color: black;
+    border-bottom: 1px solid #333;
+    z-index: 1; 
+  }
+
+
+  li {
+    float:left;
+  }
+  
+  li a {
+    display: block;
+    color: black;
+    text-align: center;
+    padding: 10px 10px;
+    text-decoration: none;
+  }
+  
+  li a:hover {
+    background-color:lightgray;
+    font-size: medium;
+  }
+
+  li a:active {
+    background-color:#d2eaf7;
+    ;
+  }
+
+
+.banner{
+    font-size:medium;
+    margin-right: 2.5rem;
+    padding-bottom: 0rem;
+    list-style: none;
+    text-align:right;
+    text-decoration: none;
+    font-weight:normal;
+    font-size: 2rem;
+    z-index: 2;
+    position: relative;
+    
+} 
+
+.profile{ 
+    object-fit: contain;
+    margin: 1rem;
+    margin-top: 4rem;
+    font-family: 'Gowun Batang', serif;
+}
+
+.biography{
+    font-family: 'Gowun Batang', serif;
+    font-weight: 100;
+    text-align: justify;
+  text-justify: inter-word;
+  margin: 1rem;
+}
+
+
+.links{
+  display: inline-block;
+  list-style-type: none;
+  margin: 1rem;
+  margin-top: 0.5rem;
+  padding: 0;
+  overflow: hidden;
+  color: black;
+  text-align: justify;
+}
+
+.info {
+    text-decoration: none;
+    margin-top: 1.5rem;
+    margin: 3rem;
+    font-family: 'Nanum Myeongjo', serif;
+    text-align: justify;
+    line-height: 1.5rem;
+}
+
+.label {
+    text-decoration: none;
+    margin-top: 1.5rem;
+    margin: 3rem;
+    font-family: 'Nanum Myeongjo', serif;
+    text-align: justify;
+}
+
+.connect {
+    text-decoration: none;
+    margin-top: 1.5rem;
+    margin: 3rem;
+    font-family: 'Nanum Myeongjo', serif;
+    text-align: justify;
+}
+
+.papermenu {
+  -ms-text-size-adjust: initial;
+ margin: 2rem;
+ padding: 0rem;
+ list-style-type: none;
+ overflow: hidden;
+ margin: 2rem;
+ margin-top: -3.2rem;
+ padding: 0;
+ font-family: 'Nanum Myeongjo', serif;
+ text-decoration: none;
+ color: black;
+ font-size: small;
+ border-bottom: 0.5px solid #333; 
+}
+
+ .reviewmenu {
+  -ms-text-size-adjust: initial;
+ margin: 2rem;
+ margin-top: -3.2rem;
+ padding: 0rem;
+ list-style-type: none;
+ overflow: hidden;
+ padding: 0;
+ font-family: 'Nanum Myeongjo', serif;
+ text-decoration: none;
+ color: black;
+ font-size: small;
+ border-bottom: 0.5px solid #333;
+ }
+
+ .alsmenu {
+  -ms-text-size-adjust: initial;
+ margin: 2rem;
+ margin-top: -3.2rem;
+ padding: 0rem;
+ list-style-type: none;
+ overflow: hidden;
+ padding: 0;
+ font-family: 'Nanum Myeongjo', serif;
+ text-decoration: none;
+ color: black;
+ font-size: small;
+ border-bottom: 0.5px solid #333;
+ }
+
+ .conmenu {
+  -ms-text-size-adjust: initial;
+  margin: 2rem;
+  margin-top: -3.2rem;
+  padding: 0rem;
+  list-style-type: none;
+  overflow: hidden;
+  padding: 0;
+  font-family: 'Nanum Myeongjo', serif;
+  text-decoration: none;
+  color: black;
+  font-size: small;
+  border-bottom: 0.5px solid #333;
+  }
+
+  .aboutmenu {
+    -ms-text-size-adjust: initial;
+    margin: 2rem;
+    margin-top: -3.2rem;
+    padding: 0rem;
+    list-style-type: none;
+    overflow: hidden;
+    padding: 0;
+    font-family: 'Nanum Myeongjo', serif;
+    text-decoration: none;
+    color: black;
+    font-size: small;
+    border-bottom: 0.5px solid #333;
+    }
+
+ul {
+  float:right;
+}
+
+ul a {
+  display: block;
+  color: black;
+  padding: 10px 10px;
+  text-align: center;
+  text-decoration: none;
+}
+
+ul a:hover {
+  background-color:#d2eaf7;
+
+}
