@@ -162,6 +162,21 @@ nav {
  float: none;
  }
 
+ .lecturemenu {
+  -ms-text-size-adjust: initial;
+ margin: 2rem;
+ margin-top: -3.2rem;
+ padding: 0rem;
+ list-style-type: none;
+ overflow: hidden;
+ padding: 0;
+ font-family: 'Nanum Myeongjo', serif;
+ text-decoration: none;
+ color: black;
+ font-size: small;
+ float: none;
+ }
+
  .alsmenu {
   -ms-text-size-adjust: initial;
  margin: 2rem;
@@ -222,4 +237,23 @@ ul a {
 ul a:hover {
   background-color:#d2eaf7;
 
+}
+
+.iframe {
+  margin: 0 auto;
+  width: 200px;
+  background: black;
+  padding: 20px;
+  color: white;
+  align-items: center;
+}
+
+.lecturetitle {
+  text-decoration: none;
+  text-size-adjust: small;
+    margin-top: 1.5rem;
+    margin: 3rem;
+    font-family: 'Nanum Myeongjo', serif;
+    text-align: justify;
+    border-bottom: 0.5px solid #333;
 }
