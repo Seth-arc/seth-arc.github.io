@@ -258,3 +258,16 @@ ul a:hover {
     border-bottom: 0.5px solid #333;
     font-size: small;
 }
+
+.greeting {
+  font-family: 'Caveat', cursive;
+  align-content: center;
+  margin-left: 35rem;
+  padding: 0rem;
+  list-style-type: none;
+  overflow: hidden;
+  text-decoration: none;
+  color: black;
+  font-size: 10rem;
+  overflow: hidden;
+}
