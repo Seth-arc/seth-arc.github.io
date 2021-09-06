@@ -256,4 +256,5 @@ ul a:hover {
     font-family: 'Nanum Myeongjo', serif;
     text-align: justify;
     border-bottom: 0.5px solid #333;
+    font-size: small;
 }
