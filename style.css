@@ -281,3 +281,9 @@ ul a:hover {
   font-size: 10rem;
   overflow: hidden;
 }
+
+.neno {
+  overflow: hidden;
+  align-items: center;
+  margin-left: 20rem;
+}
