@@ -259,6 +259,16 @@ ul a:hover {
     font-size: small;
 }
 
+.articletitle {
+  text-decoration: none;
+  text-size-adjust: small;
+    margin: 3rem;
+    font-family: 'Nanum Myeongjo', serif;
+    text-align: justify;
+    border-bottom: 0.5px solid #333;
+    font-size: small;
+}
+
 .greeting {
   font-family: 'Caveat', cursive;
   align-content: center;
