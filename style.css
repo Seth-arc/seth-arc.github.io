@@ -284,6 +284,7 @@ ul a:hover {
 
 .neno {
   overflow: hidden;
-  align-items: center;
-  margin-left: 20rem;
+  display: flex;
+  justify-content: center;
+  padding: 0;
 }
