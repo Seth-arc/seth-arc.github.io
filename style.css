@@ -283,8 +283,8 @@ ul a:hover {
 }
 
 .neno {
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
   padding: 0;
+  display: flex;
+  justify-content: left;
+  
 }
