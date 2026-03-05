@@ -280,14 +280,21 @@
             }
             #main-nav-bg {
                 background-position: 62% center;
+                filter: brightness(1.14) contrast(1.04);
             }
             #main-nav {
                 max-width: none;
                 justify-content: flex-end;
-                padding-bottom: 6.5rem;
+                padding-bottom: calc(8.6rem + env(safe-area-inset-bottom));
+                overflow-y: auto;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+            }
+            #main-nav::-webkit-scrollbar {
+                width: 0;
             }
             #main-nav::before {
-                background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.85) 48%, rgba(0, 0, 0, 0.97) 100%);
+                background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, rgba(0, 0, 0, 0.55) 48%, rgba(0, 0, 0, 0.8) 100%);
             }
             #main-nav header,
             #category-nav,
@@ -307,6 +314,7 @@
             }
             #category-nav {
                 width: 100%;
+                padding-bottom: 0.9rem;
             }
             #category-nav .project-link {
                 filter: none;
@@ -319,7 +327,7 @@
             }
             #main-cta {
                 top: auto;
-                bottom: 0.9rem;
+                bottom: calc(0.9rem + env(safe-area-inset-bottom));
                 left: 0.9rem;
                 right: 0.9rem;
                 gap: 0.45rem;
