@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SETHU // PORTFOLIO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;1,300&family=JetBrains+Mono:wght@100;400&display=swap"
+        rel="stylesheet">
+    <style>
+        html {
+            font-size: 20px;
+        }
+
+        :root {
+            --bg: #050505;
+            --accent: #e5e5e5;
+            --dim: #222;
+            --meta: #666;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+            overflow: hidden;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='20'%3E%3Cpath d='M0 0 L0 16 L4.5 11.5 L7 18.5 L9 17.5 L6.5 11 L11 11 Z' fill='%23C9A84C' stroke='%23050505' stroke-width='0.8'/%3E%3C/svg%3E") 0 0, auto;
+        }
+
+        .serif {
+            font-family: 'Cormorant Garamond', serif;
+        }
+
+        #resume-view::-webkit-scrollbar {
+            width: 2px;
+        }
+        #resume-view::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        #resume-view::-webkit-scrollbar-thumb {
+            background: #333;
+        }
+        #resume-view::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* High-End Scrollbar */
+        #project-view::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #project-view::-webkit-scrollbar-track {
+            background: #050505;
+        }
+
+        #project-view::-webkit-scrollbar-thumb {
+            background: #222;
+            border-radius: 10px;
+        }
+
+        #project-view::-webkit-scrollbar-thumb:hover {
+            background: #444;
+        }
+
+        /* Learning Architect glitch hover */
+        #la-text {
+            position: relative;
+            transition: color 0.25s ease, opacity 0.25s ease;
+            cursor: default;
+            color: #C9A84C;
+            opacity: 1;
+        }
+        #la-text:hover {
+            animation: la-shake 0.55s steps(1) forwards;
+        }
+        #la-text::before,
+        #la-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            font: inherit;
+            letter-spacing: inherit;
+            text-transform: inherit;
+            opacity: 0;
+            pointer-events: none;
+        }
+        #la-text:hover::before {
+            color: #ff9f43;
+            opacity: 0.65;
+            animation: la-slice-a 0.55s steps(1) forwards;
+        }
+        #la-text:hover::after {
+            color: #48dbfb;
+            opacity: 0.55;
+            animation: la-slice-b 0.55s steps(1) forwards;
+        }
+        @keyframes la-shake {
+            0%,100% { transform: none; }
+            10% { transform: translateX(-3px); }
+            25% { transform: translateX(3px); }
+            40% { transform: translateX(-2px); }
+            55% { transform: translateX(2px); }
+            70% { transform: translateX(-1px); }
+            85% { transform: none; }
+        }
+        @keyframes la-slice-a {
+            0%   { clip-path: inset(5%  0 88% 0); transform: translateX(-4px); opacity: 0.7; }
+            18%  { clip-path: inset(45% 0 40% 0); transform: translateX( 4px); }
+            36%  { clip-path: inset(72% 0 15% 0); transform: translateX(-3px); }
+            54%  { clip-path: inset(20% 0 65% 0); transform: translateX( 3px); }
+            72%  { clip-path: inset(88% 0  5% 0); transform: translateX(-2px); }
+            90%  { clip-path: inset(0   0 100% 0); opacity: 0; }
+            100% { opacity: 0; }
+        }
+        @keyframes la-slice-b {
+            0%   { clip-path: inset(78% 0  8%  0); transform: translateX( 4px); opacity: 0.6; }
+            18%  { clip-path: inset(15% 0 70%  0); transform: translateX(-4px); }
+            36%  { clip-path: inset(50% 0 30%  0); transform: translateX( 2px); }
+            54%  { clip-path: inset(85% 0  5%  0); transform: translateX(-3px); }
+            72%  { clip-path: inset(30% 0 55%  0); transform: translateX( 3px); }
+            90%  { clip-path: inset(0   0 100% 0); opacity: 0; }
+            100% { opacity: 0; }
+        }
+
+        /* Landing page â€” scale down 20%, excluding #main-cta */
+        #main-nav header,
+        #category-nav,
+        #sub-nav,
+        footer {
+            zoom: 0.8;
+        }
+
+        #lens {
+            position: fixed;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            transform: translate(-50%, -50%);
+        }
+
+        #main-nav-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            opacity: 0;
+            background-image: url('me.png');
+            background-size: cover;
+            background-position: center right;
+            background-repeat: no-repeat;
+        }
+
+        #main-nav::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(to right, rgba(0,0,0,0.80) 0%, rgba(0,0,0,0.55) 55%, transparent 100%);
+            pointer-events: none;
+        }
+
+        #main-nav h1,
+        #main-nav nav {
+            text-shadow: 0 2px 24px rgba(0,0,0,0.95), 0 1px 4px rgba(0,0,0,1);
+        }
+
+        .scanner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            z-index: 10;
+            animation: scan 8s linear infinite;
+        }
+
+        @keyframes scan {
+            0% {
+                transform: translateY(-10vh);
+            }
+
+            100% {
+                transform: translateY(110vh);
+            }
+        }
+
+        .project-link,
+        .sub-project-link {
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            filter: blur(1px);
+            opacity: 0.4;
+        }
+
+        .project-link:hover,
+        .sub-project-link:hover {
+            filter: blur(0px);
+            opacity: 1;
+            padding-left: 1.5rem;
+        }
+
+        #project-view {
+            position: fixed;
+            inset: 0;
+            background: #080808;
+            z-index: 150;
+            clip-path: circle(0% at 50% 50%);
+            display: none;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+
+<body class="antialiased">
+
+    <div id="lens"></div>
+    <div class="scanner"></div>
+
+    <div id="main-nav-bg"></div>
+    <main id="main-nav" class="relative z-20 h-screen flex flex-col justify-center px-12 md:px-24 max-w-6xl">
+        <header class="mb-16">
+            <h1 class="serif italic text-6xl md:text-8xl font-light tracking-tighter">Sethu Nguna<span
+                    id="la-text" data-text="Learning Architect"
+                    class="block ml-12 md:ml-24 text-2xl md:text-4xl font-light tracking-[0.25em] uppercase not-italic" style="font-family:'JetBrains Mono',monospace;">Learning Architect</span></h1>
+        </header>
+        <nav class="space-y-4 md:space-y-2" id="category-nav"></nav>
+    </main>
+    <div id="main-cta" class="fixed top-10 left-12 z-40 flex gap-4">
+        <button onclick="openResume()"
+            class="text-[9px] uppercase tracking-[0.3em] border border-white/20 px-4 py-2 hover:border-white/70 hover:text-white transition-all duration-300 text-white/40 cursor-none">
+            Resume
+        </button>
+        <button onclick="openContact()"
+            class="text-[9px] uppercase tracking-[0.3em] border border-white/20 px-4 py-2 hover:border-white/70 hover:text-white transition-all duration-300 text-white/40 cursor-none">
+            Contact
+        </button>
+    </div>
+
+    <section id="sub-nav"
+        class="fixed inset-0 z-[100] flex flex-col justify-center px-12 md:px-24 bg-black/95 translate-x-full opacity-0 pointer-events-none">
+        <button onclick="closeSubNav()"
+            class="absolute top-16 left-12 md:left-24 text-sm uppercase tracking-widest text-meta hover:text-white transition-colors">
+            Return to Archive</button>
+        <div class="mb-12">
+            <p id="sub-cat-title" class="text-base uppercase mb-1 tracking-[0.5em]" style="color:#C9A84C;">Category</p>
+            <h2 class="serif italic text-5xl md:text-7xl">Selected Works</h2>
+            <p id="sub-cat-overview" class="text-sm text-zinc-500 mt-4 max-w-xl leading-relaxed"></p>
+        </div>
+        <div id="sub-project-container" class="space-y-6"></div>
+    </section>
+
+    <section id="project-view" class="p-12 md:p-24">
+        <div class="max-w-6xl mx-auto">
+            <nav class="flex justify-between items-center mb-24">
+                <p id="det-id" class="text-[10px] text-meta tracking-widest uppercase">REF_NODE // 00</p>
+                <button onclick="closeProject()"
+                    class="text-[10px] uppercase tracking-widest hover:line-through opacity-50 hover:opacity-100">[
+                    EXIT_MODULE ]</button>
+            </nav>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                <div class="lg:col-span-8">
+                    <h3 id="det-title" class="serif italic text-6xl md:text-9xl mb-12 leading-none">Title</h3>
+                    <p id="det-desc" class="text-xl md:text-2xl text-zinc-400 font-light leading-relaxed mb-12"></p>
+                </div>
+                <div class="lg:col-span-4 border-l border-white/10 pl-8 space-y-12">
+                    <div>
+                        <h4 class="text-[10px] uppercase tracking-widest text-meta mb-4">Core Methodology</h4>
+                        <div id="det-meta" class="space-y-2 text-[11px] text-white/40"></div>
+                    </div>
+                    <div>
+                        <h4 class="text-[10px] uppercase tracking-widest text-meta mb-4">Project Impact</h4>
+                        <div id="det-impact" class="text-3xl serif italic text-white/80"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="p-visual-container"
+                class="mt-24 w-full h-[75vh] bg-zinc-900/10 border border-white/5 flex items-center justify-center relative overflow-hidden">
+                <canvas id="boidsCanvas" class="absolute inset-0 z-0"></canvas>
+                <div id="boids-embed-layer" class="absolute inset-0 z-20 hidden bg-black/85">
+                    <iframe id="boids-embed-frame" class="w-full h-full border-0"
+                        allowfullscreen="true"></iframe>
+                </div>
+                <p id="boids-status-label" class="relative z-10 text-[10px] uppercase tracking-[1em] text-meta animate-pulse">Simulation_Active
+                </p>
+            </div>
+            <div id="cfa-doc-nav" class="mt-6 hidden grid grid-cols-2 gap-4">
+                <button id="cfa-platform-audit-btn" type="button"
+                    class="border border-white/20 text-white/60 text-[10px] uppercase tracking-[0.3em] px-4 py-3 hover:border-white/70 hover:text-white transition-colors">
+                    Platform Audit
+                </button>
+                <button id="cfa-proposal-btn" type="button"
+                    class="border border-white/20 text-white/60 text-[10px] uppercase tracking-[0.3em] px-4 py-3 hover:border-white/70 hover:text-white transition-colors">
+                    Proposal
+                </button>
+            </div>
+            <div id="unizulu-playlist-nav" class="mt-6 hidden grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+                <button id="unizulu-prev-btn" type="button"
+                    class="border border-white/20 text-white/60 text-[10px] uppercase tracking-[0.3em] px-4 py-3 hover:border-white/70 hover:text-white transition-colors">
+                    Previous Video
+                </button>
+                <p id="unizulu-video-label" class="text-[10px] text-center uppercase tracking-[0.35em] text-white/60">
+                    Video 1 / 7
+                </p>
+                <button id="unizulu-next-btn" type="button"
+                    class="border border-white/20 text-white/60 text-[10px] uppercase tracking-[0.3em] px-4 py-3 hover:border-white/70 hover:text-white transition-colors">
+                    Next Video
+                </button>
+            </div>
+            <div id="ukzn-resource-nav" class="mt-6 hidden grid grid-cols-1 md:grid-cols-3 gap-4">
+                <button id="ukzn-video-btn" type="button"
+                    class="border border-white/20 text-white/60 text-[10px] uppercase tracking-[0.3em] px-4 py-3 hover:border-white/70 hover:text-white transition-colors">
+                    Video
+                </button>
+                <button id="ukzn-slides-btn" type="button"
+                    class="border border-white/20 text-white/60 text-[10px] uppercase tracking-[0.3em] px-4 py-3 hover:border-white/70 hover:text-white transition-colors">
+                    Slide Deck
+                </button>
+                <button id="ukzn-document-btn" type="button"
+                    class="border border-white/20 text-white/60 text-[10px] uppercase tracking-[0.3em] px-4 py-3 hover:border-white/70 hover:text-white transition-colors">
+                    Document
+                </button>
+            </div>
+            <div id="aidcraft-playlist-nav" class="mt-6 hidden grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+                <button id="aidcraft-prev-btn" type="button"
+                    class="border border-white/20 text-white/60 text-[10px] uppercase tracking-[0.3em] px-4 py-3 hover:border-white/70 hover:text-white transition-colors">
+                    Previous Video
+                </button>
+                <p id="aidcraft-video-label" class="text-[10px] text-center uppercase tracking-[0.35em] text-white/60">
+                    Video 1 / 2
+                </p>
+                <button id="aidcraft-next-btn" type="button"
+                    class="border border-white/20 text-white/60 text-[10px] uppercase tracking-[0.3em] px-4 py-3 hover:border-white/70 hover:text-white transition-colors">
+                    Next Video
+                </button>
+            </div>
+            <div id="missing-classrooms-playlist-nav" class="mt-6 hidden grid grid-cols-[1fr_auto_1fr] items-center gap-4">
+                <button id="missing-classrooms-prev-btn" type="button"
+                    class="border border-white/20 text-white/60 text-[10px] uppercase tracking-[0.3em] px-4 py-3 hover:border-white/70 hover:text-white transition-colors">
+                    Previous Video
+                </button>
+                <p id="missing-classrooms-video-label" class="text-[10px] text-center uppercase tracking-[0.35em] text-white/60">
+                    Video 1 / 2
+                </p>
+                <button id="missing-classrooms-next-btn" type="button"
+                    class="border border-white/20 text-white/60 text-[10px] uppercase tracking-[0.3em] px-4 py-3 hover:border-white/70 hover:text-white transition-colors">
+                    Next Video
+                </button>
+            </div>
+
+            <div
+                class="mt-24 grid grid-cols-1 md:grid-cols-3 gap-12 border-t border-white/5 pt-12 text-[11px] text-meta leading-relaxed uppercase tracking-wider">
+                <div id="det-challenge"></div>
+                <div id="det-logic"></div>
+                <div id="det-outcome"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- â”€â”€ Contact Overlay â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <section id="contact-view" class="fixed inset-0 z-[300] bg-[#050505] flex items-center justify-center" style="display:none; clip-path:circle(0% at 90% 10%)">
+        <button onclick="closeContact()" class="absolute top-10 right-12 text-xs uppercase tracking-widest opacity-50 hover:opacity-100 hover:line-through transition-opacity cursor-none">[ Close ]</button>
+
+        <div class="w-full max-w-lg px-12">
+
+            <p class="text-xs uppercase tracking-[0.5em] text-zinc-500 mb-6">// Contact</p>
+            <h2 class="serif italic text-6xl md:text-8xl font-light tracking-tighter leading-none mb-16">Get in touch.</span></h2>
+
+            <div class="space-y-8">
+
+                <!-- email -->
+                <a href="mailto:sethnguna@gmail.com"
+                    class="group flex items-center justify-between border border-white/10 px-6 py-5 hover:border-white/50 transition-all duration-400">
+                    <div>
+                        <p class="text-[10px] uppercase tracking-[0.4em] text-zinc-500 mb-1">Email</p>
+                        <p class="text-base text-white/80 group-hover:text-white transition-colors">sethnguna@gmail.com</p>
+                    </div>
+                    <span class="text-zinc-600 group-hover:text-white transition-colors text-lg">â†—</span>
+                </a>
+
+                <!-- linkedin -->
+                <a href="https://linkedin.com/in/sethu-nguna" target="_blank" rel="noopener"
+                    class="group flex items-center justify-between border border-white/10 px-6 py-5 hover:border-white/50 transition-all duration-400">
+                    <div>
+                        <p class="text-[10px] uppercase tracking-[0.4em] text-zinc-500 mb-1">LinkedIn</p>
+                        <p class="text-base text-white/80 group-hover:text-white transition-colors">linkedin.com/in/sethu-nguna</p>
+                    </div>
+                    <span class="text-zinc-600 group-hover:text-white transition-colors text-lg">â†—</span>
+                </a>
+
+                <!-- twitter/x -->
+                <a href="https://x.com/OfficialSethu" target="_blank" rel="noopener"
+                    class="group flex items-center justify-between border border-white/10 px-6 py-5 hover:border-white/50 transition-all duration-400">
+                    <div>
+                        <p class="text-[10px] uppercase tracking-[0.4em] text-zinc-500 mb-1">X / Twitter</p>
+                        <p class="text-base text-white/80 group-hover:text-white transition-colors">@OfficialSethu</p>
+                    </div>
+                    <span class="text-zinc-600 group-hover:text-white transition-colors text-lg">â†—</span>
+                </a>
+
+            </div>
+
+            <p class="text-[10px] text-zinc-700 tracking-widest mt-16">Â© SETHU NGUNA 2025</p>
+        </div>
+    </section>
+    <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+
+    <!-- â”€â”€ Resume Overlay â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <section id="resume-view" class="fixed inset-0 z-[300] overflow-y-auto bg-[#050505]" style="display:none; clip-path:circle(0% at 10% 10%)">
+        <div class="max-w-5xl mx-auto px-12 md:px-20 py-16">
+
+            <!-- top bar -->
+            <nav class="flex justify-between items-center mb-20 border-b border-white/10 pb-8">
+                <p class="text-xs uppercase tracking-widest text-zinc-400">CV_FILE // SN-2026</p>
+                <button onclick="closeResume()" class="text-xs uppercase tracking-widest hover:line-through opacity-60 hover:opacity-100 cursor-none">[ Close ]</button>
+            </nav>
+
+            <!-- header -->
+            <header class="mb-20">
+                <h1 class="serif italic text-7xl md:text-9xl font-light tracking-tighter leading-none mb-4">Sethu Nguna</span></h1>
+                <p class="text-sm uppercase tracking-[0.4em] text-zinc-300 mt-8 ml-1" style="font-family:'JetBrains Mono',monospace;">Learning Experience Design & Instructional System Development</p>
+                <div class="flex flex-wrap gap-x-6 gap-y-1 mt-4 ml-1 text-xs tracking-widest text-zinc-400" style="font-family:'JetBrains Mono',monospace;">
+                    <span>sethnguna@gmail.com</span>
+                    <span class="opacity-30">Â·</span>
+                    <a href="https://linkedin.com/in/sethu-nguna" target="_blank" class="hover:text-white transition-colors">linkedin.com/in/sethu-nguna</a>
+                    <span class="opacity-30">Â·</span>
+                    <a href="https://seth-arc.github.io" target="_blank" class="hover:text-white transition-colors">seth-arc.github.io</a>
+                    <span class="opacity-30">Â·</span>
+                    <span>Williamsburg, Virginia</span>
+                </div>
+            </header>
+
+            <!-- body grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-x-16 gap-y-16">
+
+                <!-- LEFT col -->
+                <div class="lg:col-span-8 space-y-16">
+
+                    <!-- summary -->
+                    <div>
+                        <h2 class="text-xs uppercase tracking-[0.5em] text-zinc-400 mb-6 border-b border-white/10 pb-4">Professional Summary</h2>
+                        <p class="text-zinc-200 leading-relaxed text-base font-light">Innovative Learning Strategist and Senior Instructional Designer with over 10 years of experience designing high-impact, data-driven learning ecosystems and technical capacity-building programs. Proven expertise in leading cross-functional creative teams, developing advanced interactive learning systems and content (Moodle/D2L/Wordpress, xAPI/SCORM/Articulate 360, Simulations, AR/VR, AI tools), and serving as a strategic learning advisor. Deeply versed in adult learning theory, experiential instructional design, and digital transformation, with a demonstrated ability to translate complex technical specifications into scalable, measurable performance solutions across fast-paced environments.</p>
+                    </div>
+
+                    <!-- experience -->
+                    <div>
+                        <h2 class="text-xs uppercase tracking-[0.5em] text-zinc-400 mb-8 border-b border-white/10 pb-4">Professional Experience</h2>
+                        <div class="space-y-12">
+
+                            <div>
+                                <div class="flex justify-between items-baseline mb-1">
+                                    <h3 class="serif italic text-2xl text-white">Training & Instructional Design Manager</h3>
+                                    <span class="text-xs text-zinc-400 tracking-widest">2023 â€“ Present</span>
+                                </div>
+                                <p class="text-xs uppercase tracking-widest text-zinc-400 mb-4">AidData Research Lab Â· William &amp; Mary, VA</p>
+                                <ul class="space-y-2 text-sm text-zinc-300 leading-relaxed">
+                                    <li class="pl-4 border-l border-white/20">Translate complex technical subjects (development finance and data) into robust online & in-person learning experiences.</li>
+                                    <li class="pl-4 border-l border-white/20">Lead end-to-end instructional design using authoring tools and custom web integrations for scalable CBT modules.</li>
+                                    <li class="pl-4 border-l border-white/20">Platform administrator and technical lead for LMS environments; analyse learner metrics to increase retention.</li>
+                                    <li class="pl-4 border-l border-white/20">Launched "Navigating Global Development Finance" course and AidData Training Hub learning platform.</li>
+                                    <li class="pl-4 border-l border-white/20">Awarded 2024â€“2025 Learn, Discover, Innovate Grant from William &amp; Mary for immersive learning innovations.</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between items-baseline mb-1">
+                                    <h3 class="serif italic text-2xl text-white">Lead Instructional Designer</h3>
+                                    <span class="text-xs text-zinc-400 tracking-widest">2021 â€“ 2023</span>
+                                </div>
+                                <p class="text-xs uppercase tracking-widest text-zinc-400 mb-4">University of KwaZulu-Natal Â· Durban, SA</p>
+                                <ul class="space-y-2 text-sm text-zinc-300 leading-relaxed">
+                                    <li class="pl-4 border-l border-white/20">Led team of instructional designers, establishing design standards and driving continuous professional feedback.</li>
+                                    <li class="pl-4 border-l border-white/20">Spearheaded the university's holistic digital learning strategy through root-cause analysis with academic leadership.</li>
+                                    <li class="pl-4 border-l border-white/20">Launched the first UKZN Instructional Design Expo to evangelize modern learning theory and technology tools.</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between items-baseline mb-1">
+                                    <h3 class="serif italic text-2xl text-white">Academic Coordinator</h3>
+                                    <span class="text-xs text-zinc-400 tracking-widest">2016 â€“ 2021</span>
+                                </div>
+                                <p class="text-xs uppercase tracking-widest text-zinc-400 mb-4">University of Zululand Â· Richards Bay, SA</p>
+                                <ul class="space-y-2 text-sm text-zinc-300 leading-relaxed">
+                                    <li class="pl-4 border-l border-white/20">Supervised 40+ postgraduate student assistants across multiple faculties.</li>
+                                    <li class="pl-4 border-l border-white/20">Designed the UNIZULU 101 first-year core curriculum pilot â€” integrated across 4 faculties and 10 programmes.</li>
+                                    <li class="pl-4 border-l border-white/20">Maintained 75%+ engagement for a 1,200+ student cohort during COVID-19 emergency remote learning transition.</li>
+                                </ul>
+                            </div>
+
+                            <div>
+                                <div class="flex justify-between items-baseline mb-1">
+                                    <h3 class="serif italic text-2xl text-white">eLearning Consultant</h3>
+                                    <span class="text-xs text-zinc-400 tracking-widest">2022 â€“ 2023</span>
+                                </div>
+                                <p class="text-xs uppercase tracking-widest text-zinc-400 mb-4">Code for Africa</p>
+                                <ul class="space-y-2 text-sm text-zinc-300 leading-relaxed">
+                                    <li class="pl-4 border-l border-white/20">Evaluated digital capacity and engineered a relaunch strategy for custom eLearning platforms.</li>
+                                    <li class="pl-4 border-l border-white/20">Developed rich multimedia content and interactive modules for technical data analysis skillsets.</li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- publications -->
+                    <div>
+                        <h2 class="text-xs uppercase tracking-[0.5em] text-zinc-400 mb-6 border-b border-white/10 pb-4">Publications &amp; Presentations</h2>
+                        <ul class="space-y-5">
+                            <li class="text-sm text-zinc-200 pl-4 border-l border-white/20 leading-relaxed">The Pedagogy of Play: Incorporating Gamification and Simulation in Training Environments. <span class="text-zinc-400">W&amp;M Teaching &amp; Learning Symposium, 2025</span></li>
+                            <li class="text-sm text-zinc-200 pl-4 border-l border-white/20 leading-relaxed">Utilising Data-Driven Insights to Improve Performance Metrics. <span class="text-zinc-400">Siyaphumelela Network Conference, 2023</span></li>
+                            <li class="text-sm text-zinc-200 pl-4 border-l border-white/20 leading-relaxed">Humanising Digital Experiences: Enhancing Collective Meaning-Making Through Experiential Design. <span class="text-zinc-400">SAERA, 2021</span></li>
+                            <li class="text-sm text-zinc-200 pl-4 border-l border-white/20 leading-relaxed">The Digitalisation Trend in Policy: Systems Integration &amp; Change Management. <span class="text-zinc-400">2021</span></li>
+                            <li class="text-sm text-zinc-200 pl-4 border-l border-white/20 leading-relaxed">Learner Voice in Shaping Systemic Training Interventions. <span class="text-zinc-400">Siyaphumelela Network, 2021</span></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <!-- RIGHT col -->
+                <div class="lg:col-span-4 space-y-12">
+
+                    <!-- skills -->
+                    <div>
+                        <h2 class="text-xs uppercase tracking-[0.5em] text-zinc-400 mb-6 border-b border-white/10 pb-4">Core Competencies</h2>
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-xs uppercase tracking-widest text-zinc-300 mb-3">Strategic Learning &amp; Design</p>
+                                <ul class="space-y-2 text-sm text-zinc-300">
+                                    <li>// Adult Learning Theory (ADDIE, Agile, SAM)</li>
+                                    <li>// Curriculum Modeling &amp; Future-Thinking Pedagogy</li>
+                                    <li>// Stakeholder Advisory &amp; Cross-functional Liaison</li>
+                                    <li>// Needs Analysis &amp; Data-Driven Evaluation</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="text-xs uppercase tracking-widest text-zinc-300 mb-3">Technical &amp; Technologies</p>
+                                <ul class="space-y-2 text-sm text-zinc-300">
+                                    <li>// Articulate 360, Storyline, Adobe CC</li>
+                                    <li>// LMS Administration Â· xAPI/SCORM</li>
+                                    <li>// Interactive Simulations &amp; 3D/VR (Unity, Three.js)</li>
+                                    <li>// Front-End Dev (WP, HTML, CSS, JavaScript)</li>
+                                    <li>// AI Productivity Tools &amp; Prompt Engineering</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- education -->
+                    <div>
+                        <h2 class="text-xs uppercase tracking-[0.5em] text-zinc-400 mb-6 border-b border-white/10 pb-4">Education</h2>
+                        <div class="space-y-6">
+                            <div>
+                                <p class="text-base text-white leading-snug">MA, Education</p>
+                                <p class="text-sm text-zinc-300 mt-1">Liverpool John Moores University, UK</p>
+                                <p class="text-xs text-zinc-400 mt-1 italic">Thesis: Scheinian Exploration of Digital Transformation at a SA Public University</p>
+                                <p class="text-xs text-zinc-500 mt-1">2023</p>
+                            </div>
+                            <div>
+                                <p class="text-base text-white leading-snug">BCom Honours, Economics</p>
+                                <p class="text-sm text-zinc-300 mt-1">University of Zululand, SA</p>
+                                <p class="text-xs text-zinc-500 mt-1">2021</p>
+                            </div>
+                            <div>
+                                <p class="text-base text-white leading-snug">BCom, Economics &amp; Management</p>
+                                <p class="text-sm text-zinc-300 mt-1">University of Fort Hare, SA</p>
+                                <p class="text-xs text-zinc-500 mt-1">2015</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- certifications -->
+                    <div>
+                        <h2 class="text-xs uppercase tracking-[0.5em] text-zinc-400 mb-6 border-b border-white/10 pb-4">Certifications</h2>
+                        <ul class="space-y-2 text-sm text-zinc-300">
+                            <li>// Building LLM Applications With Prompt Engineering (NVIDIA, 2026)</li>
+                            <li>// Complete Guide to Game Design (HP, 2026)</li>
+                            <li>// Generative AI Fundamentals (UNITAR &amp; Microsoft, 2024)</li>
+                            <li>// Professional Project Management (Google, 2023)</li>
+                            <li>// Learning Analytics (SAAIR, 2022)</li>
+                            <li>// Education Sector Project Design (UNESCO, 2021)</li>
+                            <li>// VR, AR &amp; Mixed Reality (Lancaster University, 2020)</li>
+                            <li>// Educational Neuroscience (CQU, 2020)</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="mt-20 pt-8 border-t border-white/10 flex justify-between items-center">
+                <span class="text-xs text-zinc-500 tracking-widest">Â© SETHU NGUNA 2025</span>
+                <button onclick="closeResume()" class="text-xs uppercase tracking-widest hover:line-through opacity-40 hover:opacity-100 transition-opacity cursor-none">[ Close ]</button>
+            </div>
+
+        </div>
+    </section>
+    <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+
+    <footer class="fixed bottom-12 right-12 text-right z-40">
+        <p id="focus-text" class="serif italic text-2xl text-white/60 uppercase tracking-widest">Index</p>
+        <span id="timestamp" class="text-[9px] opacity-10 mono"></span>
+    </footer>
+
+    <script>
+        const data = {
+            'SIMULATION': {
+                label: 'Simulation',
+                overview: 'Browser-based decision environments that place learners under real-world adversarial, operational, and geopolitical pressure.',
+                projects: [
+                    {
+                        id: 'S-2', title: 'AidCraft', subtitle: 'Infrastructure Finance',
+                        desc: 'Interactive web-based simulation for development finance professionals focused on stakeholder negotiation, loan structuring, and political constraint management across increasing complexity.',
+                        impact: 'Progressive Complexity',
+                        meta: ['Web Simulation Design', 'Scenario Modeling', 'Stakeholder Decision Engine', 'Progressive Complexity Framework', 'Interactive Instructional Flow'],
+                        challenge: '[01] The Challenge<br><br>Translating opaque financial mechanisms into learnable, practice-ready skills for non-specialist professionals.',
+                        logic: '[02] The Logic<br><br>Progressive scenario complexity forces application of theory under political and resource constraints.',
+                        outcome: '[03] The Outcome<br><br>Finance practitioners who can negotiate infrastructure loans and manage political trade-offs with confidence.',
+                        link: 'https://drive.google.com/file/d/10u3roSz2wSqIg_lNWAOcAi7rX--7OU98/view'
+                    },
+                    {
+                        id: 'S-3', title: 'Missing Classrooms', subtitle: 'Access Engineering',
+                        desc: 'Digital learning platform engineered for low-connectivity deployment with offline-first architecture, multilingual delivery, and community-driven participation.',
+                        impact: '87% Completion - 2,500+',
+                        meta: ['Camtasia', 'Adobe CC', 'Figma', 'AI Tooling', 'LMS Publishing', 'Offline-First Delivery', 'Multilingual CMS', 'SCORM'],
+                        challenge: '[01] The Challenge<br><br>Delivering quality education to communities where internet connectivity is unreliable or absent.',
+                        logic: '[02] The Logic<br><br>Offline-first architecture with multilingual delivery decouples learning from infrastructure dependence.',
+                        outcome: '[03] The Outcome<br><br>2,500+ learners across 15 communities and measurable digital literacy gains.',
+                        link: 'https://drive.google.com/file/d/1_Ce4XLbsHVHMxZ2t_s_itByowPUl7xPe/preview'
+                    },
+                    {
+                        id: 'S-4', title: 'Data Command', subtitle: 'Crisis Analytics',
+                        desc: 'Time-bound crisis management scenario for executive leaders featuring data-driven decision-making under pressure, cross-functional coordination, and adaptive responses to changing intelligence.',
+                        impact: '2024 Mandela Fellows',
+                        meta: ['Scenario-Based ID', 'Canva', 'Data-Driven Facilitation', 'Collaborative Role-Play', 'Metacognition Protocol'],
+                        challenge: '[01] The Challenge<br><br>Getting leaders to slow down and think clearly when conditions demand speed and the data keeps changing.',
+                        logic: '[02] The Logic<br><br>Time-bounded data challenges force metacognition: leaders must evaluate their own reasoning process in real time.',
+                        outcome: '[03] The Outcome<br><br>A replicable crisis decision training format first deployed with Mandela Washington Fellows.',
+                        link: 'https://www.canva.com/design/DAGFZ5tXqt4/uwQP_CBzlNohRCIGhhxRRw/view'
+                    }
+                ]
+            },
+            'DEFENSE': {
+                label: 'Cognitive Defense',
+                projects: [
+                    {
+                        id: 'C-1', title: 'Echo Chamber', subtitle: 'Cognitive Defense',
+                        desc: 'Immersive browser-based training tool for recognizing and deflecting cognitive manipulation in real time, including strawman arguments, false dichotomies, and emotional baiting.',
+                        impact: 'Live Browser Game',
+                        meta: ['HTML5', 'CSS3', 'Vanilla JavaScript', 'Browser Game Logic', 'Logical Fallacy Detection Mechanics'],
+                        challenge: '[01] The Challenge<br><br>Teaching people to recognize manipulation tactics without exposing them to actual psychological harm.',
+                        logic: '[02] The Logic<br><br>Game mechanics recreate the cognitive pressure of live manipulation so practice happens in a safe, repeatable environment.',
+                        outcome: '[03] The Outcome<br><br>Players who can identify and deflect adversarial reasoning in real-world, high-stakes contexts.',
+                        link: 'https://seth-arc.github.io/echochamber/'
+                    },
+                    {
+                        id: 'C-2', title: 'Data Detectives', subtitle: 'Pattern Intelligence',
+                        desc: 'Team-based investigation activity using specialized analytical roles, development finance data, collaborative pattern recognition, and visualization. Delivered in Manila with Rappler (2024).',
+                        impact: 'Manila 2024 - Rappler',
+                        meta: ['Canva', 'Data Visualization Pedagogy', 'Workshop Facilitation', 'Collaborative Analysis Model', '4-Step Investigation Methodology'],
+                        challenge: '[01] The Challenge<br><br>Training journalists to find signal in complex financial datasets without formal data science backgrounds.',
+                        logic: '[02] The Logic<br><br>Role-specialized teams combine analytical perspectives, forcing cross-functional sense-making under time pressure.',
+                        outcome: '[03] The Outcome<br><br>Journalists capable of identifying and visualizing development finance patterns independently.',
+                        link: 'https://www.canva.com/design/DAGYM_8H9oo/0NYKfbzhYD0-1ReV0vvlbA/view'
+                    }
+                ]
+            },
+            'SYSTEMS': {
+                label: 'Learning Systems',
+                overview: 'Full-stack learning platforms, LMS architecture, and digital infrastructure built for scalable education delivery.',
+                projects: [
+                    {
+                        id: 'T-1', title: 'Code for Africa MOOC Analysis', subtitle: 'Platform Evaluation',
+                        desc: 'Comprehensive platform evaluation and relaunch strategy for Pan-African journalism education. Redesigned learner pathways, integrated MEL instrumentation, and developed a roadmap for sustained scale.',
+                        impact: 'Pan-African Scale',
+                        meta: ['MOOC Platform Evaluation', 'MEL Instrumentation', 'Learner Pathway Design', 'Platform Relaunch Strategy', 'Learning Analytics'],
+                        challenge: '[01] The Challenge<br><br>Reviving a platform with structural debt while maintaining continuity for thousands of existing learners.',
+                        logic: '[02] The Logic<br><br>Platform audit surfaced root causes while redesigned pathways and MEL systems rebuilt the feedback loop.',
+                        outcome: '[03] The Outcome<br><br>A clear relaunch roadmap with embedded evaluation systems for sustained Pan-African journalism education.',
+                        link: null
+                    },
+                    {
+                        id: 'T-2', title: 'AidData Training Hub', subtitle: 'Enterprise LMS',
+                        desc: 'End-to-end learning ecosystem for global development finance education with LMS architecture, simulation delivery pipelines, skills tracking, and analytics for an international learner cohort at William & Mary.',
+                        impact: 'Global Scale - W&M',
+                        meta: ['LMS Administration', 'xAPI', 'SCORM', 'Simulation Delivery Pipelines', 'Analytics Dashboards', 'Skills Tracking'],
+                        challenge: '[01] The Challenge<br><br>Building a single platform to serve researchers, practitioners, and government officials across 20+ countries.',
+                        logic: '[02] The Logic<br><br>Modular LMS architecture with simulation delivery pipelines allows dynamic course configuration without rebuilding.',
+                        outcome: '[03] The Outcome<br><br>Central enablement platform for AidData Research Lab with international skill and completion tracking.',
+                        link: null
+                    },
+                    {
+                        id: 'T-3', title: 'Funhouse Digital LMS', subtitle: 'Game-Based Full-Stack',
+                        desc: 'Full-stack game-based LMS for digital literacy education targeting Grades 4-9 in rural South Africa. Features multi-role architecture, a three-station lesson model, AI-driven teacher insights, and progress analytics.',
+                        impact: 'Grades 4-9 - Rural SA',
+                        meta: ['React', 'TypeScript', 'Node.js', 'Express', 'SQLite', 'JWT Authentication', 'REST API', 'Railway', 'Axios', 'React Router'],
+                        challenge: '[01] The Challenge<br><br>Building an LMS that works for tutors, teachers, parents, and learners simultaneously in low-resource environments.',
+                        logic: '[02] The Logic<br><br>A three-station model (Computational Thinking, Typing, Purposeful Gaming) scaffolds digital literacy progressively.',
+                        outcome: '[03] The Outcome<br><br>A deployable full-stack LMS with role-based access and AI-assisted instructional insights.',
+                        link: null
+                    }
+                ]
+            },
+            'IMMERSIVE': {
+                label: 'Interactive Web <span style="color:#C9A84C">X</span>periences',
+                overview: 'Web-native interactive tools, data visualization environments, and immersive digital experiences designed for high engagement.',
+                projects: [
+                    {
+                        id: 'I-1', title: '3D Ocean', subtitle: 'Simulation Engine',
+                        desc: 'Photorealistic ocean environment with custom GLSL shaders, dynamic wave simulation, adaptive rendering pipeline, dual camera modes, live parameter tuning, and real-time FPS monitoring.',
+                        impact: 'WebGL 2.0 - 60fps',
+                        meta: ['Three.js', 'WebGL 2.0', 'GLSL Shaders', 'ES6 Modules', 'Adaptive Rendering Pipeline', 'Custom Shader Materials', 'Orbit Controls'],
+                        challenge: '[01] The Challenge<br><br>Achieving photorealistic water rendering in real time without sacrificing performance across device types.',
+                        logic: '[02] The Logic<br><br>Custom GLSL shaders simulate wave dynamics at the GPU level while adaptive rendering adjusts quality to device capability.',
+                        outcome: '[03] The Outcome<br><br>A performant, browser-native 3D simulation demonstrating advanced rendering and systems capability.',
+                        link: 'https://seth-arc.github.io/3D-Ocean/simulation.html'
+                    },
+                    {
+                        id: 'I-2', title: 'Viewpoint', subtitle: 'Movement Visualizer',
+                        desc: 'Hand-tracking and gesture visualization system with MediaPipe 21-landmark skeletal rendering, multi-layer HTML5 canvas, velocity telemetry, and visual overlays.',
+                        impact: '21-Landmark Tracking',
+                        meta: ['Vanilla JavaScript (ES6)', 'MediaPipe Hands', 'HTML5 Canvas (Multi-Layer)', 'CSS Grid', 'Telemetry Dashboard', 'Real-Time Skeletal Rendering'],
+                        challenge: '[01] The Challenge<br><br>Building a gesture-capture system without WebGL overhead or dependency bloat.',
+                        logic: '[02] The Logic<br><br>Multi-layer canvas architecture separates skeletal, overlay, and telemetry layers for real-time visual composition.',
+                        outcome: '[03] The Outcome<br><br>A zero-dependency gesture interface deployable in any browser with camera access.',
+                        link: 'https://seth-arc.github.io/VIEWPOINT/'
+                    }
+                ]
+            },
+            'FACULTY': {
+                label: 'Instructional and Learning Design',
+                overview: 'Strategic course design, faculty development, and curriculum frameworks engineered for high-accountability learning environments.',
+                projects: [
+                    {
+                        id: 'D-1', title: 'UNIZULU 101', subtitle: 'Academic Integration',
+                        desc: 'University-wide curriculum pilot across four faculties and 1,200+ students. Led emergency remote learning transition during COVID-19 while sustaining engagement across campuses.',
+                        impact: '1,200 Students - 4 Faculties',
+                        meta: ['Curriculum Architecture', 'LMS-Supported Delivery', 'Institutional Assessment Design', 'Emergency Remote Teaching', 'Moodle'],
+                        challenge: '[01] The Challenge<br><br>Simultaneously scaling a new curriculum pilot and transitioning to emergency remote learning during COVID-19.',
+                        logic: '[02] The Logic<br><br>Modular curriculum architecture enabled remote adaptation without redesigning from scratch.',
+                        outcome: '[03] The Outcome<br><br>75%+ engagement maintained across two campuses during pandemic disruption.',
+                        link: null
+                    },
+                    {
+                        id: 'D-2', title: 'UKZN Design Sprint', subtitle: 'Module Sprint Series',
+                        desc: 'Five-part faculty development workshop series grounded in ADDIE, SAM, and multimedia learning principles. Established the first UKZN Instructional Design Expo.',
+                        impact: 'First ID Expo - UKZN',
+                        meta: ['ADDIE', 'SAM', 'Articulate 360', 'Multimedia Learning Principles', 'Sprint Workshop Design', 'Digital Transformation Methodology'],
+                        challenge: '[01] The Challenge<br><br>Building instructional design capability in a faculty with no prior formal ID training.',
+                        logic: '[02] The Logic<br><br>Sprint methodology compressed theory into practice cycles where faculty built real modules during sessions.',
+                        outcome: '[03] The Outcome<br><br>A sustained shift in digital learning culture and institutional design capacity.',
+                        link: null
+                    },
+                    {
+                        id: 'D-3', title: 'Beacon Flex', subtitle: 'Faculty Dev Initiative',
+                        desc: 'Strategic capability-building pitch for UMass Boston including faculty engagement framework, digital-era delivery alignment, and institutional L&D roadmap.',
+                        impact: 'UMass Boston - L&D',
+                        meta: ['Strategic Framework Design', 'Faculty Development Methodology', 'Institutional L&D Strategy', 'Capability Mapping', 'Change Management'],
+                        challenge: '[01] The Challenge<br><br>Convincing institutional leadership to invest in sustained faculty development over one-off training events.',
+                        logic: '[02] The Logic<br><br>The pitch sequenced diagnosis, design, and transformation to make the ROI case through a systems lens.',
+                        outcome: '[03] The Outcome<br><br>A strategic roadmap demonstrating organizational-level design thinking and capability building.',
+                        link: 'https://drive.google.com/file/d/1rorgnhAsUP5F2ommcyKG5eSHv-VJS6zP/preview'
+                    },
+                    {
+                        id: 'D-4', title: 'Starlink Kit Setup', subtitle: 'Agent Certification Module',
+                        desc: 'Interactive CBT module for onboarding Starlink Tier-1 support agents on residential kit installation workflows, from signal-chain fundamentals to troubleshooting and certification.',
+                        impact: '15-20 Minute CBT - Tier-1 Onboarding',
+                        meta: ['Needs Analysis', 'Merrill First Principles', 'Situated Cognition', 'Scaffolded Practice', 'Formative Feedback', 'HTML/CSS/JavaScript', 'Three.js', 'SCORM/xAPI Ready'],
+                        challenge: '[01] The Challenge<br><br>Rapid scaling requires agents to troubleshoot complex installation workflows without physical training kits while maintaining support quality.',
+                        logic: '[02] The Logic<br><br>Task-centered, scaffolded practice blends interactive diagrams, sequencing tasks, and branching scenarios with immediate corrective feedback.',
+                        outcome: '[03] The Outcome<br><br>Certification-ready onboarding format designed to reduce time-to-proficiency from 10 to 5 days and lower escalations by 30%.',
+                        link: 'projects/starlink-demo (1).html'
+                    }
+                ]
+            },
+            'GAME': {
+                label: 'Game-Based Learning',
+                overview: 'Experiential board and digital games that translate complex theory into practiced behavior through structured play mechanics.',
+                projects: [
+                    {
+                        id: 'G-1', title: 'Capital & The Other', subtitle: 'Identity Economics',
+                        desc: 'Educational board game for William & Mary\'s Economics of Identity course, exploring race, class, caste, and gender through structured play mechanics.',
+                        impact: 'W&M - Curriculum Integrated',
+                        meta: ['Board Game Mechanics', 'Facilitation Protocol Design', 'Curriculum-Integrated Assessment', 'Experiential Learning Framework', 'Pre/Post Evaluation'],
+                        challenge: '[01] The Challenge<br><br>Making abstract identity economics theory visceral and memorable for undergraduates.',
+                        logic: '[02] The Logic<br><br>Structured play forces players to embody economic positions so theory becomes experience.',
+                        outcome: '[03] The Outcome<br><br>A playtested, curriculum-integrated board game with measurable pre/post learning outcomes.',
+                        link: 'https://sites.google.com/aiddata.wm.edu/capital-and-the-other'
+                    },
+                    {
+                        id: 'G-2', title: 'Bubbles', subtitle: 'Physics Learning Game',
+                        desc: 'Browser-native physics game introducing intellectual standards of critical thinking for children ages 4-12 through scaffolded level mechanics.',
+                        impact: 'Ages 4-12 - Zero Install',
+                        meta: ['HTML5', 'CSS3', 'Vanilla JavaScript', 'Canvas API', 'Browser Physics Engine', 'Procedural Level Design'],
+                        challenge: '[01] The Challenge<br><br>Teaching abstract logical standards to young children without explicit instruction.',
+                        logic: '[02] The Logic<br><br>Game mechanics embody logical constraints so children internalize reasoning through play.',
+                        outcome: '[03] The Outcome<br><br>A browser-native critical thinking game deployable on any device with no installation.',
+                        link: 'https://seth-arc.github.io/Bubbles/'
+                    },
+                    {
+                        id: 'G-3', title: 'Cyber Strike', subtitle: 'Typing and Reflex Training',
+                        desc: 'Game-based typing challenge designed to improve finger placement, rhythm, and accuracy under timed practice conditions.',
+                        impact: 'Digital Literacy Practice',
+                        meta: ['Typing Skills', 'Game-Based Practice', 'Rhythm Training', 'Timed Challenge'],
+                        challenge: '[01] The Challenge<br><br>Building keyboard fluency without losing learner motivation.',
+                        logic: '[02] The Logic<br><br>Short challenge loops reward precision first, then speed, reinforcing healthy typing habits.',
+                        outcome: '[03] The Outcome<br><br>An engaging typing game module suitable for repeated digital literacy practice.',
+                        link: 'projects/VIEWPOINT/cyber_punk.html'
+                    }
+                ]
+            }
+        };
+
+        class BoidsEngine {
+            constructor(canvasId) {
+                this.canvas = document.getElementById(canvasId);
+                this.ctx = this.canvas.getContext('2d');
+                this.boids = [];
+                this.resize();
+            }
+            resize() {
+                this.canvas.width = this.canvas.parentElement.offsetWidth;
+                this.canvas.height = this.canvas.parentElement.offsetHeight;
+            }
+            init() {
+                this.boids = [];
+                for (let i = 0; i < 80; i++) {
+                    this.boids.push({ x: Math.random() * this.canvas.width, y: Math.random() * this.canvas.height, vx: (Math.random() - 0.5) * 2, vy: (Math.random() - 0.5) * 2 });
+                }
+            }
+            run() { this.init(); this.animate(); }
+            stop() { cancelAnimationFrame(this.animationId); }
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+                for (let b of this.boids) {
+                    b.x += b.vx; b.y += b.vy;
+                    if (b.x < 0) b.x = this.canvas.width; if (b.x > this.canvas.width) b.x = 0;
+                    if (b.y < 0) b.y = this.canvas.height; if (b.y > this.canvas.height) b.y = 0;
+                    this.ctx.beginPath(); this.ctx.moveTo(b.x, b.y);
+                    this.ctx.lineTo(b.x - b.vx * 5, b.y - b.vy * 5); this.ctx.stroke();
+                }
+                this.animationId = requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        let boids = null;
+        const cfaDecks = {
+            platformAudit: 'https://docs.google.com/presentation/d/1InAIJ3wC42JHp5-zyij0dPATvKWJcZKa/embed?start=false&loop=false&delayms=3000',
+            proposal: 'https://docs.google.com/presentation/d/10y-KLlb9LztEqdbq5PUFsRNjzHlz9ojk/embed?start=false&loop=false&delayms=3000'
+        };
+        const aidDataHubVideoEmbed = 'https://drive.google.com/file/d/1I_L_UTsoQ1X-HNnEbZ8LebVfOmhMpsNB/preview';
+        const funhouseLmsVideoEmbed = 'https://drive.google.com/file/d/1VbMLTq7w1w4v2XlqYonpTz0SlIs6Ni6-/preview';
+        const beaconFlexVideoEmbed = 'https://drive.google.com/file/d/1rorgnhAsUP5F2ommcyKG5eSHv-VJS6zP/preview';
+        const capitalAndOtherVideoEmbed = 'https://www.youtube.com/embed/rZOJXXX1RI0';
+        const bubblesVideoEmbed = 'https://drive.google.com/file/d/1aCZ3R3Q9e-sFXFVFgeb_nCaY89DiEdmA/preview';
+        const viewpointVideoEmbed = 'https://drive.google.com/file/d/1VqhN1-Yhgt3goZbg41Zm3D9uEtoUL6oG/preview';
+        const ocean3dEmbed = 'https://seth-arc.github.io/3D-Ocean/simulation.html';
+        const dataCommandEmbed = 'https://www.canva.com/design/DAGr1rBfeNk/aDVhhdta5ClSY-tyDR7tuQ/view?embed';
+        const starlinkDemoEmbed = 'projects/starlink-demo%20(1).html';
+        const aidCraftPlaylistEmbeds = [
+            'https://drive.google.com/file/d/15rUUJ6v9IRQDpT3Rkz2KujnYk8YVVDzz/preview',
+            'https://drive.google.com/file/d/10u3roSz2wSqIg_lNWAOcAi7rX--7OU98/preview'
+        ];
+        const missingClassroomsPlaylistEmbeds = [
+            'https://drive.google.com/file/d/12cvnP4d1_NUAdiPIKhLjy4zpgjCuccwI/preview',
+            'https://www.youtube.com/embed/u3RW-CWJjDY'
+        ];
+        const unizuluPlaylistEmbeds = [
+            'https://drive.google.com/file/d/182Wzi8JIevQkOU215Z6hCCPjqhfgw_tJ/preview',
+            'https://drive.google.com/file/d/1z2ekyHsfwvyFaxg7TeY9fIFWRbtY6GfM/preview',
+            'https://drive.google.com/file/d/1X9pI6A9j8Y_MQqAdDbMZ9NfE0Du8_VA1/preview',
+            'https://drive.google.com/file/d/1dF1OxzRbYDXFEO93UeOeKqCEKPitq3R0/preview',
+            'https://drive.google.com/file/d/197GKdBiL44QrnAMMOX5VCSrr9xgJaKj_/preview',
+            'https://drive.google.com/file/d/15mX753lgvsDNvnRE6EhzcfoBqXOpW479/preview',
+            'https://drive.google.com/file/d/1_7iLw_h2fvb2iziFII8A5VK_XaleJ_WQ/preview'
+        ];
+        const ukznResources = {
+            video: 'https://drive.google.com/file/d/1DD7_-7665VKM5dLmb3uT1cDNkjw3l0eP/preview',
+            slides: 'https://docs.google.com/presentation/d/1pS6cWiU4TQr19zMFaAq-k66M0wKsDjtR/embed?start=false&loop=false&delayms=3000',
+            document: 'https://drive.google.com/file/d/12_8pX_Qo8nZNwSpX6Q8QOVkuSgvnDKIc/preview'
+        };
+        const cfaDocNav = document.getElementById('cfa-doc-nav');
+        const cfaPlatformAuditBtn = document.getElementById('cfa-platform-audit-btn');
+        const cfaProposalBtn = document.getElementById('cfa-proposal-btn');
+        const unizuluPlaylistNav = document.getElementById('unizulu-playlist-nav');
+        const unizuluPrevBtn = document.getElementById('unizulu-prev-btn');
+        const unizuluNextBtn = document.getElementById('unizulu-next-btn');
+        const unizuluVideoLabel = document.getElementById('unizulu-video-label');
+        const ukznResourceNav = document.getElementById('ukzn-resource-nav');
+        const ukznVideoBtn = document.getElementById('ukzn-video-btn');
+        const ukznSlidesBtn = document.getElementById('ukzn-slides-btn');
+        const ukznDocumentBtn = document.getElementById('ukzn-document-btn');
+        const aidcraftPlaylistNav = document.getElementById('aidcraft-playlist-nav');
+        const aidcraftPrevBtn = document.getElementById('aidcraft-prev-btn');
+        const aidcraftNextBtn = document.getElementById('aidcraft-next-btn');
+        const aidcraftVideoLabel = document.getElementById('aidcraft-video-label');
+        const missingClassroomsPlaylistNav = document.getElementById('missing-classrooms-playlist-nav');
+        const missingClassroomsPrevBtn = document.getElementById('missing-classrooms-prev-btn');
+        const missingClassroomsNextBtn = document.getElementById('missing-classrooms-next-btn');
+        const missingClassroomsVideoLabel = document.getElementById('missing-classrooms-video-label');
+        const boidsEmbedLayer = document.getElementById('boids-embed-layer');
+        const boidsEmbedFrame = document.getElementById('boids-embed-frame');
+        const boidsStatusLabel = document.getElementById('boids-status-label');
+        const nav = document.getElementById('category-nav');
+        const focusText = document.getElementById('focus-text');
+        let unizuluVideoIndex = 0;
+        let aidcraftVideoIndex = 0;
+        let missingClassroomsVideoIndex = 0;
+
+        function resetCfaButtons() {
+            [cfaPlatformAuditBtn, cfaProposalBtn].forEach((btn) => {
+                btn.style.borderColor = '';
+                btn.style.color = '';
+            });
+        }
+
+        function resetUkznButtons() {
+            [ukznVideoBtn, ukznSlidesBtn, ukznDocumentBtn].forEach((btn) => {
+                btn.style.borderColor = '';
+                btn.style.color = '';
+            });
+        }
+
+        function hideCfaEmbed() {
+            boidsEmbedFrame.src = '';
+            boidsEmbedLayer.classList.add('hidden');
+            boidsStatusLabel.classList.remove('hidden');
+            cfaDocNav.classList.add('hidden');
+            unizuluPlaylistNav.classList.add('hidden');
+            ukznResourceNav.classList.add('hidden');
+            aidcraftPlaylistNav.classList.add('hidden');
+            missingClassroomsPlaylistNav.classList.add('hidden');
+            resetCfaButtons();
+            resetUkznButtons();
+            unizuluVideoIndex = 0;
+            aidcraftVideoIndex = 0;
+            missingClassroomsVideoIndex = 0;
+        }
+
+        function showBoidsEmbed(embedUrl) {
+            if (!embedUrl) return;
+            boidsEmbedFrame.src = embedUrl;
+            boidsEmbedLayer.classList.remove('hidden');
+            boidsStatusLabel.classList.add('hidden');
+        }
+
+        function showCfaEmbed(deckKey) {
+            const embedUrl = cfaDecks[deckKey];
+            if (!embedUrl) return;
+
+            showBoidsEmbed(embedUrl);
+            resetCfaButtons();
+
+            const activeButton = deckKey === 'platformAudit' ? cfaPlatformAuditBtn : cfaProposalBtn;
+            activeButton.style.borderColor = '#C9A84C';
+            activeButton.style.color = '#C9A84C';
+        }
+
+        function updateUnizuluPlaylistUi() {
+            const total = unizuluPlaylistEmbeds.length;
+            unizuluVideoLabel.textContent = `Video ${unizuluVideoIndex + 1} / ${total}`;
+
+            unizuluPrevBtn.disabled = unizuluVideoIndex === 0;
+            unizuluNextBtn.disabled = unizuluVideoIndex === total - 1;
+            unizuluPrevBtn.style.opacity = unizuluPrevBtn.disabled ? '0.35' : '';
+            unizuluNextBtn.style.opacity = unizuluNextBtn.disabled ? '0.35' : '';
+        }
+
+        function showUnizuluVideo(index) {
+            if (index < 0 || index >= unizuluPlaylistEmbeds.length) return;
+            unizuluVideoIndex = index;
+            showBoidsEmbed(unizuluPlaylistEmbeds[unizuluVideoIndex]);
+            updateUnizuluPlaylistUi();
+        }
+
+        function showUnizuluPlaylist(startIndex = 0) {
+            if (!unizuluPlaylistEmbeds.length) return;
+            unizuluPlaylistNav.classList.remove('hidden');
+            showUnizuluVideo(startIndex);
+        }
+
+        function showUkznResource(resourceKey) {
+            const resourceUrl = ukznResources[resourceKey];
+            if (!resourceUrl) return;
+
+            showBoidsEmbed(resourceUrl);
+            resetUkznButtons();
+
+            const activeButtonMap = {
+                video: ukznVideoBtn,
+                slides: ukznSlidesBtn,
+                document: ukznDocumentBtn
+            };
+            const activeButton = activeButtonMap[resourceKey];
+            if (activeButton) {
+                activeButton.style.borderColor = '#C9A84C';
+                activeButton.style.color = '#C9A84C';
+            }
+        }
+
+        function updateAidcraftPlaylistUi() {
+            const total = aidCraftPlaylistEmbeds.length;
+            aidcraftVideoLabel.textContent = `Video ${aidcraftVideoIndex + 1} / ${total}`;
+
+            aidcraftPrevBtn.disabled = aidcraftVideoIndex === 0;
+            aidcraftNextBtn.disabled = aidcraftVideoIndex === total - 1;
+            aidcraftPrevBtn.style.opacity = aidcraftPrevBtn.disabled ? '0.35' : '';
+            aidcraftNextBtn.style.opacity = aidcraftNextBtn.disabled ? '0.35' : '';
+        }
+
+        function showAidcraftVideo(index) {
+            if (index < 0 || index >= aidCraftPlaylistEmbeds.length) return;
+            aidcraftVideoIndex = index;
+            showBoidsEmbed(aidCraftPlaylistEmbeds[aidcraftVideoIndex]);
+            updateAidcraftPlaylistUi();
+        }
+
+        function showAidcraftPlaylist(startIndex = 0) {
+            if (!aidCraftPlaylistEmbeds.length) return;
+            aidcraftPlaylistNav.classList.remove('hidden');
+            showAidcraftVideo(startIndex);
+        }
+
+        function updateMissingClassroomsPlaylistUi() {
+            const total = missingClassroomsPlaylistEmbeds.length;
+            missingClassroomsVideoLabel.textContent = `Video ${missingClassroomsVideoIndex + 1} / ${total}`;
+
+            missingClassroomsPrevBtn.disabled = missingClassroomsVideoIndex === 0;
+            missingClassroomsNextBtn.disabled = missingClassroomsVideoIndex === total - 1;
+            missingClassroomsPrevBtn.style.opacity = missingClassroomsPrevBtn.disabled ? '0.35' : '';
+            missingClassroomsNextBtn.style.opacity = missingClassroomsNextBtn.disabled ? '0.35' : '';
+        }
+
+        function showMissingClassroomsVideo(index) {
+            if (index < 0 || index >= missingClassroomsPlaylistEmbeds.length) return;
+            missingClassroomsVideoIndex = index;
+            showBoidsEmbed(missingClassroomsPlaylistEmbeds[missingClassroomsVideoIndex]);
+            updateMissingClassroomsPlaylistUi();
+        }
+
+        function showMissingClassroomsPlaylist(startIndex = 0) {
+            if (!missingClassroomsPlaylistEmbeds.length) return;
+            missingClassroomsPlaylistNav.classList.remove('hidden');
+            showMissingClassroomsVideo(startIndex);
+        }
+
+        cfaPlatformAuditBtn.addEventListener('click', () => showCfaEmbed('platformAudit'));
+        cfaProposalBtn.addEventListener('click', () => showCfaEmbed('proposal'));
+        unizuluPrevBtn.addEventListener('click', () => showUnizuluVideo(unizuluVideoIndex - 1));
+        unizuluNextBtn.addEventListener('click', () => showUnizuluVideo(unizuluVideoIndex + 1));
+        ukznVideoBtn.addEventListener('click', () => showUkznResource('video'));
+        ukznSlidesBtn.addEventListener('click', () => showUkznResource('slides'));
+        ukznDocumentBtn.addEventListener('click', () => showUkznResource('document'));
+        aidcraftPrevBtn.addEventListener('click', () => showAidcraftVideo(aidcraftVideoIndex - 1));
+        aidcraftNextBtn.addEventListener('click', () => showAidcraftVideo(aidcraftVideoIndex + 1));
+        missingClassroomsPrevBtn.addEventListener('click', () => showMissingClassroomsVideo(missingClassroomsVideoIndex - 1));
+        missingClassroomsNextBtn.addEventListener('click', () => showMissingClassroomsVideo(missingClassroomsVideoIndex + 1));
+
+        // Restore Nav Builder with Hover Logic
+        const categoryOrder = ['SYSTEMS', 'FACULTY', 'SIMULATION', 'GAME', 'IMMERSIVE'];
+        categoryOrder.forEach((key, i) => {
+            const div = document.createElement('div');
+            div.className = 'project-link group flex items-baseline gap-6 cursor-pointer';
+            div.innerHTML = `<span class="text-[10px] text-zinc-700 transition-colors duration-300" style="--tw-text-opacity:1">0${i + 1}</span><h2 class="text-2xl md:text-4xl uppercase tracking-tight">${data[key].label}</h2>`;
+            div.addEventListener('mouseenter', () => div.querySelector('span').style.color = '#C9A84C');
+            div.addEventListener('mouseleave', () => div.querySelector('span').style.color = '');
+
+            div.onmouseenter = () => {
+                focusText.innerText = key;
+                gsap.to(focusText, { opacity: 1, x: 0, duration: 0.5 });
+            };
+            div.onmouseleave = () => {
+            };
+            div.onclick = () => openSubNav(key);
+            nav.appendChild(div);
+        });
+
+        function openSubNav(key) {
+            const container = document.getElementById('sub-project-container');
+            container.innerHTML = '';
+            document.getElementById('sub-cat-title').innerHTML = data[key].label;
+            document.getElementById('sub-cat-overview').textContent = data[key].overview || '';
+
+            data[key].projects.forEach((p, i) => {
+                const d = document.createElement('div');
+                d.className = 'sub-project-link group flex items-baseline gap-6 cursor-pointer';
+                d.innerHTML = `<span class="text-[10px] text-zinc-700 transition-colors duration-300">0${i + 1}</span><h3 class="text-2xl md:text-4xl uppercase tracking-tight">${p.title}</h3>`;
+                d.addEventListener('mouseenter', () => d.querySelector('span').style.color = '#C9A84C');
+                d.addEventListener('mouseleave', () => d.querySelector('span').style.color = '');
+                d.onclick = () => openProject(p);
+                container.appendChild(d);
+            });
+            gsap.to("#main-nav", { opacity: 0, x: -50 });
+            gsap.to("#main-nav-bg", { opacity: 0, duration: 0.4 });
+            gsap.to("#sub-nav", { x: 0, opacity: 1, pointerEvents: 'auto' });
+        }
+
+        function closeSubNav() {
+            gsap.to("#sub-nav", { x: '100%', opacity: 0, pointerEvents: 'none' });
+            gsap.to("#main-nav", { opacity: 1, x: 0 });
+            gsap.to("#main-nav-bg", { opacity: 1, duration: 0.4 });
+        }
+
+        function openProject(p) {
+            document.getElementById('det-id').innerText = `REF_NODE // ${p.id}`;
+            document.getElementById('det-title').innerText = p.title;
+            document.getElementById('det-desc').innerHTML = p.subtitle
+                ? `<span class="text-zinc-600 text-base uppercase tracking-widest block mb-4">${p.subtitle}</span>${p.desc}`
+                : p.desc;
+            document.getElementById('det-impact').innerText = p.impact;
+            document.getElementById('det-meta').innerHTML = p.meta.map(m => `<div>// ${m}</div>`).join('');
+            document.getElementById('det-challenge').innerHTML = p.challenge || '';
+            document.getElementById('det-logic').innerHTML = p.logic || '';
+            document.getElementById('det-outcome').innerHTML = p.outcome || '';
+
+            const view = document.getElementById('project-view');
+            view.style.display = 'block';
+            view.scrollTop = 0;
+            gsap.to(view, { clipPath: "circle(150% at 50% 50%)", duration: 1.2, ease: "expo.inOut" });
+
+            if (boids) boids.stop();
+            boids = new BoidsEngine('boidsCanvas');
+            boids.run();
+
+            hideCfaEmbed();
+            if (p.id === 'T-1') {
+                cfaDocNav.classList.remove('hidden');
+                showCfaEmbed('platformAudit');
+            }
+            if (p.id === 'T-2') {
+                showBoidsEmbed(aidDataHubVideoEmbed);
+            }
+            if (p.id === 'S-2') {
+                showAidcraftPlaylist();
+            }
+            if (p.id === 'S-3') {
+                showMissingClassroomsPlaylist();
+            }
+            if (p.id === 'S-4') {
+                showBoidsEmbed(dataCommandEmbed);
+            }
+            if (p.id === 'G-1') {
+                showBoidsEmbed(capitalAndOtherVideoEmbed);
+            }
+            if (p.id === 'G-2') {
+                showBoidsEmbed(bubblesVideoEmbed);
+            }
+            if (p.id === 'I-1') {
+                showBoidsEmbed(ocean3dEmbed);
+            }
+            if (p.id === 'I-2') {
+                showBoidsEmbed(viewpointVideoEmbed);
+            }
+            if (p.id === 'T-3') {
+                showBoidsEmbed(funhouseLmsVideoEmbed);
+            }
+            if (p.id === 'D-1') {
+                showUnizuluPlaylist();
+            }
+            if (p.id === 'D-2') {
+                ukznResourceNav.classList.remove('hidden');
+                showUkznResource('video');
+            }
+            if (p.id === 'D-3') {
+                showBoidsEmbed(beaconFlexVideoEmbed);
+            }
+            if (p.id === 'D-4') {
+                showBoidsEmbed(starlinkDemoEmbed);
+            }
+        }
+
+        function closeProject() {
+            hideCfaEmbed();
+            if (boids) boids.stop();
+            gsap.to("#project-view", { clipPath: "circle(0% at 50% 50%)", duration: 1, ease: "expo.inOut", onComplete: () => document.getElementById('project-view').style.display = 'none' });
+        }
+
+        function openResume() {
+            const rv = document.getElementById('resume-view');
+            rv.style.display = 'block';
+            rv.scrollTop = 0;
+            gsap.fromTo(rv,
+                { clipPath: 'circle(0% at 10% 10%)' },
+                { clipPath: 'circle(150% at 10% 10%)', duration: 1.1, ease: 'expo.inOut' }
+            );
+        }
+
+        function closeResume() {
+            gsap.to('#resume-view', {
+                clipPath: 'circle(0% at 10% 10%)',
+                duration: 0.9,
+                ease: 'expo.inOut',
+                onComplete: () => document.getElementById('resume-view').style.display = 'none'
+            });
+        }
+
+        function openContact() {
+            const cv = document.getElementById('contact-view');
+            cv.style.display = 'flex';
+            gsap.fromTo(cv,
+                { clipPath: 'circle(0% at 90% 10%)' },
+                { clipPath: 'circle(150% at 90% 10%)', duration: 1.0, ease: 'expo.inOut' }
+            );
+        }
+
+        function closeContact() {
+            gsap.to('#contact-view', {
+                clipPath: 'circle(0% at 90% 10%)',
+                duration: 0.85,
+                ease: 'expo.inOut',
+                onComplete: () => document.getElementById('contact-view').style.display = 'none'
+            });
+        }
+
+        // â”€â”€ Entrance animation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        gsap.set('#main-nav-bg',                 { opacity: 0 });
+        gsap.set('#main-nav header',             { opacity: 0, y: 40, filter: 'blur(6px)' });
+        gsap.set('#category-nav .project-link',  { opacity: 0, y: 22 });
+        gsap.set('footer',                       { opacity: 0, y: 10 });
+        gsap.set('.scanner',                     { opacity: 0 });
+        gsap.set('#main-cta',                    { opacity: 0, y: 16 });
+
+        gsap.timeline({ defaults: { ease: 'expo.out' } })
+            .to('#main-nav-bg',                { opacity: 0.4, duration: 2.6 },                            0)
+            .to('.scanner',                    { opacity: 1, duration: 1.2 },                              0.2)
+            .to('#main-nav header',            { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.5 },   0.45)
+            .to('#category-nav .project-link', { opacity: 1, y: 0, duration: 1, stagger: 0.11 },           0.9)
+            .to('#main-cta',                   { opacity: 1, y: 0, duration: 0.9 },                        1.55)
+            .to('footer',                      { opacity: 1, y: 0, duration: 0.9 },                        1.65);
+        // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+        document.addEventListener('mousemove', (e) => {
+            gsap.to("#lens", { left: e.clientX, top: e.clientY, duration: 1.5 });
+        });
+
+        setInterval(() => {
+            document.getElementById('timestamp').innerText = `UTC_SYNC: ${new Date().toISOString().split('T')[1].split('.')[0]}`;
+        }, 1000);
+    </script>
+</body>
+
+</html>
