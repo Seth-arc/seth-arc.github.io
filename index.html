@@ -232,6 +232,14 @@
             opacity: 1;
             padding-left: 1.5rem;
         }
+        .project-link:focus-visible,
+        .sub-project-link:focus-visible {
+            filter: blur(0px);
+            opacity: 1;
+            padding-left: 1.5rem;
+            outline: 1px solid #C9A84C;
+            outline-offset: 6px;
+        }
 
         #project-view {
             position: fixed;
@@ -275,9 +283,9 @@
         </button>
     </div>
 
-    <section id="sub-nav"
+    <section id="sub-nav" role="dialog" aria-modal="true" aria-hidden="true"
         class="fixed inset-0 z-[100] flex flex-col justify-center px-12 md:px-24 bg-black/95 translate-x-full opacity-0 pointer-events-none">
-        <button onclick="closeSubNav()"
+        <button id="sub-nav-close-btn" onclick="closeSubNav()"
             class="absolute top-16 left-12 md:left-24 text-sm uppercase tracking-widest text-meta hover:text-white transition-colors">
             Return to Archive</button>
         <div class="mb-12">
@@ -288,11 +296,11 @@
         <div id="sub-project-container" class="space-y-6"></div>
     </section>
 
-    <section id="project-view" class="p-12 md:p-24">
+    <section id="project-view" role="dialog" aria-modal="true" aria-hidden="true" class="p-12 md:p-24">
         <div class="max-w-6xl mx-auto">
             <nav class="flex justify-between items-center mb-24">
                 <p id="det-id" class="text-[10px] text-meta tracking-widest uppercase">REF_NODE // 00</p>
-                <button onclick="closeProject()"
+                <button id="project-close-btn" onclick="closeProject()"
                     class="text-[10px] uppercase tracking-widest hover:line-through opacity-50 hover:opacity-100">[
                     EXIT_MODULE ]</button>
             </nav>
@@ -398,8 +406,8 @@
     </section>
 
     <!-- Contact Overlay -->
-    <section id="contact-view" class="fixed inset-0 z-[300] bg-[#050505] flex items-center justify-center" style="display:none; clip-path:circle(0% at 90% 10%)">
-        <button onclick="closeContact()" class="absolute top-10 right-12 text-xs uppercase tracking-widest opacity-50 hover:opacity-100 hover:line-through transition-opacity cursor-none">[ Close ]</button>
+    <section id="contact-view" role="dialog" aria-modal="true" aria-hidden="true" class="fixed inset-0 z-[300] bg-[#050505] flex items-center justify-center" style="display:none; clip-path:circle(0% at 90% 10%)">
+        <button id="contact-close-btn" onclick="closeContact()" class="absolute top-10 right-12 text-xs uppercase tracking-widest opacity-50 hover:opacity-100 hover:line-through transition-opacity cursor-none">[ Close ]</button>
 
         <div class="w-full max-w-lg px-12">
 
@@ -445,13 +453,13 @@
     </section>
 
     <!-- Resume Overlay -->
-    <section id="resume-view" class="fixed inset-0 z-[300] overflow-y-auto bg-[#050505]" style="display:none; clip-path:circle(0% at 10% 10%)">
+    <section id="resume-view" role="dialog" aria-modal="true" aria-hidden="true" class="fixed inset-0 z-[300] overflow-y-auto bg-[#050505]" style="display:none; clip-path:circle(0% at 10% 10%)">
         <div class="max-w-5xl mx-auto px-12 md:px-20 py-16">
 
             <!-- top bar -->
             <nav class="flex justify-between items-center mb-20 border-b border-white/10 pb-8">
                 <p class="text-xs uppercase tracking-widest text-zinc-400">CV_FILE // SN-2026</p>
-                <button onclick="closeResume()" class="text-xs uppercase tracking-widest hover:line-through opacity-60 hover:opacity-100 cursor-none">[ Close ]</button>
+                <button id="resume-close-btn" onclick="closeResume()" class="text-xs uppercase tracking-widest hover:line-through opacity-60 hover:opacity-100 cursor-none">[ Close ]</button>
             </nav>
 
             <!-- header -->
@@ -634,11 +642,11 @@
         </div>
     </section>
 
-    <section id="recruiter-view" class="fixed inset-0 z-[300] overflow-y-auto bg-[#050505]" style="display:none; clip-path:circle(0% at 50% 0%)">
+    <section id="recruiter-view" role="dialog" aria-modal="true" aria-hidden="true" class="fixed inset-0 z-[300] overflow-y-auto bg-[#050505]" style="display:none; clip-path:circle(0% at 50% 0%)">
         <div class="max-w-5xl mx-auto px-12 md:px-20 py-16">
             <nav class="flex justify-between items-center mb-16 border-b border-white/10 pb-8">
                 <p class="text-xs uppercase tracking-widest text-[#C9A84C]">RECRUITER_MODE // FAST TRACK</p>
-                <button onclick="closeRecruiter()" class="text-xs uppercase tracking-widest hover:line-through opacity-60 hover:opacity-100 transition-opacity">[ Close ]</button>
+                <button id="recruiter-close-btn" onclick="closeRecruiter()" class="text-xs uppercase tracking-widest hover:line-through opacity-60 hover:opacity-100 transition-opacity">[ Close ]</button>
             </nav>
 
             <header class="mb-14">
@@ -1020,6 +1028,32 @@
         let unizuluVideoIndex = 0;
         let aidcraftVideoIndex = 0;
         let missingClassroomsVideoIndex = 0;
+        const overlayFocusAnchor = {
+            subNav: null,
+            project: null,
+            resume: null,
+            contact: null,
+            recruiter: null
+        };
+
+        function rememberFocus(key) {
+            const active = document.activeElement;
+            overlayFocusAnchor[key] = active instanceof HTMLElement ? active : null;
+        }
+
+        function restoreFocus(key) {
+            const target = overlayFocusAnchor[key];
+            overlayFocusAnchor[key] = null;
+            if (!target || !document.contains(target) || target.hasAttribute('disabled')) return;
+            if (!target.getClientRects().length) return;
+            target.focus();
+        }
+
+        function focusById(id) {
+            const node = document.getElementById(id);
+            if (!node) return;
+            requestAnimationFrame(() => node.focus());
+        }
 
         function resetCfaButtons() {
             [cfaPlatformAuditBtn, cfaProposalBtn].forEach((btn) => {
@@ -1173,44 +1207,56 @@
         // Restore Nav Builder with Hover Logic
         const categoryOrder = ['SYSTEMS', 'FACULTY', 'SIMULATION', 'DEFENSE', 'GAME', 'IMMERSIVE'];
         categoryOrder.forEach((key, i) => {
-            const div = document.createElement('div');
-            div.className = 'project-link group flex items-baseline gap-6 cursor-pointer';
-            div.innerHTML = `<span class="text-[10px] text-zinc-700 transition-colors duration-300" style="--tw-text-opacity:1">0${i + 1}</span><h2 class="text-2xl md:text-4xl uppercase tracking-tight">${data[key].label}</h2>`;
-            div.addEventListener('mouseenter', () => div.querySelector('span').style.color = '#C9A84C');
-            div.addEventListener('mouseleave', () => div.querySelector('span').style.color = '');
+            const button = document.createElement('button');
+            button.type = 'button';
+            button.className = 'project-link group flex w-full items-baseline gap-6 cursor-pointer bg-transparent border-0 p-0 text-left focus-visible:outline-none';
+            button.innerHTML = `<span class="text-[10px] text-zinc-700 transition-colors duration-300" style="--tw-text-opacity:1">0${i + 1}</span><h2 class="text-2xl md:text-4xl uppercase tracking-tight">${data[key].label}</h2>`;
+            button.addEventListener('mouseenter', () => button.querySelector('span').style.color = '#C9A84C');
+            button.addEventListener('mouseleave', () => button.querySelector('span').style.color = '');
 
-            div.onmouseenter = () => {
+            button.onmouseenter = () => {
                 focusText.innerText = key;
                 gsap.to(focusText, { opacity: 1, x: 0, duration: 0.5 });
             };
-            div.onmouseleave = () => {
+            button.onmouseleave = () => {
             };
-            div.onclick = () => openSubNav(key);
-            nav.appendChild(div);
+            button.onclick = () => openSubNav(key);
+            nav.appendChild(button);
         });
 
         function openSubNav(key) {
+            rememberFocus('subNav');
             const container = document.getElementById('sub-project-container');
+            const subNav = document.getElementById('sub-nav');
             container.innerHTML = '';
             document.getElementById('sub-cat-title').innerHTML = data[key].label;
             document.getElementById('sub-cat-overview').textContent = data[key].overview || '';
+            subNav.setAttribute('aria-hidden', 'false');
 
             data[key].projects.forEach((p, i) => {
-                const d = document.createElement('div');
-                d.className = 'sub-project-link group flex items-baseline gap-6 cursor-pointer';
-                d.innerHTML = `<span class="text-[10px] text-zinc-700 transition-colors duration-300">0${i + 1}</span><h3 class="text-2xl md:text-4xl uppercase tracking-tight">${p.title}</h3>`;
-                d.addEventListener('mouseenter', () => d.querySelector('span').style.color = '#C9A84C');
-                d.addEventListener('mouseleave', () => d.querySelector('span').style.color = '');
-                d.onclick = () => openProject(p);
-                container.appendChild(d);
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'sub-project-link group flex w-full items-baseline gap-6 cursor-pointer bg-transparent border-0 p-0 text-left focus-visible:outline-none';
+                button.innerHTML = `<span class="text-[10px] text-zinc-700 transition-colors duration-300">0${i + 1}</span><h3 class="text-2xl md:text-4xl uppercase tracking-tight">${p.title}</h3>`;
+                button.addEventListener('mouseenter', () => button.querySelector('span').style.color = '#C9A84C');
+                button.addEventListener('mouseleave', () => button.querySelector('span').style.color = '');
+                button.onclick = () => openProject(p);
+                container.appendChild(button);
             });
             gsap.to("#main-nav", { opacity: 0, x: -50 });
             gsap.to("#main-nav-bg", { opacity: 0, duration: 0.4 });
             gsap.to("#sub-nav", { x: 0, opacity: 1, pointerEvents: 'auto' });
+            focusById('sub-nav-close-btn');
         }
 
         function closeSubNav() {
-            gsap.to("#sub-nav", { x: '100%', opacity: 0, pointerEvents: 'none' });
+            document.getElementById('sub-nav').setAttribute('aria-hidden', 'true');
+            gsap.to("#sub-nav", {
+                x: '100%',
+                opacity: 0,
+                pointerEvents: 'none',
+                onComplete: () => restoreFocus('subNav')
+            });
             gsap.to("#main-nav", { opacity: 1, x: 0 });
             gsap.to("#main-nav-bg", { opacity: 1, duration: 0.4 });
         }
@@ -1235,10 +1281,11 @@
         }
 
         function openRecruiterProject(projectId) {
-            closeRecruiter(() => openProjectById(projectId));
+            closeRecruiter(() => openProjectById(projectId), false);
         }
 
         function openProject(p) {
+            rememberFocus('project');
             document.getElementById('det-id').innerText = `REF_NODE // ${p.id}`;
             document.getElementById('det-title').innerText = p.title;
             document.getElementById('det-desc').innerHTML = p.subtitle
@@ -1268,9 +1315,11 @@
             }
 
             const view = document.getElementById('project-view');
+            view.setAttribute('aria-hidden', 'false');
             view.style.display = 'block';
             view.scrollTop = 0;
             gsap.to(view, { clipPath: "circle(150% at 50% 50%)", duration: 1.2, ease: "expo.inOut" });
+            focusById('project-close-btn');
 
             if (boids) boids.stop();
             boids = new BoidsEngine('boidsCanvas');
@@ -1326,17 +1375,30 @@
         function closeProject() {
             hideCfaEmbed();
             if (boids) boids.stop();
-            gsap.to("#project-view", { clipPath: "circle(0% at 50% 50%)", duration: 1, ease: "expo.inOut", onComplete: () => document.getElementById('project-view').style.display = 'none' });
+            gsap.to("#project-view", {
+                clipPath: "circle(0% at 50% 50%)",
+                duration: 1,
+                ease: "expo.inOut",
+                onComplete: () => {
+                    const projectView = document.getElementById('project-view');
+                    projectView.style.display = 'none';
+                    projectView.setAttribute('aria-hidden', 'true');
+                    restoreFocus('project');
+                }
+            });
         }
 
         function openResume() {
+            rememberFocus('resume');
             const rv = document.getElementById('resume-view');
+            rv.setAttribute('aria-hidden', 'false');
             rv.style.display = 'block';
             rv.scrollTop = 0;
             gsap.fromTo(rv,
                 { clipPath: 'circle(0% at 10% 10%)' },
                 { clipPath: 'circle(150% at 10% 10%)', duration: 1.1, ease: 'expo.inOut' }
             );
+            focusById('resume-close-btn');
         }
 
         function closeResume() {
@@ -1344,17 +1406,25 @@
                 clipPath: 'circle(0% at 10% 10%)',
                 duration: 0.9,
                 ease: 'expo.inOut',
-                onComplete: () => document.getElementById('resume-view').style.display = 'none'
+                onComplete: () => {
+                    const resumeView = document.getElementById('resume-view');
+                    resumeView.style.display = 'none';
+                    resumeView.setAttribute('aria-hidden', 'true');
+                    restoreFocus('resume');
+                }
             });
         }
 
         function openContact() {
+            rememberFocus('contact');
             const cv = document.getElementById('contact-view');
+            cv.setAttribute('aria-hidden', 'false');
             cv.style.display = 'flex';
             gsap.fromTo(cv,
                 { clipPath: 'circle(0% at 90% 10%)' },
                 { clipPath: 'circle(150% at 90% 10%)', duration: 1.0, ease: 'expo.inOut' }
             );
+            focusById('contact-close-btn');
         }
 
         function closeContact() {
@@ -1362,34 +1432,45 @@
                 clipPath: 'circle(0% at 90% 10%)',
                 duration: 0.85,
                 ease: 'expo.inOut',
-                onComplete: () => document.getElementById('contact-view').style.display = 'none'
+                onComplete: () => {
+                    const contactView = document.getElementById('contact-view');
+                    contactView.style.display = 'none';
+                    contactView.setAttribute('aria-hidden', 'true');
+                    restoreFocus('contact');
+                }
             });
         }
 
         function openRecruiter() {
+            rememberFocus('recruiter');
             const recruiterView = document.getElementById('recruiter-view');
+            recruiterView.setAttribute('aria-hidden', 'false');
             recruiterView.style.display = 'block';
             recruiterView.scrollTop = 0;
             gsap.fromTo(recruiterView,
                 { clipPath: 'circle(0% at 50% 0%)' },
                 { clipPath: 'circle(150% at 50% 0%)', duration: 1.0, ease: 'expo.inOut' }
             );
+            focusById('recruiter-close-btn');
         }
 
-        function closeRecruiter(onClosed) {
+        function closeRecruiter(onClosed, restoreFocusOnClose = true) {
             gsap.to('#recruiter-view', {
                 clipPath: 'circle(0% at 50% 0%)',
                 duration: 0.85,
                 ease: 'expo.inOut',
                 onComplete: () => {
-                    document.getElementById('recruiter-view').style.display = 'none';
+                    const recruiterView = document.getElementById('recruiter-view');
+                    recruiterView.style.display = 'none';
+                    recruiterView.setAttribute('aria-hidden', 'true');
+                    if (restoreFocusOnClose) restoreFocus('recruiter');
                     if (typeof onClosed === 'function') onClosed();
                 }
             });
         }
 
         function openResumeFromRecruiter() {
-            closeRecruiter(() => openResume());
+            closeRecruiter(() => openResume(), false);
         }
         // Entrance animation
         gsap.set('#main-nav-bg',                 { opacity: 0 });
@@ -1407,6 +1488,41 @@
             .to('#main-cta',                   { opacity: 1, y: 0, duration: 0.9 },                        1.55)
             .to('footer',                      { opacity: 1, y: 0, duration: 0.9 },                        1.65);
         // End entrance animation
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key !== 'Escape') return;
+
+            const recruiterView = document.getElementById('recruiter-view');
+            const contactView = document.getElementById('contact-view');
+            const resumeView = document.getElementById('resume-view');
+            const projectView = document.getElementById('project-view');
+            const subNav = document.getElementById('sub-nav');
+
+            if (recruiterView.style.display !== 'none') {
+                event.preventDefault();
+                closeRecruiter();
+                return;
+            }
+            if (contactView.style.display !== 'none') {
+                event.preventDefault();
+                closeContact();
+                return;
+            }
+            if (resumeView.style.display !== 'none') {
+                event.preventDefault();
+                closeResume();
+                return;
+            }
+            if (projectView.style.display !== 'none') {
+                event.preventDefault();
+                closeProject();
+                return;
+            }
+            if (subNav.style.pointerEvents === 'auto') {
+                event.preventDefault();
+                closeSubNav();
+            }
+        });
 
         document.addEventListener('mousemove', (e) => {
             gsap.to("#lens", { left: e.clientX, top: e.clientY, duration: 1.5 });
