@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S.Nguna | Cognitive Systems Engineer</title>
+    <!-- Favicon -->
+    <link rel="icon" href="project_icon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="project_icon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="project_icon.ico">
+    <!-- Google Fonts for Whimsical Tech Vibe -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Chakra+Petch:wght@300;400;600;700&family=JetBrains+Mono:wght@100..800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body>
+    <!-- Cosmic Explorer Overlay -->
+    <div class="telemetry-overlay"
+        style="position: fixed; top: 20px; left: 20px; z-index: 90; font-family: var(--font-display); font-size: 0.85rem; color: var(--color-text); opacity: 0.8; pointer-events: none; display: flex; align-items: center; gap: 8px;">
+        <span
+            style="display:inline-block; width: 8px; height: 8px; background: var(--color-accent-warm); border-radius: 50%; box-shadow: 0 0 10px var(--color-accent-warm); animation: pulse 2s infinite;"></span>
+        EXPLORATION MODE // <span
+            style="color: var(--color-accent); font-family: var(--font-mono); font-size: 0.75rem;">ONLINE</span>
+    </div>
+
+    <!-- WebGL Canvas Background -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero Opening Animation -->
+    <section id="hero" class="hero active">
+        <div class="hero-video">
+            <video class="hero-video-media" autoplay muted loop playsinline preload="auto" poster="img/ocean.PNG">
+                <source src="img/me_.mp4" type="video/mp4">
+            </video>
+            <div class="hero-video-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                <span class="title-line">
+                    <span class="word">IMAGINATION</span>
+                </span>
+                <span class="title-line">
+                    <span class="word">MEETS</span>
+                </span>
+                <span class="title-line">
+                    <span class="word">ENGINEERING</span>
+                </span>
+            </h1>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-line"></div>
+            <span class="scroll-text">EXPLORE</span>
+        </div>
+    </section>
+
+    <!-- Navigation Hub -->
+    <nav id="main-nav" class="main-nav">
+        <div class="nav-contact">
+            <a href="mailto:sethnguna@gmail.com" class="contact-btn">S.NGUNA // INITIATE CONTACT</a>
+        </div>
+    </nav>
+
+    <!-- Philosophy Section -->
+    <section id="philosophy" class="philosophy section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">PHILOSOPHY</h2>
+            </div>
+            <div class="philosophy-content">
+                <div class="philosophy-main">
+                    <p class="philosophy-statement">
+                        Crafting magical user experiences and robust simulated environments. I believe that complex
+                        technology should feel intuitive, imaginative, and empowering, accelerating the path to mastery
+                        for those building the future.
+                    </p>
+                    <div class="philosophy-grid">
+                        <div class="philosophy-card">
+                            <h3 class="card-title">IMMERSIVE INSTRUCTIONAL DESIGN</h3>
+                            <p class="card-description">
+                                Architecting high-impact eLearning (OLT, vILT) and hands-on technical curricula using AI
+                                tools, Articulate 360, and 3D/VR simulations to drive rapid skill acquisition and
+                                compress time-to-proficiency.
+                            </p>
+                        </div>
+                        <div class="philosophy-card">
+                            <h3 class="card-title">TALENT & ORGANIZATIONAL ENABLEMENT</h3>
+                            <p class="card-description">
+                                Partnering with engineering and business leaders to foster continuous learning cultures
+                                through strategic advisory, leadership coaching, and change management in matrixed
+                                environments.
+                            </p>
+                        </div>
+                        <div class="philosophy-card">
+                            <h3 class="card-title">DATA-DRIVEN SYSTEMS</h3>
+                            <p class="card-description">
+                                Integrating advanced learning analytics, SCORM/xAPI-compliant LMS platforms, and
+                                evidence-based assessment methodologies to measure impact, secure executive buy-in, and
+                                continuously iterate.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Hub Section -->
+    <section id="projects" class="projects section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">PROJECTS</h2>
+            </div>
+            <div class="projects-grid">
+                <!-- Category 1: Experiential Learning -->
+                <div class="project-category" data-category="experiential-learning">
+                    <div class="category-header">
+                        <h3 class="category-title">EXPERIENTIAL LEARNING</h3>
+                    </div>
+                    <div class="category-projects">
+                        <div class="project-card" data-project="data-command">
+                            <div class="project-card-inner">
+                                <div class="project-number">01</div>
+                                <h4 class="project-title">DATA COMMAND</h4>
+                                <p class="project-subtitle">Data-Driven Decision Scenario</p>
+                                <div class="project-tags">
+                                    <span class="tag">SIMULATION</span>
+                                    <span class="tag">STAKEHOLDER MANAGEMENT</span>
+                                    <span class="tag">CRISIS RESPONSE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card" data-project="data-detectives">
+                            <div class="project-card-inner">
+                                <div class="project-number">02</div>
+                                <h4 class="project-title">DATA DETECTIVES</h4>
+                                <p class="project-subtitle">Analysis & Visualization Workshop</p>
+                                <div class="project-tags">
+                                    <span class="tag">DATA JOURNALISM</span>
+                                    <span class="tag">STORYTELLING</span>
+                                    <span class="tag">VISUALIZATION</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card" data-project="missing-classrooms">
+                            <div class="project-card-inner">
+                                <div class="project-number">03</div>
+                                <h4 class="project-title">MISSING CLASSROOMS</h4>
+                                <p class="project-subtitle">Data Journalism Training</p>
+                                <div class="project-tags">
+                                    <span class="tag">SIMULATION</span>
+                                    <span class="tag">DATA LITERACY</span>
+                                    <span class="tag">JOURNALISM</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 2: Professional Development -->
+                <div class="project-category" data-category="professional-development">
+                    <div class="category-header">
+                        <h3 class="category-title">PROFESSIONAL DEVELOPMENT</h3>
+                    </div>
+                    <div class="category-projects">
+                        <div class="project-card" data-project="module-design-sprints">
+                            <div class="project-card-inner">
+                                <div class="project-number">04</div>
+                                <h4 class="project-title">MODULE DESIGN SPRINTS</h4>
+                                <p class="project-subtitle">Instructional Design Workshop</p>
+                                <div class="project-tags">
+                                    <span class="tag">INSTRUCTIONAL DESIGN</span>
+                                    <span class="tag">FACULTY DEVELOPMENT</span>
+                                    <span class="tag">COLLABORATIVE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card" data-project="umass-boston">
+                            <div class="project-card-inner">
+                                <div class="project-number">05</div>
+                                <h4 class="project-title">BEACONFLEX</h4>
+                                <p class="project-subtitle">Faculty Development System</p>
+                                <div class="project-tags">
+                                    <span class="tag">LMS</span>
+                                    <span class="tag">FACULTY DEVELOPMENT</span>
+                                    <span class="tag">ADAPTIVE LEARNING</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card" data-project="anga">
+                            <div class="project-card-inner">
+                                <div class="project-number">06</div>
+                                <h4 class="project-title">ANGA</h4>
+                                <p class="project-subtitle">Teaching Style Assessment</p>
+                                <div class="project-tags">
+                                    <span class="tag">SELF-REFLECTION</span>
+                                    <span class="tag">PEDAGOGICAL ANALYSIS</span>
+                                    <span class="tag">EVIDENCE-BASED</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 3: Learning Games -->
+                <div class="project-category" data-category="learning-games">
+                    <div class="category-header">
+                        <h3 class="category-title">LEARNING GAMES</h3>
+                    </div>
+                    <div class="category-projects">
+                        <div class="project-card" data-project="capital-and-the-other">
+                            <div class="project-card-inner">
+                                <div class="project-number">07</div>
+                                <h4 class="project-title">CAPITAL & THE OTHER</h4>
+                                <p class="project-subtitle">Economic Theory Board Game</p>
+                                <div class="project-tags">
+                                    <span class="tag">BOARD GAME</span>
+                                    <span class="tag">IDENTITY ECONOMICS</span>
+                                    <span class="tag">COLLABORATIVE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card" data-project="echo-chamber">
+                            <div class="project-card-inner">
+                                <div class="project-number">08</div>
+                                <h4 class="project-title">ECHO CHAMBER</h4>
+                                <p class="project-subtitle">Cognitive Defense Platform</p>
+                                <div class="project-tags">
+                                    <span class="tag">CRITICAL THINKING</span>
+                                    <span class="tag">FALLACY DETECTION</span>
+                                    <span class="tag">INTERACTIVE</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card" data-project="bubbles">
+                            <div class="project-card-inner">
+                                <div class="project-number">09</div>
+                                <h4 class="project-title">BUBBLES</h4>
+                                <p class="project-subtitle">Physics-Based Learning Game</p>
+                                <div class="project-tags">
+                                    <span class="tag">GAME-BASED LEARNING</span>
+                                    <span class="tag">INTELLECTUAL STANDARDS</span>
+                                    <span class="tag">AGES 4-12</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Category 4: Simulations and Experiments -->
+                <div class="project-category" data-category="simulations-experiments">
+                    <div class="category-header">
+                        <h3 class="category-title">SIMULATIONS AND EXPERIMENTS</h3>
+                    </div>
+                    <div class="category-projects">
+                        <div class="project-card" data-project="aidcraft">
+                            <div class="project-card-inner">
+                                <div class="project-number">10</div>
+                                <h4 class="project-title">AIDCRAFT</h4>
+                                <p class="project-subtitle">Development Finance Simulation</p>
+                                <div class="project-tags">
+                                    <span class="tag">STRATEGIC PLANNING</span>
+                                    <span class="tag">INTERNATIONAL FINANCE</span>
+                                    <span class="tag">NEGOTIATION</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card" data-project="ocean-simulation">
+                            <div class="project-card-inner">
+                                <div class="project-number">11</div>
+                                <h4 class="project-title">3D OCEAN</h4>
+                                <p class="project-subtitle">Photorealistic Water Physics</p>
+                                <div class="project-tags">
+                                    <span class="tag">THREE.JS</span>
+                                    <span class="tag">WEBGL SHADERS</span>
+                                    <span class="tag">REAL-TIME PHYSICS</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-card" data-project="viewpoint">
+                            <div class="project-card-inner">
+                                <div class="project-number">12</div>
+                                <h4 class="project-title">VIEWPOINT</h4>
+                                <p class="project-subtitle">Gesture-Based Interface</p>
+                                <div class="project-tags">
+                                    <span class="tag">HAND TRACKING</span>
+                                    <span class="tag">MEDIAPIPE</span>
+                                    <span class="tag">REAL-TIME</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">ABOUT</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-visual">
+                    <div class="about-image-container">
+                        <img src="img/sethu.jpg" alt="Sethu Nguna"
+                            style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                        <div class="image-reveal"></div>
+                        <div class="image-overlay"></div>
+                    </div>
+                </div>
+                <div class="about-text">
+                    <div class="about-intro">
+                        <p class="about-statement">
+                            A Creative Technologist and Learning Systems Engineer bringing a touch of magic to complex
+                            aerospace operations.
+                            I design immersive, playful, yet highly technical training experiences—blending AI,
+                            interactive WebGL,
+                            and data-driven design—to shape how the next generation of engineers learn, discover, and
+                            build the future of humanity.
+                        </p>
+                    </div>
+                    <div class="about-impact"
+                        style="display: flex; gap: 2rem; flex-wrap: wrap; margin: 2rem 0; padding: 2rem 0; border-top: 1px solid rgba(255, 255, 255, 0.1); border-bottom: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div class="impact-tag" style="flex: 1; min-width: 120px;">
+                            <div style="font-size: 2rem; font-weight: 300; color: #ffffff; margin-bottom: 0.5rem;">10+
+                            </div>
+                            <div style="font-size: 0.75rem; letter-spacing: 0.1rem; color: rgba(255, 255, 255, 0.6);">
+                                YEARS EXPERIENCE</div>
+                        </div>
+                        <div class="impact-tag" style="flex: 1; min-width: 120px;">
+                            <div style="font-size: 2rem; font-weight: 300; color: #ffffff; margin-bottom: 0.5rem;">20+
+                            </div>
+                            <div style="font-size: 0.75rem; letter-spacing: 0.1rem; color: rgba(255, 255, 255, 0.6);">
+                                COUNTRIES REACHED</div>
+                        </div>
+                        <div class="impact-tag" style="flex: 1; min-width: 120px;">
+                            <div style="font-size: 2rem; font-weight: 300; color: #ffffff; margin-bottom: 0.5rem;">200+
+                            </div>
+                            <div style="font-size: 0.75rem; letter-spacing: 0.1rem; color: rgba(255, 255, 255, 0.6);">
+                                ENG/TECH PROS</div>
+                        </div>
+                        <div class="impact-tag" style="flex: 1; min-width: 120px;">
+                            <div style="font-size: 2rem; font-weight: 300; color: #ffffff; margin-bottom: 0.5rem;">3
+                            </div>
+                            <div style="font-size: 0.75rem; letter-spacing: 0.1rem; color: rgba(255, 255, 255, 0.6);">
+                                CONTINENTS</div>
+                        </div>
+                    </div>
+                    <div class="about-details">
+                        <div class="detail-block">
+                            <h4 class="detail-title">CURRENT SUMMARY</h4>
+                            <p class="detail-text">
+                                Senior Learning Partner & Training Manager at AidData Research Lab,
+                                William & Mary. Leading talent programs and strategic advisory across
+                                complex technical cohorts globally.
+                            </p>
+                        </div>
+                        <div class="detail-block">
+                            <h4 class="detail-title">EDUCATION</h4>
+                            <p class="detail-text">
+                                Master of Arts, Education — Liverpool John Moores University<br>
+                                Bachelor of Commerce Honors, Economics — University of Zululand
+                            </p>
+                        </div>
+                        <div class="detail-block">
+                            <h4 class="detail-title">EXPERTISE</h4>
+                            <p class="detail-text">
+                                Instructional Design (ADDIE/SAM) • Strategic Learning Advising • Interactive Simulations
+                                (VR/Web) • Authoring (Articulate 360, Adobe CC) • LMS Administration • AI-Driven
+                                Platforms
+                            </p>
+                        </div>
+                        <div class="detail-block">
+                            <h4 class="detail-title">RECOGNITION</h4>
+                            <p class="detail-text">
+                                2024-2025 W&M Learn, Discover, Innovate Grant Recipient
+                            </p>
+                        </div>
+                    </div>
+                    <div class="about-links">
+                        <a href="https://www.linkedin.com/in/sethunguna" target="_blank" class="about-link">
+                            <span>LINKEDIN</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17" />
+                            </svg>
+                        </a>
+                        <a href="https://orcid.org/0000-0002-5313-1368" target="_blank" class="about-link">
+                            <span>ORCID</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17" />
+                            </svg>
+                        </a>
+                        <a href="https://x.com/OfficialSethu" target="_blank" class="about-link">
+                            <span>TWITTER</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="project-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <button class="modal-close">
+                <span class="close-line"></span>
+                <span class="close-line"></span>
+            </button>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span class="modal-number"></span>
+                    <h2 class="modal-title"></h2>
+                    <p class="modal-subtitle"></p>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-section visual-demo">
+                        <h3 class="modal-section-title">OVERVIEW</h3>
+                        <div class="visual-demo-content"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="modal-link live-link" target="_blank">
+                            <span>VIEW LIVE</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 17L17 7M17 7H7M17 7V17" />
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p class="footer-text">© 2026 SETHU NGUNA // WANDERING CREATIVE</p>
+            </div>
+            <div class="footer-center">
+                <p class="footer-tagline">BUILDING THE TOOLS THAT BUILD THE FUTURE</p>
+            </div>
+            <div class="footer-right">
+                <p class="footer-text">SYSTEMS ENGINEER & DESIGNER</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
