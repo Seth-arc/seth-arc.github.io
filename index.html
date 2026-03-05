@@ -940,32 +940,6 @@
                     }
                 ]
             },
-            'DEFENSE': {
-                label: 'Cognitive Defense',
-                overview: 'Learning tools designed to strengthen reasoning, resist manipulation, and improve decision quality in adversarial information environments.',
-                projects: [
-                    {
-                        id: 'C-1', title: 'Echo Chamber', subtitle: 'Cognitive Defense',
-                        desc: 'Immersive browser-based training tool for recognizing and deflecting cognitive manipulation in real time, including strawman arguments, false dichotomies, and emotional baiting.',
-                        impact: 'Live Browser Game',
-                        meta: ['HTML5', 'CSS3', 'Vanilla JavaScript', 'Browser Game Logic', 'Logical Fallacy Detection Mechanics'],
-                        challenge: '[01] The Challenge<br><br>Teaching people to recognize manipulation tactics without exposing them to actual psychological harm.',
-                        logic: '[02] The Logic<br><br>Game mechanics recreate the cognitive pressure of live manipulation so practice happens in a safe, repeatable environment.',
-                        outcome: '[03] The Outcome<br><br>Players who can identify and deflect adversarial reasoning in real-world, high-stakes contexts.',
-                        link: 'https://seth-arc.github.io/echochamber/'
-                    },
-                    {
-                        id: 'C-2', title: 'Data Detectives', subtitle: 'Pattern Intelligence',
-                        desc: 'Team-based investigation activity using specialized analytical roles, development finance data, collaborative pattern recognition, and visualization. Delivered in Manila with Rappler (2024).',
-                        impact: 'Manila 2024 - Rappler',
-                        meta: ['Canva', 'Data Visualization Pedagogy', 'Workshop Facilitation', 'Collaborative Analysis Model', '4-Step Investigation Methodology'],
-                        challenge: '[01] The Challenge<br><br>Training journalists to find signal in complex financial datasets without formal data science backgrounds.',
-                        logic: '[02] The Logic<br><br>Role-specialized teams combine analytical perspectives, forcing cross-functional sense-making under time pressure.',
-                        outcome: '[03] The Outcome<br><br>Journalists capable of identifying and visualizing development finance patterns independently.',
-                        link: 'https://www.canva.com/design/DAGYM_8H9oo/0NYKfbzhYD0-1ReV0vvlbA/view'
-                    }
-                ]
-            },
             'SYSTEMS': {
                 label: 'Learning Systems',
                 overview: 'Full-stack learning platforms, LMS architecture, and digital infrastructure built for scalable education delivery.',
@@ -1385,7 +1359,7 @@
         missingClassroomsNextBtn.addEventListener('click', () => showMissingClassroomsVideo(missingClassroomsVideoIndex + 1));
 
         // Restore Nav Builder with Hover Logic
-        const categoryOrder = ['SYSTEMS', 'FACULTY', 'SIMULATION', 'DEFENSE', 'GAME', 'IMMERSIVE'];
+        const categoryOrder = ['SYSTEMS', 'FACULTY', 'SIMULATION', 'GAME', 'IMMERSIVE'];
         categoryOrder.forEach((key, i) => {
             const button = document.createElement('button');
             button.type = 'button';
