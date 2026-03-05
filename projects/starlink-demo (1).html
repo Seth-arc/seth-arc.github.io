@@ -48,6 +48,7 @@
       font-size: 16px;
       /* slightly smaller base for more technical feel */
       scroll-behavior: smooth;
+      height: 100%;
     }
 
     body {
@@ -55,6 +56,8 @@
       background: var(--ink);
       color: var(--body);
       height: 100vh;
+      min-height: 100vh;
+      min-height: 100dvh;
       margin: 0;
       overflow: hidden;
       letter-spacing: -0.01em;
@@ -84,6 +87,8 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
+      min-height: 100vh;
+      min-height: 100dvh;
       overflow: hidden;
     }
 
@@ -141,6 +146,24 @@
       height: 100%;
       overflow-y: auto;
       padding-right: 12px;
+    }
+
+    .xp-counter {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 6px 14px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--heading);
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid var(--border);
+      font-size: 0.82rem;
+      backdrop-filter: blur(4px);
     }
 
     .lesson-nav {
@@ -996,33 +1019,98 @@
     }
 
     @media (max-width: 768px) {
+      .app-shell {
+        height: 100dvh;
+        min-height: 100dvh;
+      }
+
       .module-sidebar-layout {
         grid-template-columns: 1fr;
+        gap: 14px;
       }
 
       .lesson-nav {
-        position: static;
+        position: sticky;
+        top: 0;
+        z-index: 35;
         display: flex;
         overflow-x: auto;
-        gap: 4px;
-        padding-bottom: 16px;
+        gap: 6px;
+        margin: 0 -12px 6px;
+        padding: 8px 12px 10px;
+        border-bottom: 1px solid var(--border);
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0.95) 0%, rgba(0, 0, 0, 0.8) 100%);
+        scrollbar-width: thin;
+        scrollbar-color: var(--border) var(--surface);
       }
 
       .lesson-nav ul {
         display: flex;
-        gap: 4px;
+        gap: 6px;
+        width: max-content;
+        min-width: 100%;
+        padding-bottom: 2px;
+      }
+
+      .lesson-nav li {
+        margin-bottom: 0;
       }
 
       .lesson-nav h3 {
         display: none;
       }
 
+      .lesson-nav button {
+        min-height: 38px;
+        padding: 9px 12px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        font-size: 0.7rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .lesson-nav .nav-dot {
+        display: none;
+      }
+
+      .lesson-nav button.active {
+        background: var(--heading);
+        color: var(--ink);
+        border-color: var(--heading);
+      }
+
       .lesson-panel {
-        padding: 24px;
+        padding: 16px;
+      }
+
+      .lesson-panel h2 {
+        font-size: 1.35rem;
+        line-height: 1.15;
+        margin-bottom: 10px;
+        letter-spacing: -0.01em;
+      }
+
+      .lesson-subtitle {
+        font-size: 0.64rem;
+        letter-spacing: 0.08em;
+        margin-bottom: 16px;
+        padding-bottom: 8px;
+      }
+
+      .lesson-panel p {
+        font-size: 0.9rem;
+        line-height: 1.6;
       }
 
       .content-area {
-        padding: 24px 16px 60px;
+        padding: calc(12px + env(safe-area-inset-top)) 12px calc(22px + env(safe-area-inset-bottom));
+      }
+
+      #lessonContainer {
+        padding-right: 0;
+        padding-bottom: 84px;
       }
 
       .doc-header h1 {
@@ -1038,15 +1126,225 @@
         display: none;
       }
 
+      .xp-counter {
+        top: 8px;
+        right: 8px;
+        padding: 5px 10px;
+        font-size: 0.72rem;
+      }
+
       .three-container {
+        min-height: 300px;
         height: 320px;
+        margin: 16px 0;
+      }
+
+      .three-overlay {
+        padding: 10px;
+      }
+
+      .three-hud-badge {
+        font-size: 0.62rem;
+        padding: 4px 8px;
+      }
+
+      .three-controls-panel {
+        gap: 8px;
+        padding: 10px;
+        flex-wrap: wrap;
+        align-items: stretch;
+      }
+
+      .three-controls-panel label {
+        width: 100%;
+        font-size: 0.64rem;
+        white-space: normal;
+        justify-content: space-between;
+      }
+
+      .three-controls-panel input[type="range"] {
+        width: 100%;
+        flex: 1;
+      }
+
+      .three-controls-panel button {
+        flex: 1 1 calc(50% - 4px);
+        min-height: 38px;
+        font-size: 0.62rem;
+        padding: 6px 8px;
+      }
+
+      .three-controls-panel label:last-child {
+        width: auto;
+        margin-left: 0 !important;
+        font-size: 0.62rem;
       }
 
       .three-info-card {
-        width: 180px;
+        width: auto;
+        left: 8px;
         right: 8px;
         top: 42px;
-        padding: 10px;
+        padding: 12px;
+        max-height: 46%;
+        overflow-y: auto;
+      }
+
+      .hotspot-list {
+        gap: 6px;
+        margin: 12px 0;
+      }
+
+      .hotspot-btn {
+        font-size: 0.68rem;
+        padding: 6px 10px;
+      }
+
+      .diagram-container,
+      .drag-zone,
+      .quiz-block,
+      .scenario-box {
+        padding: 14px;
+        margin: 14px 0;
+      }
+
+      .node-circle {
+        width: 52px;
+        height: 52px;
+      }
+
+      .node-circle svg {
+        width: 22px;
+        height: 22px;
+      }
+
+      .node-label {
+        font-size: 0.62rem;
+        max-width: 66px;
+      }
+
+      .drag-item {
+        width: 100%;
+        padding: 10px 12px;
+        font-size: 0.88rem;
+      }
+
+      .drop-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+      }
+
+      .drop-step-num {
+        width: auto;
+        text-align: left;
+      }
+
+      .drop-slot {
+        min-height: 44px;
+        padding: 8px 10px;
+        font-size: 0.85rem;
+      }
+
+      .quiz-option {
+        padding: 12px 14px;
+        font-size: 0.9rem;
+      }
+
+      .quiz-feedback {
+        font-size: 0.82rem;
+        padding: 10px 12px;
+      }
+
+      .chat-bubble {
+        max-width: 100%;
+        font-size: 0.82rem;
+      }
+
+      .btn-row {
+        margin-top: 16px;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+
+      .btn,
+      .btn-sm {
+        width: 100%;
+        justify-content: center;
+        padding: 11px 12px;
+        font-size: 0.78rem;
+      }
+
+      .landing-content {
+        padding: 0 18px;
+      }
+
+      .landing-subtitle {
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        margin-bottom: 28px;
+      }
+
+      .loading-sequence {
+        width: 100%;
+        margin-bottom: 28px;
+        font-size: 0.72rem;
+      }
+
+      .landing-btn {
+        width: 100%;
+        max-width: 320px;
+        padding: 12px 18px;
+        font-size: 0.92rem;
+      }
+
+      .fullscreen-btn {
+        right: 12px;
+        top: calc(10px + env(safe-area-inset-top));
+        bottom: auto;
+        width: 40px;
+        height: 40px;
+      }
+
+      .fullscreen-btn svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .lesson-panel {
+        padding: 14px;
+      }
+
+      .lesson-panel h2 {
+        font-size: 1.2rem;
+      }
+
+      .lesson-nav button {
+        min-height: 36px;
+        padding: 8px 10px;
+        font-size: 0.66rem;
+      }
+
+      .three-container {
+        min-height: 260px;
+        height: 280px;
+      }
+
+      .three-controls-panel {
+        padding: 8px;
+      }
+
+      .three-controls-panel button {
+        flex: 1 1 100%;
+      }
+
+      .xp-counter {
+        top: auto;
+        bottom: 12px;
+        right: 8px;
       }
     }
 
@@ -1377,8 +1675,7 @@
 
           <div
             style="position: relative; width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden;">
-            <div id="xpCounter"
-              style="position: absolute; top: 48px; right: 60px; z-index: 10; display: flex; align-items: center; justify-content: center; padding: 6px 16px; font-family: var(--font-mono); font-weight: 600; color: var(--heading); background: transparent; border: 1px solid var(--border); font-size: 0.9rem;">
+            <div id="xpCounter" class="xp-counter">
               <span id="xpText">0 XP</span>
             </div>
             <div id="lessonContainer"></div>
