@@ -5,6 +5,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SETHU // PORTFOLIO</title>
+    <meta name="description" content="Portfolio of Sethu Nguna: learning systems, simulations, instructional design, and interactive web experiences with measurable outcomes.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://seth-arc.github.io/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Sethu Nguna Portfolio">
+    <meta property="og:description" content="Learning systems, simulations, and game-based training artifacts designed for real-world performance.">
+    <meta property="og:url" content="https://seth-arc.github.io/">
+    <meta property="og:image" content="https://seth-arc.github.io/me.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sethu Nguna Portfolio">
+    <meta name="twitter:description" content="Learning systems, simulations, and game-based training artifacts designed for real-world performance.">
+    <meta name="twitter:image" content="https://seth-arc.github.io/me.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link
@@ -44,6 +56,22 @@
             background: #333;
         }
         #resume-view::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        #recruiter-view {
+            scrollbar-width: thin;
+            scrollbar-color: #333 #050505;
+        }
+        #recruiter-view::-webkit-scrollbar {
+            width: 2px;
+        }
+        #recruiter-view::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        #recruiter-view::-webkit-scrollbar-thumb {
+            background: #333;
+        }
+        #recruiter-view::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
 
@@ -126,7 +154,7 @@
             100% { opacity: 0; }
         }
 
-        /* Landing page â€” scale down 20%, excluding #main-cta */
+        /* Landing page scale down 20%, excluding #main-cta */
         #main-nav header,
         #category-nav,
         #sub-nav,
@@ -232,7 +260,11 @@
         </header>
         <nav class="space-y-4 md:space-y-2" id="category-nav"></nav>
     </main>
-    <div id="main-cta" class="fixed top-10 left-12 z-40 flex gap-4">
+    <div id="main-cta" class="fixed top-10 left-12 z-40 flex flex-wrap gap-4">
+        <button onclick="openRecruiter()"
+            class="text-[9px] uppercase tracking-[0.3em] border border-[#C9A84C]/50 px-4 py-2 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all duration-300 text-[#C9A84C]/80">
+            Recruiter Mode
+        </button>
         <button onclick="openResume()"
             class="text-[9px] uppercase tracking-[0.3em] border border-white/20 px-4 py-2 hover:border-white/70 hover:text-white transition-all duration-300 text-white/40 cursor-none">
             Resume
@@ -268,6 +300,7 @@
                 <div class="lg:col-span-8">
                     <h3 id="det-title" class="serif italic text-6xl md:text-9xl mb-12 leading-none">Title</h3>
                     <p id="det-desc" class="text-xl md:text-2xl text-zinc-400 font-light leading-relaxed mb-12"></p>
+                    <div id="det-actions" class="mb-12 flex flex-wrap items-center gap-3"></div>
                 </div>
                 <div class="lg:col-span-4 border-l border-white/10 pl-8 space-y-12">
                     <div>
@@ -364,7 +397,7 @@
         </div>
     </section>
 
-    <!-- â”€â”€ Contact Overlay â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- Contact Overlay -->
     <section id="contact-view" class="fixed inset-0 z-[300] bg-[#050505] flex items-center justify-center" style="display:none; clip-path:circle(0% at 90% 10%)">
         <button onclick="closeContact()" class="absolute top-10 right-12 text-xs uppercase tracking-widest opacity-50 hover:opacity-100 hover:line-through transition-opacity cursor-none">[ Close ]</button>
 
@@ -382,7 +415,7 @@
                         <p class="text-[10px] uppercase tracking-[0.4em] text-zinc-500 mb-1">Email</p>
                         <p class="text-base text-white/80 group-hover:text-white transition-colors">sethnguna@gmail.com</p>
                     </div>
-                    <span class="text-zinc-600 group-hover:text-white transition-colors text-lg">â†—</span>
+                    <span class="text-zinc-600 group-hover:text-white transition-colors text-lg">-&gt;</span>
                 </a>
 
                 <!-- linkedin -->
@@ -392,7 +425,7 @@
                         <p class="text-[10px] uppercase tracking-[0.4em] text-zinc-500 mb-1">LinkedIn</p>
                         <p class="text-base text-white/80 group-hover:text-white transition-colors">linkedin.com/in/sethu-nguna</p>
                     </div>
-                    <span class="text-zinc-600 group-hover:text-white transition-colors text-lg">â†—</span>
+                    <span class="text-zinc-600 group-hover:text-white transition-colors text-lg">-&gt;</span>
                 </a>
 
                 <!-- twitter/x -->
@@ -402,17 +435,16 @@
                         <p class="text-[10px] uppercase tracking-[0.4em] text-zinc-500 mb-1">X / Twitter</p>
                         <p class="text-base text-white/80 group-hover:text-white transition-colors">@OfficialSethu</p>
                     </div>
-                    <span class="text-zinc-600 group-hover:text-white transition-colors text-lg">â†—</span>
+                    <span class="text-zinc-600 group-hover:text-white transition-colors text-lg">-&gt;</span>
                 </a>
 
             </div>
 
-            <p class="text-[10px] text-zinc-700 tracking-widest mt-16">Â© SETHU NGUNA 2025</p>
+            <p class="text-[10px] text-zinc-700 tracking-widest mt-16">&copy; SETHU NGUNA 2026</p>
         </div>
     </section>
-    <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
 
-    <!-- â”€â”€ Resume Overlay â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+    <!-- Resume Overlay -->
     <section id="resume-view" class="fixed inset-0 z-[300] overflow-y-auto bg-[#050505]" style="display:none; clip-path:circle(0% at 10% 10%)">
         <div class="max-w-5xl mx-auto px-12 md:px-20 py-16">
 
@@ -428,11 +460,11 @@
                 <p class="text-sm uppercase tracking-[0.4em] text-zinc-300 mt-8 ml-1" style="font-family:'JetBrains Mono',monospace;">Learning Experience Design & Instructional System Development</p>
                 <div class="flex flex-wrap gap-x-6 gap-y-1 mt-4 ml-1 text-xs tracking-widest text-zinc-400" style="font-family:'JetBrains Mono',monospace;">
                     <span>sethnguna@gmail.com</span>
-                    <span class="opacity-30">Â·</span>
+                    <span class="opacity-30">|</span>
                     <a href="https://linkedin.com/in/sethu-nguna" target="_blank" class="hover:text-white transition-colors">linkedin.com/in/sethu-nguna</a>
-                    <span class="opacity-30">Â·</span>
+                    <span class="opacity-30">|</span>
                     <a href="https://seth-arc.github.io" target="_blank" class="hover:text-white transition-colors">seth-arc.github.io</a>
-                    <span class="opacity-30">Â·</span>
+                    <span class="opacity-30">|</span>
                     <span>Williamsburg, Virginia</span>
                 </div>
             </header>
@@ -457,24 +489,24 @@
                             <div>
                                 <div class="flex justify-between items-baseline mb-1">
                                     <h3 class="serif italic text-2xl text-white">Training & Instructional Design Manager</h3>
-                                    <span class="text-xs text-zinc-400 tracking-widest">2023 â€“ Present</span>
+                                    <span class="text-xs text-zinc-400 tracking-widest">2023 - Present</span>
                                 </div>
-                                <p class="text-xs uppercase tracking-widest text-zinc-400 mb-4">AidData Research Lab Â· William &amp; Mary, VA</p>
+                                <p class="text-xs uppercase tracking-widest text-zinc-400 mb-4">AidData Research Lab | William &amp; Mary, VA</p>
                                 <ul class="space-y-2 text-sm text-zinc-300 leading-relaxed">
                                     <li class="pl-4 border-l border-white/20">Translate complex technical subjects (development finance and data) into robust online & in-person learning experiences.</li>
                                     <li class="pl-4 border-l border-white/20">Lead end-to-end instructional design using authoring tools and custom web integrations for scalable CBT modules.</li>
                                     <li class="pl-4 border-l border-white/20">Platform administrator and technical lead for LMS environments; analyse learner metrics to increase retention.</li>
                                     <li class="pl-4 border-l border-white/20">Launched "Navigating Global Development Finance" course and AidData Training Hub learning platform.</li>
-                                    <li class="pl-4 border-l border-white/20">Awarded 2024â€“2025 Learn, Discover, Innovate Grant from William &amp; Mary for immersive learning innovations.</li>
+                                    <li class="pl-4 border-l border-white/20">Awarded 2024-2025 Learn, Discover, Innovate Grant from William &amp; Mary for immersive learning innovations.</li>
                                 </ul>
                             </div>
 
                             <div>
                                 <div class="flex justify-between items-baseline mb-1">
                                     <h3 class="serif italic text-2xl text-white">Lead Instructional Designer</h3>
-                                    <span class="text-xs text-zinc-400 tracking-widest">2021 â€“ 2023</span>
+                                    <span class="text-xs text-zinc-400 tracking-widest">2021 - 2023</span>
                                 </div>
-                                <p class="text-xs uppercase tracking-widest text-zinc-400 mb-4">University of KwaZulu-Natal Â· Durban, SA</p>
+                                <p class="text-xs uppercase tracking-widest text-zinc-400 mb-4">University of KwaZulu-Natal | Durban, SA</p>
                                 <ul class="space-y-2 text-sm text-zinc-300 leading-relaxed">
                                     <li class="pl-4 border-l border-white/20">Led team of instructional designers, establishing design standards and driving continuous professional feedback.</li>
                                     <li class="pl-4 border-l border-white/20">Spearheaded the university's holistic digital learning strategy through root-cause analysis with academic leadership.</li>
@@ -485,12 +517,12 @@
                             <div>
                                 <div class="flex justify-between items-baseline mb-1">
                                     <h3 class="serif italic text-2xl text-white">Academic Coordinator</h3>
-                                    <span class="text-xs text-zinc-400 tracking-widest">2016 â€“ 2021</span>
+                                    <span class="text-xs text-zinc-400 tracking-widest">2016 - 2021</span>
                                 </div>
-                                <p class="text-xs uppercase tracking-widest text-zinc-400 mb-4">University of Zululand Â· Richards Bay, SA</p>
+                                <p class="text-xs uppercase tracking-widest text-zinc-400 mb-4">University of Zululand | Richards Bay, SA</p>
                                 <ul class="space-y-2 text-sm text-zinc-300 leading-relaxed">
                                     <li class="pl-4 border-l border-white/20">Supervised 40+ postgraduate student assistants across multiple faculties.</li>
-                                    <li class="pl-4 border-l border-white/20">Designed the UNIZULU 101 first-year core curriculum pilot â€” integrated across 4 faculties and 10 programmes.</li>
+                                    <li class="pl-4 border-l border-white/20">Designed the UNIZULU 101 first-year core curriculum pilot - integrated across 4 faculties and 10 programmes.</li>
                                     <li class="pl-4 border-l border-white/20">Maintained 75%+ engagement for a 1,200+ student cohort during COVID-19 emergency remote learning transition.</li>
                                 </ul>
                             </div>
@@ -498,7 +530,7 @@
                             <div>
                                 <div class="flex justify-between items-baseline mb-1">
                                     <h3 class="serif italic text-2xl text-white">eLearning Consultant</h3>
-                                    <span class="text-xs text-zinc-400 tracking-widest">2022 â€“ 2023</span>
+                                    <span class="text-xs text-zinc-400 tracking-widest">2022 - 2023</span>
                                 </div>
                                 <p class="text-xs uppercase tracking-widest text-zinc-400 mb-4">Code for Africa</p>
                                 <ul class="space-y-2 text-sm text-zinc-300 leading-relaxed">
@@ -544,7 +576,7 @@
                                 <p class="text-xs uppercase tracking-widest text-zinc-300 mb-3">Technical &amp; Technologies</p>
                                 <ul class="space-y-2 text-sm text-zinc-300">
                                     <li>// Articulate 360, Storyline, Adobe CC</li>
-                                    <li>// LMS Administration Â· xAPI/SCORM</li>
+                                    <li>// LMS Administration | xAPI/SCORM</li>
                                     <li>// Interactive Simulations &amp; 3D/VR (Unity, Three.js)</li>
                                     <li>// Front-End Dev (WP, HTML, CSS, JavaScript)</li>
                                     <li>// AI Productivity Tools &amp; Prompt Engineering</li>
@@ -595,13 +627,87 @@
             </div>
 
             <div class="mt-20 pt-8 border-t border-white/10 flex justify-between items-center">
-                <span class="text-xs text-zinc-500 tracking-widest">Â© SETHU NGUNA 2025</span>
+                <span class="text-xs text-zinc-500 tracking-widest">&copy; SETHU NGUNA 2026</span>
                 <button onclick="closeResume()" class="text-xs uppercase tracking-widest hover:line-through opacity-40 hover:opacity-100 transition-opacity cursor-none">[ Close ]</button>
             </div>
 
         </div>
     </section>
-    <!-- â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+
+    <section id="recruiter-view" class="fixed inset-0 z-[300] overflow-y-auto bg-[#050505]" style="display:none; clip-path:circle(0% at 50% 0%)">
+        <div class="max-w-5xl mx-auto px-12 md:px-20 py-16">
+            <nav class="flex justify-between items-center mb-16 border-b border-white/10 pb-8">
+                <p class="text-xs uppercase tracking-widest text-[#C9A84C]">RECRUITER_MODE // FAST TRACK</p>
+                <button onclick="closeRecruiter()" class="text-xs uppercase tracking-widest hover:line-through opacity-60 hover:opacity-100 transition-opacity">[ Close ]</button>
+            </nav>
+
+            <header class="mb-14">
+                <h2 class="serif italic text-6xl md:text-8xl font-light tracking-tighter leading-none mb-8">Sethu Nguna</h2>
+                <p class="text-zinc-300 max-w-3xl leading-relaxed text-base md:text-lg">
+                    Training and instructional design leader focused on measurable learning performance across complex systems, simulations, and digital transformation programs.
+                </p>
+            </header>
+
+            <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-14">
+                <div class="border border-white/10 px-5 py-4">
+                    <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-2">Experience</p>
+                    <p class="serif italic text-3xl text-white/90">10+ Years</p>
+                </div>
+                <div class="border border-white/10 px-5 py-4">
+                    <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-2">Scale</p>
+                    <p class="serif italic text-3xl text-white/90">2,500+ Learners</p>
+                </div>
+                <div class="border border-white/10 px-5 py-4">
+                    <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-2">Delivery</p>
+                    <p class="serif italic text-3xl text-white/90">Global + Low-Resource</p>
+                </div>
+            </section>
+
+            <section class="mb-14">
+                <h3 class="text-xs uppercase tracking-[0.5em] text-zinc-400 mb-6 border-b border-white/10 pb-4">Featured Work</h3>
+                <div class="space-y-4">
+                    <div class="border border-white/10 px-5 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.35em] text-zinc-500 mb-2">Simulation</p>
+                            <p class="text-xl text-white">Starlink Kit Setup</p>
+                            <p class="text-sm text-zinc-400 mt-1">Tier-1 onboarding module designed to cut time-to-proficiency from 10 to 5 days.</p>
+                        </div>
+                        <button onclick="openRecruiterProject('D-4')" class="border border-white/30 px-4 py-2 text-[10px] uppercase tracking-[0.25em] hover:border-white/70 hover:text-white transition-colors">
+                            View Project
+                        </button>
+                    </div>
+                    <div class="border border-white/10 px-5 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.35em] text-zinc-500 mb-2">Systems</p>
+                            <p class="text-xl text-white">AidData Training Hub</p>
+                            <p class="text-sm text-zinc-400 mt-1">Enterprise learning ecosystem serving stakeholders across 20+ countries.</p>
+                        </div>
+                        <button onclick="openRecruiterProject('T-2')" class="border border-white/30 px-4 py-2 text-[10px] uppercase tracking-[0.25em] hover:border-white/70 hover:text-white transition-colors">
+                            View Project
+                        </button>
+                    </div>
+                    <div class="border border-white/10 px-5 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.35em] text-zinc-500 mb-2">Simulation</p>
+                            <p class="text-xl text-white">Missing Classrooms</p>
+                            <p class="text-sm text-zinc-400 mt-1">Offline-first education system with 87% completion across 15 communities.</p>
+                        </div>
+                        <button onclick="openRecruiterProject('S-3')" class="border border-white/30 px-4 py-2 text-[10px] uppercase tracking-[0.25em] hover:border-white/70 hover:text-white transition-colors">
+                            View Project
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="border-t border-white/10 pt-8 flex flex-wrap items-center gap-3">
+                <a href="mailto:sethnguna@gmail.com" class="border border-white/20 px-4 py-2 text-[10px] uppercase tracking-[0.25em] hover:border-white/70 hover:text-white transition-colors">Email</a>
+                <a href="https://linkedin.com/in/sethu-nguna" target="_blank" rel="noopener noreferrer" class="border border-white/20 px-4 py-2 text-[10px] uppercase tracking-[0.25em] hover:border-white/70 hover:text-white transition-colors">LinkedIn</a>
+                <button onclick="openResumeFromRecruiter()" class="border border-[#C9A84C]/50 text-[#C9A84C]/80 px-4 py-2 text-[10px] uppercase tracking-[0.25em] hover:border-[#C9A84C] hover:text-[#C9A84C] transition-colors">
+                    Open Full Resume
+                </button>
+            </section>
+        </div>
+    </section>
 
     <footer class="fixed bottom-12 right-12 text-right z-40">
         <p id="focus-text" class="serif italic text-2xl text-white/60 uppercase tracking-widest">Index</p>
@@ -648,6 +754,7 @@
             },
             'DEFENSE': {
                 label: 'Cognitive Defense',
+                overview: 'Learning tools designed to strengthen reasoning, resist manipulation, and improve decision quality in adversarial information environments.',
                 projects: [
                     {
                         id: 'C-1', title: 'Echo Chamber', subtitle: 'Cognitive Defense',
@@ -811,7 +918,7 @@
                         challenge: '[01] The Challenge<br><br>Building keyboard fluency without losing learner motivation.',
                         logic: '[02] The Logic<br><br>Short challenge loops reward precision first, then speed, reinforcing healthy typing habits.',
                         outcome: '[03] The Outcome<br><br>An engaging typing game module suitable for repeated digital literacy practice.',
-                        link: 'projects/VIEWPOINT/cyber_punk.html'
+                        link: null
                     }
                 ]
             }
@@ -1064,7 +1171,7 @@
         missingClassroomsNextBtn.addEventListener('click', () => showMissingClassroomsVideo(missingClassroomsVideoIndex + 1));
 
         // Restore Nav Builder with Hover Logic
-        const categoryOrder = ['SYSTEMS', 'FACULTY', 'SIMULATION', 'GAME', 'IMMERSIVE'];
+        const categoryOrder = ['SYSTEMS', 'FACULTY', 'SIMULATION', 'DEFENSE', 'GAME', 'IMMERSIVE'];
         categoryOrder.forEach((key, i) => {
             const div = document.createElement('div');
             div.className = 'project-link group flex items-baseline gap-6 cursor-pointer';
@@ -1108,6 +1215,29 @@
             gsap.to("#main-nav-bg", { opacity: 1, duration: 0.4 });
         }
 
+        function findProjectById(projectId) {
+            for (const categoryKey of Object.keys(data)) {
+                const category = data[categoryKey];
+                const foundProject = category.projects.find((project) => project.id === projectId);
+                if (foundProject) return foundProject;
+            }
+            return null;
+        }
+
+        function openProjectById(projectId) {
+            const project = findProjectById(projectId);
+            if (!project) return;
+
+            gsap.to("#sub-nav", { x: '100%', opacity: 0, pointerEvents: 'none' });
+            gsap.to("#main-nav", { opacity: 1, x: 0 });
+            gsap.to("#main-nav-bg", { opacity: 0.4, duration: 0.4 });
+            openProject(project);
+        }
+
+        function openRecruiterProject(projectId) {
+            closeRecruiter(() => openProjectById(projectId));
+        }
+
         function openProject(p) {
             document.getElementById('det-id').innerText = `REF_NODE // ${p.id}`;
             document.getElementById('det-title').innerText = p.title;
@@ -1119,6 +1249,23 @@
             document.getElementById('det-challenge').innerHTML = p.challenge || '';
             document.getElementById('det-logic').innerHTML = p.logic || '';
             document.getElementById('det-outcome').innerHTML = p.outcome || '';
+            const actions = document.getElementById('det-actions');
+            if (p.link) {
+                const isExternalLink = /^https?:\/\//i.test(p.link);
+                const targetAttr = isExternalLink ? ' target="_blank" rel="noopener noreferrer"' : '';
+                actions.innerHTML = `
+                    <a href="${p.link}"${targetAttr}
+                        class="border border-white/20 px-4 py-2 text-[10px] uppercase tracking-[0.3em] text-white/70 hover:border-white/70 hover:text-white transition-colors">
+                        Open Artifact
+                    </a>
+                `;
+            } else {
+                actions.innerHTML = `
+                    <span class="text-[10px] uppercase tracking-[0.3em] text-zinc-500">
+                        Artifact available on request
+                    </span>
+                `;
+            }
 
             const view = document.getElementById('project-view');
             view.style.display = 'block';
@@ -1219,7 +1366,32 @@
             });
         }
 
-        // â”€â”€ Entrance animation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        function openRecruiter() {
+            const recruiterView = document.getElementById('recruiter-view');
+            recruiterView.style.display = 'block';
+            recruiterView.scrollTop = 0;
+            gsap.fromTo(recruiterView,
+                { clipPath: 'circle(0% at 50% 0%)' },
+                { clipPath: 'circle(150% at 50% 0%)', duration: 1.0, ease: 'expo.inOut' }
+            );
+        }
+
+        function closeRecruiter(onClosed) {
+            gsap.to('#recruiter-view', {
+                clipPath: 'circle(0% at 50% 0%)',
+                duration: 0.85,
+                ease: 'expo.inOut',
+                onComplete: () => {
+                    document.getElementById('recruiter-view').style.display = 'none';
+                    if (typeof onClosed === 'function') onClosed();
+                }
+            });
+        }
+
+        function openResumeFromRecruiter() {
+            closeRecruiter(() => openResume());
+        }
+        // Entrance animation
         gsap.set('#main-nav-bg',                 { opacity: 0 });
         gsap.set('#main-nav header',             { opacity: 0, y: 40, filter: 'blur(6px)' });
         gsap.set('#category-nav .project-link',  { opacity: 0, y: 22 });
@@ -1234,7 +1406,7 @@
             .to('#category-nav .project-link', { opacity: 1, y: 0, duration: 1, stagger: 0.11 },           0.9)
             .to('#main-cta',                   { opacity: 1, y: 0, duration: 0.9 },                        1.55)
             .to('footer',                      { opacity: 1, y: 0, duration: 0.9 },                        1.65);
-        // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // End entrance animation
 
         document.addEventListener('mousemove', (e) => {
             gsap.to("#lens", { left: e.clientX, top: e.clientY, duration: 1.5 });
