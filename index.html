@@ -266,6 +266,163 @@
             overflow-y: auto;
             scroll-behavior: smooth;
         }
+
+        @media (max-width: 767px) {
+            html {
+                font-size: 16px;
+            }
+            body {
+                cursor: auto;
+            }
+            #lens,
+            .scanner {
+                display: none;
+            }
+            #main-nav-bg {
+                background-position: 62% center;
+            }
+            #main-nav {
+                max-width: none;
+                justify-content: flex-end;
+                padding-bottom: 6.5rem;
+            }
+            #main-nav::before {
+                background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.85) 48%, rgba(0, 0, 0, 0.97) 100%);
+            }
+            #main-nav header,
+            #category-nav,
+            #sub-nav,
+            footer {
+                zoom: 1;
+            }
+            #hero-lockup {
+                opacity: 0.82;
+                filter: blur(0.45px);
+            }
+            #hero-lockup:hover {
+                opacity: 0.9;
+            }
+            #la-text {
+                letter-spacing: 0.14em;
+            }
+            #category-nav {
+                width: 100%;
+            }
+            #category-nav .project-link {
+                filter: none;
+                opacity: 0.92;
+                padding: 0.15rem 0;
+            }
+            #category-nav .project-link h2 {
+                font-size: 1.35rem;
+                line-height: 1.15;
+            }
+            #main-cta {
+                top: auto;
+                bottom: 0.9rem;
+                left: 0.9rem;
+                right: 0.9rem;
+                gap: 0.45rem;
+            }
+            #main-cta button {
+                flex: 1 1 calc(33.333% - 0.45rem);
+                min-width: 0;
+                font-size: 0.5rem;
+                letter-spacing: 0.18em;
+                padding: 0.7rem 0.45rem;
+                background: rgba(0, 0, 0, 0.45);
+            }
+            #sub-nav {
+                justify-content: flex-start;
+                padding-top: 4.3rem;
+                overflow-y: auto;
+            }
+            #sub-nav-close-btn {
+                top: 1rem;
+                left: 1rem;
+            }
+            #sub-cat-overview {
+                max-width: 100%;
+                font-size: 0.8rem;
+            }
+            #sub-project-container {
+                padding-bottom: 4.5rem;
+            }
+            #sub-project-container .sub-project-link {
+                filter: none;
+                opacity: 0.95;
+            }
+            #sub-project-container .sub-project-link h3 {
+                font-size: 1.25rem;
+                line-height: 1.2;
+            }
+            #project-view {
+                padding: 1rem !important;
+            }
+            #project-view nav {
+                margin-bottom: 2rem;
+            }
+            #det-title {
+                margin-bottom: 1.25rem;
+                line-height: 0.95;
+            }
+            #det-desc {
+                font-size: 1rem;
+                margin-bottom: 1rem;
+            }
+            #project-view .lg\:col-span-4 {
+                border-left: 0;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                padding-left: 0;
+                padding-top: 1rem;
+            }
+            #p-visual-container {
+                margin-top: 1.25rem;
+                height: 48vh;
+                min-height: 240px;
+            }
+            #project-view .mt-24.grid {
+                margin-top: 1.5rem;
+                gap: 0.9rem;
+                padding-top: 1rem;
+            }
+            #contact-view .space-y-8 > * + * {
+                margin-top: 0.7rem;
+            }
+            #resume-view .max-w-5xl,
+            #recruiter-view .max-w-5xl {
+                padding-top: 1.25rem;
+                padding-bottom: 1.25rem;
+            }
+            #resume-view nav,
+            #recruiter-view nav {
+                margin-bottom: 1.1rem;
+                padding-bottom: 0.9rem;
+            }
+            #resume-view header,
+            #recruiter-view header {
+                margin-bottom: 1.25rem;
+            }
+            #resume-view .grid,
+            #recruiter-view .grid {
+                gap: 1rem;
+            }
+            #recruiter-view section.border-t a,
+            #recruiter-view section.border-t button {
+                flex: 1 1 100%;
+                text-align: center;
+            }
+            footer {
+                right: 1rem;
+                bottom: 5.6rem;
+            }
+            #focus-text {
+                font-size: 1rem;
+            }
+            #timestamp {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -275,15 +432,15 @@
     <div class="scanner"></div>
 
     <div id="main-nav-bg"></div>
-    <main id="main-nav" class="relative z-20 h-screen flex flex-col justify-center px-12 md:px-24 max-w-6xl">
+    <main id="main-nav" class="relative z-20 h-screen flex flex-col justify-center px-6 md:px-24 max-w-6xl">
         <header id="hero-lockup" class="mb-16">
-            <h1 class="serif italic text-6xl md:text-8xl font-light tracking-tighter">Sethu Nguna<span
+            <h1 class="serif italic text-5xl sm:text-6xl md:text-8xl font-light tracking-tighter">Sethu Nguna<span
                     id="la-text" data-text="Learning Architect"
-                    class="block ml-12 md:ml-24 text-2xl md:text-4xl font-light tracking-[0.25em] uppercase not-italic" style="font-family:'JetBrains Mono',monospace;">Learning Architect</span></h1>
+                    class="block ml-2 sm:ml-8 md:ml-24 text-xl sm:text-2xl md:text-4xl font-light tracking-[0.25em] uppercase not-italic" style="font-family:'JetBrains Mono',monospace;">Learning Architect</span></h1>
         </header>
         <nav class="space-y-4 md:space-y-2" id="category-nav"></nav>
     </main>
-    <div id="main-cta" class="fixed top-10 left-12 z-40 flex flex-wrap gap-4">
+    <div id="main-cta" class="fixed top-6 left-6 md:top-10 md:left-12 z-40 flex flex-wrap gap-3 md:gap-4">
         <button onclick="openRecruiter()"
             class="text-[9px] uppercase tracking-[0.3em] border border-[#C9A84C]/50 px-4 py-2 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all duration-300 text-[#C9A84C]/80">
             Recruiter Mode
@@ -299,19 +456,19 @@
     </div>
 
     <section id="sub-nav" role="dialog" aria-modal="true" aria-hidden="true"
-        class="fixed inset-0 z-[100] flex flex-col justify-center px-12 md:px-24 bg-black/95 translate-x-full opacity-0 pointer-events-none">
+        class="fixed inset-0 z-[100] flex flex-col justify-center px-6 md:px-24 bg-black/95 translate-x-full opacity-0 pointer-events-none">
         <button id="sub-nav-close-btn" onclick="closeSubNav()"
-            class="absolute top-16 left-12 md:left-24 text-sm uppercase tracking-widest text-meta hover:text-white transition-colors">
+            class="absolute top-6 left-6 md:top-16 md:left-24 text-sm uppercase tracking-widest text-meta hover:text-white transition-colors">
             Return to Archive</button>
         <div class="mb-12">
             <p id="sub-cat-title" class="text-base uppercase mb-1 tracking-[0.5em]" style="color:#C9A84C;">Category</p>
-            <h2 class="serif italic text-5xl md:text-7xl">Selected Works</h2>
+            <h2 class="serif italic text-4xl sm:text-5xl md:text-7xl">Selected Works</h2>
             <p id="sub-cat-overview" class="text-sm text-zinc-500 mt-4 max-w-xl leading-relaxed"></p>
         </div>
         <div id="sub-project-container" class="space-y-6"></div>
     </section>
 
-    <section id="project-view" role="dialog" aria-modal="true" aria-hidden="true" class="p-12 md:p-24">
+    <section id="project-view" role="dialog" aria-modal="true" aria-hidden="true" class="p-6 md:p-24">
         <div class="max-w-6xl mx-auto">
             <nav class="flex justify-between items-center mb-24">
                 <p id="det-id" class="text-[10px] text-meta tracking-widest uppercase">REF_NODE // 00</p>
@@ -321,7 +478,7 @@
             </nav>
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
                 <div class="lg:col-span-8">
-                    <h3 id="det-title" class="serif italic text-6xl md:text-9xl mb-12 leading-none">Title</h3>
+                    <h3 id="det-title" class="serif italic text-4xl sm:text-6xl md:text-9xl mb-12 leading-none">Title</h3>
                     <p id="det-desc" class="text-xl md:text-2xl text-zinc-400 font-light leading-relaxed mb-12"></p>
                     <div id="det-actions" class="mb-12 flex flex-wrap items-center gap-3"></div>
                 </div>
@@ -422,12 +579,12 @@
 
     <!-- Contact Overlay -->
     <section id="contact-view" role="dialog" aria-modal="true" aria-hidden="true" class="fixed inset-0 z-[300] bg-[#050505] flex items-center justify-center" style="display:none; clip-path:circle(0% at 90% 10%)">
-        <button id="contact-close-btn" onclick="closeContact()" class="absolute top-10 right-12 text-xs uppercase tracking-widest opacity-50 hover:opacity-100 hover:line-through transition-opacity cursor-none">[ Close ]</button>
+        <button id="contact-close-btn" onclick="closeContact()" class="absolute top-6 right-6 md:top-10 md:right-12 text-xs uppercase tracking-widest opacity-50 hover:opacity-100 hover:line-through transition-opacity cursor-none">[ Close ]</button>
 
-        <div class="w-full max-w-lg px-12">
+        <div class="w-full max-w-lg px-6 md:px-12">
 
             <p class="text-xs uppercase tracking-[0.5em] text-zinc-500 mb-6">// Contact</p>
-            <h2 class="serif italic text-6xl md:text-8xl font-light tracking-tighter leading-none mb-16">Get in touch.</span></h2>
+            <h2 class="serif italic text-4xl sm:text-6xl md:text-8xl font-light tracking-tighter leading-none mb-16">Get in touch.</span></h2>
 
             <div class="space-y-8">
 
@@ -469,7 +626,7 @@
 
     <!-- Resume Overlay -->
     <section id="resume-view" role="dialog" aria-modal="true" aria-hidden="true" class="fixed inset-0 z-[300] overflow-y-auto bg-[#050505]" style="display:none; clip-path:circle(0% at 10% 10%)">
-        <div class="max-w-5xl mx-auto px-12 md:px-20 py-16">
+        <div class="max-w-5xl mx-auto px-6 md:px-20 py-16">
 
             <!-- top bar -->
             <nav class="flex justify-between items-center mb-20 border-b border-white/10 pb-8">
@@ -479,7 +636,7 @@
 
             <!-- header -->
             <header class="mb-20">
-                <h1 class="serif italic text-7xl md:text-9xl font-light tracking-tighter leading-none mb-4">Sethu Nguna</span></h1>
+                <h1 class="serif italic text-5xl sm:text-7xl md:text-9xl font-light tracking-tighter leading-none mb-4">Sethu Nguna</span></h1>
                 <p class="text-sm uppercase tracking-[0.4em] text-zinc-300 mt-8 ml-1" style="font-family:'JetBrains Mono',monospace;">Learning Experience Design & Instructional System Development</p>
                 <div class="flex flex-wrap gap-x-6 gap-y-1 mt-4 ml-1 text-xs tracking-widest text-zinc-400" style="font-family:'JetBrains Mono',monospace;">
                     <span>sethnguna@gmail.com</span>
@@ -658,14 +815,14 @@
     </section>
 
     <section id="recruiter-view" role="dialog" aria-modal="true" aria-hidden="true" class="fixed inset-0 z-[300] overflow-y-auto bg-[#050505]" style="display:none; clip-path:circle(0% at 50% 0%)">
-        <div class="max-w-5xl mx-auto px-12 md:px-20 py-16">
+        <div class="max-w-5xl mx-auto px-6 md:px-20 py-16">
             <nav class="flex justify-between items-center mb-16 border-b border-white/10 pb-8">
                 <p class="text-xs uppercase tracking-widest text-[#C9A84C]">RECRUITER_MODE // FAST TRACK</p>
                 <button id="recruiter-close-btn" onclick="closeRecruiter()" class="text-xs uppercase tracking-widest hover:line-through opacity-60 hover:opacity-100 transition-opacity">[ Close ]</button>
             </nav>
 
             <header class="mb-14">
-                <h2 class="serif italic text-6xl md:text-8xl font-light tracking-tighter leading-none mb-8">Sethu Nguna</h2>
+                <h2 class="serif italic text-5xl sm:text-6xl md:text-8xl font-light tracking-tighter leading-none mb-8">Sethu Nguna</h2>
                 <p class="text-zinc-300 max-w-3xl leading-relaxed text-base md:text-lg">
                     Training and instructional design leader focused on measurable learning performance across complex systems, simulations, and digital transformation programs.
                 </p>
