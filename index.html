@@ -58,23 +58,6 @@
         #resume-view::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
-        #recruiter-view {
-            scrollbar-width: thin;
-            scrollbar-color: #333 #050505;
-        }
-        #recruiter-view::-webkit-scrollbar {
-            width: 2px;
-        }
-        #recruiter-view::-webkit-scrollbar-track {
-            background: #050505;
-        }
-        #recruiter-view::-webkit-scrollbar-thumb {
-            background: #333;
-        }
-        #recruiter-view::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
         /* High-End Scrollbar */
         #project-view::-webkit-scrollbar {
             width: 4px;
@@ -397,28 +380,19 @@
             #contact-view .space-y-8 > * + * {
                 margin-top: 0.7rem;
             }
-            #resume-view .max-w-5xl,
-            #recruiter-view .max-w-5xl {
+            #resume-view .max-w-5xl {
                 padding-top: 1.25rem;
                 padding-bottom: 1.25rem;
             }
-            #resume-view nav,
-            #recruiter-view nav {
+            #resume-view nav {
                 margin-bottom: 1.1rem;
                 padding-bottom: 0.9rem;
             }
-            #resume-view header,
-            #recruiter-view header {
+            #resume-view header {
                 margin-bottom: 1.25rem;
             }
-            #resume-view .grid,
-            #recruiter-view .grid {
+            #resume-view .grid {
                 gap: 1rem;
-            }
-            #recruiter-view section.border-t a,
-            #recruiter-view section.border-t button {
-                flex: 1 1 100%;
-                text-align: center;
             }
             footer {
                 right: 1rem;
@@ -449,10 +423,6 @@
         <nav class="space-y-4 md:space-y-2" id="category-nav"></nav>
     </main>
     <div id="main-cta" class="fixed top-6 left-6 md:top-10 md:left-12 z-40 flex flex-wrap gap-3 md:gap-4">
-        <button onclick="openRecruiter()"
-            class="text-[9px] uppercase tracking-[0.3em] border border-[#C9A84C]/50 px-4 py-2 hover:border-[#C9A84C] hover:text-[#C9A84C] transition-all duration-300 text-[#C9A84C]/80">
-            Recruiter Mode
-        </button>
         <button onclick="openResume()"
             class="text-[9px] uppercase tracking-[0.3em] border border-white/20 px-4 py-2 hover:border-white/70 hover:text-white transition-all duration-300 text-white/40 cursor-none">
             Resume
@@ -653,7 +623,6 @@
                     <span class="opacity-30">|</span>
                     <a href="https://seth-arc.github.io" target="_blank" class="hover:text-white transition-colors">seth-arc.github.io</a>
                     <span class="opacity-30">|</span>
-                    <span>Williamsburg, Virginia</span>
                 </div>
             </header>
 
@@ -819,81 +788,6 @@
                 <button onclick="closeResume()" class="text-xs uppercase tracking-widest hover:line-through opacity-40 hover:opacity-100 transition-opacity cursor-none">[ Close ]</button>
             </div>
 
-        </div>
-    </section>
-
-    <section id="recruiter-view" role="dialog" aria-modal="true" aria-hidden="true" class="fixed inset-0 z-[300] overflow-y-auto bg-[#050505]" style="display:none; clip-path:circle(0% at 50% 0%)">
-        <div class="max-w-5xl mx-auto px-6 md:px-20 py-16">
-            <nav class="flex justify-between items-center mb-16 border-b border-white/10 pb-8">
-                <p class="text-xs uppercase tracking-widest text-[#C9A84C]">RECRUITER_MODE // FAST TRACK</p>
-                <button id="recruiter-close-btn" onclick="closeRecruiter()" class="text-xs uppercase tracking-widest hover:line-through opacity-60 hover:opacity-100 transition-opacity">[ Close ]</button>
-            </nav>
-
-            <header class="mb-14">
-                <h2 class="serif italic text-5xl sm:text-6xl md:text-8xl font-light tracking-tighter leading-none mb-8">Sethu Nguna</h2>
-                <p class="text-zinc-300 max-w-3xl leading-relaxed text-base md:text-lg">
-                    Training and instructional design leader focused on measurable learning performance across complex systems, simulations, and digital transformation programs.
-                </p>
-            </header>
-
-            <section class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-14">
-                <div class="border border-white/10 px-5 py-4">
-                    <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-2">Experience</p>
-                    <p class="serif italic text-3xl text-white/90">10+ Years</p>
-                </div>
-                <div class="border border-white/10 px-5 py-4">
-                    <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-2">Scale</p>
-                    <p class="serif italic text-3xl text-white/90">2,500+ Learners</p>
-                </div>
-                <div class="border border-white/10 px-5 py-4">
-                    <p class="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-2">Delivery</p>
-                    <p class="serif italic text-3xl text-white/90">Global + Low-Resource</p>
-                </div>
-            </section>
-
-            <section class="mb-14">
-                <h3 class="text-xs uppercase tracking-[0.5em] text-zinc-400 mb-6 border-b border-white/10 pb-4">Featured Work</h3>
-                <div class="space-y-4">
-                    <div class="border border-white/10 px-5 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <div>
-                            <p class="text-[10px] uppercase tracking-[0.35em] text-zinc-500 mb-2">Simulation</p>
-                            <p class="text-xl text-white">Starlink Kit Setup</p>
-                            <p class="text-sm text-zinc-400 mt-1">Tier-1 onboarding module designed to cut time-to-proficiency from 10 to 5 days.</p>
-                        </div>
-                        <button onclick="openRecruiterProject('D-4')" class="border border-white/30 px-4 py-2 text-[10px] uppercase tracking-[0.25em] hover:border-white/70 hover:text-white transition-colors">
-                            View Project
-                        </button>
-                    </div>
-                    <div class="border border-white/10 px-5 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <div>
-                            <p class="text-[10px] uppercase tracking-[0.35em] text-zinc-500 mb-2">Systems</p>
-                            <p class="text-xl text-white">AidData Training Hub</p>
-                            <p class="text-sm text-zinc-400 mt-1">Enterprise learning ecosystem serving stakeholders across 20+ countries.</p>
-                        </div>
-                        <button onclick="openRecruiterProject('T-2')" class="border border-white/30 px-4 py-2 text-[10px] uppercase tracking-[0.25em] hover:border-white/70 hover:text-white transition-colors">
-                            View Project
-                        </button>
-                    </div>
-                    <div class="border border-white/10 px-5 py-5 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                        <div>
-                            <p class="text-[10px] uppercase tracking-[0.35em] text-zinc-500 mb-2">Simulation</p>
-                            <p class="text-xl text-white">Missing Classrooms</p>
-                            <p class="text-sm text-zinc-400 mt-1">Offline-first education system with 87% completion across 15 communities.</p>
-                        </div>
-                        <button onclick="openRecruiterProject('S-3')" class="border border-white/30 px-4 py-2 text-[10px] uppercase tracking-[0.25em] hover:border-white/70 hover:text-white transition-colors">
-                            View Project
-                        </button>
-                    </div>
-                </div>
-            </section>
-
-            <section class="border-t border-white/10 pt-8 flex flex-wrap items-center gap-3">
-                <a href="mailto:sethnguna@gmail.com" class="border border-white/20 px-4 py-2 text-[10px] uppercase tracking-[0.25em] hover:border-white/70 hover:text-white transition-colors">Email</a>
-                <a href="https://linkedin.com/in/sethu-nguna" target="_blank" rel="noopener noreferrer" class="border border-white/20 px-4 py-2 text-[10px] uppercase tracking-[0.25em] hover:border-white/70 hover:text-white transition-colors">LinkedIn</a>
-                <button onclick="openResumeFromRecruiter()" class="border border-[#C9A84C]/50 text-[#C9A84C]/80 px-4 py-2 text-[10px] uppercase tracking-[0.25em] hover:border-[#C9A84C] hover:text-[#C9A84C] transition-colors">
-                    Open Full Resume
-                </button>
-            </section>
         </div>
     </section>
 
@@ -1186,8 +1080,7 @@
             subNav: null,
             project: null,
             resume: null,
-            contact: null,
-            recruiter: null
+            contact: null
         };
 
         function rememberFocus(key) {
@@ -1435,10 +1328,6 @@
             openProject(project);
         }
 
-        function openRecruiterProject(projectId) {
-            closeRecruiter(() => openProjectById(projectId), false);
-        }
-
         function openProject(p) {
             rememberFocus('project');
             document.getElementById('det-id').innerText = `REF_NODE // ${p.id}`;
@@ -1602,37 +1491,6 @@
             });
         }
 
-        function openRecruiter() {
-            rememberFocus('recruiter');
-            const recruiterView = document.getElementById('recruiter-view');
-            recruiterView.setAttribute('aria-hidden', 'false');
-            recruiterView.style.display = 'block';
-            recruiterView.scrollTop = 0;
-            gsap.fromTo(recruiterView,
-                { clipPath: 'circle(0% at 50% 0%)' },
-                { clipPath: 'circle(150% at 50% 0%)', duration: 1.0, ease: 'expo.inOut' }
-            );
-            focusById('recruiter-close-btn');
-        }
-
-        function closeRecruiter(onClosed, restoreFocusOnClose = true) {
-            gsap.to('#recruiter-view', {
-                clipPath: 'circle(0% at 50% 0%)',
-                duration: 0.85,
-                ease: 'expo.inOut',
-                onComplete: () => {
-                    const recruiterView = document.getElementById('recruiter-view');
-                    recruiterView.style.display = 'none';
-                    recruiterView.setAttribute('aria-hidden', 'true');
-                    if (restoreFocusOnClose) restoreFocus('recruiter');
-                    if (typeof onClosed === 'function') onClosed();
-                }
-            });
-        }
-
-        function openResumeFromRecruiter() {
-            closeRecruiter(() => openResume(), false);
-        }
         // Entrance animation
         gsap.set('#main-nav-bg',                 { opacity: 0 });
         gsap.set('#hero-lockup',                 { opacity: 0, y: 40, filter: 'blur(6px)' });
@@ -1653,17 +1511,11 @@
         document.addEventListener('keydown', (event) => {
             if (event.key !== 'Escape') return;
 
-            const recruiterView = document.getElementById('recruiter-view');
             const contactView = document.getElementById('contact-view');
             const resumeView = document.getElementById('resume-view');
             const projectView = document.getElementById('project-view');
             const subNav = document.getElementById('sub-nav');
 
-            if (recruiterView.style.display !== 'none') {
-                event.preventDefault();
-                closeRecruiter();
-                return;
-            }
             if (contactView.style.display !== 'none') {
                 event.preventDefault();
                 closeContact();
