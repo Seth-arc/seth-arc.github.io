@@ -185,8 +185,9 @@ section{padding:120px 0}
 }
 .case.is-pending::before{transform:scaleX(0)}
 .case-side{align-self:start;position:sticky;top:112px}
-.case-body{position:relative}
-.case-body::before{content:"";position:absolute;left:-32px;top:0;bottom:0;width:1px;background:var(--line)}
+/* The label column stays on the canvas; the body is a sheet of glass,
+   so the eye reads the label, then settles into the content. */
+.case-body{position:relative;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-card);padding:36px 40px 34px}
 .case-num{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
 .case-side h3{font-size:26px;letter-spacing:-.022em}
 .case-side p{font-size:14px;color:var(--muted);margin:0}
@@ -201,6 +202,16 @@ section{padding:120px 0}
 .evidence p{font-size:15px;color:var(--muted);margin:0}
 .case figure img,main figure img,.case figure video{border-radius:var(--r-media)}
 main img{filter:grayscale(1) contrast(1.06)}
+/* Video in a modal: the overview opens over the page and closes back to it */
+button.text-link,.video-trigger{border:0;cursor:pointer;font-family:inherit}
+.play-icon{align-self:center;flex:none}
+.video-modal{width:min(1040px,calc(100vw - 32px));max-width:none;max-height:calc(100vh - 32px);padding:0;border:0;border-radius:var(--r-card);background:var(--tray);color:var(--tray-ink);box-shadow:0 30px 80px -20px rgba(0,0,0,.55);overflow:hidden}
+.video-modal::backdrop{background:rgba(14,14,14,.8);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+.video-modal[open]{animation:settle-sheet var(--d-spring) var(--spring) both}
+.video-modal-bar{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 16px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--tray-muted)}
+.video-modal-close{background:none;border:1px solid var(--tray-line);color:var(--tray-ink);padding:6px 12px;border-radius:var(--r-control);font-size:12px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:border-color .2s ease}
+.video-modal-close:hover{border-color:var(--tray-ink)}
+.video-modal video{display:block;width:100%;height:auto;max-height:calc(100vh - 90px);background:#000}
 details{margin-top:24px;border-top:1px solid var(--line);padding-top:16px}
 summary{
   cursor:pointer;font-size:15px;font-weight:500;list-style:none;
@@ -344,7 +355,7 @@ footer a:hover{color:var(--ink)}
   .section-head{grid-template-columns:1fr;gap:18px}
   .case{grid-template-columns:1fr;gap:28px}
   .case-side{position:static}
-  .case-body::before{content:none}
+  .case-body{padding:26px 22px 24px}
   .split{gap:40px}
   .stats>div+div{padding-left:18px}
   .stats strong{font-size:30px}
