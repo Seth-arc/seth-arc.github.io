@@ -1,0 +1,25 @@
+WEBVTT
+
+00:00.800 --> 00:06.420
+Neckbeard is a skill for Codex. Point it at a repo, and it writes the onboarding docs for you.
+
+00:07.900 --> 00:11.520
+You just ask. Tell it who the docs are for, and what they need to do.
+
+00:14.500 --> 00:21.140
+Then it reads the code, not just the README. So when the README promises something the code doesn't do, it catches that.
+
+00:24.700 --> 00:31.900
+Here's what you get. A tutorial with the real commands, what you should see at each step, and what to do when something goes wrong.
+
+00:35.700 --> 00:41.790
+You also get a record of what it actually ran, and what it only read in the code. So you know what to trust.
+
+00:44.300 --> 00:50.350
+It all lands as plain files in your repo. Review them, edit them, and ship them like any other change.
+
+00:52.700 --> 00:55.600
+Pick the parts you need, and install with one command.
+
+01:00.400 --> 01:01.390
+That's Neckbeard.

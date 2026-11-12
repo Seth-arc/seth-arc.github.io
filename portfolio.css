@@ -195,7 +195,7 @@ section{padding:120px 0}
 .evidence{display:grid;grid-template-columns:1fr 1fr;gap:28px;padding:22px 0 0;border-top:1px dashed var(--line)}
 .evidence h4{font-size:14px;font-weight:600;letter-spacing:0;text-transform:none;margin:0 0 6px}
 .evidence p{font-size:15px;color:var(--muted);margin:0}
-.case figure img,main figure img{border-radius:var(--r-media)}
+.case figure img,main figure img,.case figure video{border-radius:var(--r-media)}
 details{margin-top:24px;border-top:1px solid var(--line);padding-top:16px}
 summary{
   cursor:pointer;font-size:15px;font-weight:500;list-style:none;
