@@ -239,6 +239,24 @@ document.querySelectorAll('.mobile-toggle').forEach(button=>{button.addEventList
     });
   });
 
+  /* Video modals: a trigger links to the file itself, so it still works
+     without dialog support; where dialogs exist, the video opens over the
+     page, and closing it pauses playback and returns focus to the trigger. */
+  document.querySelectorAll('[data-video]').forEach(function(trigger){
+    var dialog = document.getElementById(trigger.dataset.video);
+    if(!dialog || typeof dialog.showModal !== 'function') return;
+    var video = dialog.querySelector('video');
+    var close = dialog.querySelector('.video-modal-close');
+    trigger.addEventListener('click', function(e){
+      e.preventDefault();
+      dialog.showModal();
+      if(video){ var playing = video.play(); if(playing && playing.catch){ playing.catch(function(){}); } }
+    });
+    if(close){ close.addEventListener('click', function(){ dialog.close(); }); }
+    dialog.addEventListener('click', function(e){ if(e.target === dialog){ dialog.close(); } });
+    dialog.addEventListener('close', function(){ if(video){ video.pause(); } trigger.focus(); });
+  });
+
   /* Filters: cards that come back into the set settle in, so it is clear
      what the filter added rather than the grid simply changing. */
   document.querySelectorAll('[data-filter]').forEach(function(button){
