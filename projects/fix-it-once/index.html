@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="en-ZA">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sethu's Idea — Fix it once. Understand why.</title>
+<meta name="description" content="A ten-minute interactive lesson on first-principles fault finding. Vanilla HTML, CSS and JavaScript.">
+<style>
+  /* ============================================================
+     SETHU'S IDEA  |  Lesson study: "Fix it once. Understand why."
+     One wardrobe: unbleached cotton, sumi black, indigo cloth,
+     and a single red thread. Nothing else is allowed in.
+     The thread is the pathway: progress is sewn, the circuit is
+     stitched, the fault is a fray, the repair is a patch.
+     Type rule (used everywhere): italic = assumed, mono = measured.
+     System fonts only. No libraries. No network.
+     ============================================================ */
+  :root {
+    --bg:#efece6; --surface:#f5f3ee; --raised:#fbfaf7;
+    --ink:#15161a; --ink-2:#3a3d45; --ink-3:#5d616b;
+    --line:#cdc9c0; --line-2:#dfdbd3; --steel:#a9a69e; --steel-2:#86837b;
+    --indigo:#1e2942; --indigo-2:#2b3859; --indigo-3:#aab4cc;
+    --shu:#c23a2b; --shu-ink:#a52d20;
+    --glow:#f3d49a;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI Variable Display","Segoe UI",system-ui,Roboto,"Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","Cascadia Mono",Menlo,Consolas,monospace;
+    --spring:cubic-bezier(.3,1.35,.5,1);
+    --ease:cubic-bezier(.2,.7,.2,1);
+    --r:2px;
+    --stitch:repeating-linear-gradient(90deg,var(--ink) 0 9px,transparent 9px 15px);
+    --sh-2:0 1px 0 rgba(21,22,26,.05),0 14px 30px -12px rgba(21,22,26,.22);
+    --edge:18px;
+  }
+  * { box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body { margin:0; font-family:var(--sans); font-size:17px; line-height:1.6; color:var(--ink);
+    background:var(--bg); -webkit-font-smoothing:antialiased; min-height:100vh; padding-left:var(--edge); }
+  /* Selvedge: the finished edge of the cloth, with its one red thread */
+  body::before { content:""; position:fixed; left:0; top:0; bottom:0; width:var(--edge); z-index:60; pointer-events:none;
+    background:linear-gradient(90deg,var(--raised) 0 9px,var(--shu) 9px 11px,var(--raised) 11px); border-right:1px solid var(--line); }
+  h1,h2,h3 { margin:0; font-weight:300; letter-spacing:-.04em; line-height:1.02; }
+  p { margin:0; }
+  button { font:inherit; color:inherit; cursor:pointer; border-radius:var(--r); }
+  .assumed { font-style:italic; }
+  .measured { font-family:var(--mono); font-size:.92em; letter-spacing:-.01em; }
+  .label { font-family:var(--mono); font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--ink-3); }
+  :focus-visible { outline:2px solid var(--shu); outline-offset:3px; }
+  .skip { position:absolute; left:-999px; top:0; background:var(--ink); color:#fff; padding:10px 14px; z-index:100; }
+  .skip:focus { left:26px; top:8px; }
+  .sr { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+
+  /* ---------- Top bar ---------- */
+  .bar { position:sticky; top:0; z-index:40; display:flex; align-items:center; gap:24px;
+    padding:15px 32px; background:rgba(239,236,230,.86); backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+  .mark { display:flex; align-items:center; gap:12px; flex:none; font-family:var(--mono); font-size:11px; letter-spacing:.28em; text-transform:uppercase; white-space:nowrap; }
+  .mark i { display:block; width:27px; height:2px; background:var(--stitch); }
+
+  /* The axon, sewn: one stitch per step, a red knot where you are */
+  .axon { flex:1; list-style:none; margin:0 auto; padding:0; display:flex; gap:8px; align-items:center; max-width:420px; }
+  .axon li { flex:1; height:12px; position:relative; }
+  .axon li::before { content:""; position:absolute; left:0; right:0; top:5px; height:2px; background:var(--line); }
+  .axon li span { position:absolute; left:0; right:0; top:5px; height:2px; background:var(--ink);
+    transform:scaleX(0); transform-origin:left center; transition:transform .7s var(--spring); }
+  .axon li.done span { transform:scaleX(1); }
+  .axon li.cur::after { content:""; position:absolute; left:0; top:50%; width:6px; height:6px; margin:-3px 0 0 -3px; border-radius:50%; background:var(--shu); }
+  .bar-tools { display:flex; align-items:center; gap:8px; flex:none; }
+  .tool { background:transparent; border:1px solid var(--line); padding:8px 13px; font-family:var(--mono); font-size:10.5px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--ink-2); transition:background .2s, border-color .2s, color .2s, transform .3s var(--spring); }
+  .tool:hover { border-color:var(--ink); }
+  .tool:active { transform:scale(.96); }
+  .tool[aria-pressed="true"] { background:var(--indigo); color:var(--raised); border-color:var(--indigo); }
+
+  /* ---------- Scenes ---------- */
+  main { max-width:1080px; margin:0 auto; padding:84px 32px 96px; transition:padding .5s var(--ease); }
+  .scene { display:none; position:relative; z-index:0; }
+  .scene.on { display:block; }
+  /* the scene number, cut large and worn off-centre */
+  .scene::before { content:attr(data-n); position:absolute; right:-8px; top:-58px; z-index:-1; pointer-events:none;
+    font-size:clamp(130px,23vw,310px); font-weight:200; letter-spacing:-.07em; line-height:.8; color:rgba(21,22,26,.05); }
+  .scene.out { opacity:0; transform:translateY(-10px); transition:opacity .2s ease, transform .2s ease; }
+  .scene.on .rise { animation:rise .75s var(--spring) both; animation-delay:calc(var(--i,0) * 80ms); }
+  @keyframes rise { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:none; } }
+  .scene h2 { font-size:clamp(38px,5.6vw,64px); margin:18px 0 26px; outline:none; }
+  .lede { font-size:clamp(17px,1.9vw,20px); color:var(--ink-2); max-width:34em; }
+  .lede + .lede { margin-top:14px; }
+  .next-row { display:flex; align-items:center; gap:20px; margin-top:44px; flex-wrap:wrap; }
+  .btn { display:inline-flex; align-items:center; gap:14px; background:var(--ink); color:var(--raised); border:1px solid var(--ink);
+    padding:16px 28px; font-size:12px; font-weight:500; letter-spacing:.2em; text-transform:uppercase;
+    transition:transform .35s var(--spring), background .25s, opacity .25s; }
+  .btn:hover { transform:translateX(3px); background:var(--indigo); border-color:var(--indigo); }
+  .btn:active { transform:scale(.97); }
+  .btn[disabled] { opacity:.28; cursor:not-allowed; transform:none; background:var(--ink); }
+  .btn svg { width:15px; height:15px; }
+  .btn.quiet { background:transparent; color:var(--ink); border-color:var(--ink); }
+  .btn.quiet:hover { background:var(--ink); color:var(--raised); }
+  .aside-note { font-size:14px; color:var(--ink-3); }
+
+  /* Surfaces that notice the pointer */
+  .lit { background-image:radial-gradient(240px circle at var(--mx,50%) var(--my,-40%), rgba(30,41,66,.07), transparent 70%); }
+
+  /* ---------- Cover ---------- */
+  #cover h1 { font-size:clamp(50px,9.4vw,124px); letter-spacing:-.055em; margin:26px 0 40px; outline:none; line-height:.96; }
+  #cover h1 em { font-style:normal; display:inline-block; padding-left:.9em; }
+  #cover .lede { margin-left:clamp(0px,9vw,124px); }
+  .pathway { position:relative; height:24px; margin:72px 0 18px; max-width:640px; }
+  .pathway::before { content:""; position:absolute; left:0; right:0; top:11px; height:2px; background:var(--line); }
+  .pathway b { position:absolute; top:11px; height:2px; background:var(--ink);
+    transform:scaleX(0); transform-origin:left; animation:wrap .7s var(--spring) both; }
+  @keyframes wrap { to { transform:scaleX(1); } }
+  .pathway u { position:absolute; top:9px; left:0; width:6px; height:6px; border-radius:50%; background:var(--shu);
+    animation:travel 4.6s cubic-bezier(.5,0,.3,1) 1.8s infinite; opacity:0; }
+  @keyframes travel { 0% { left:0; opacity:0; } 8% { opacity:1; } 62% { left:calc(100% - 6px); opacity:1; } 70%,100% { left:calc(100% - 6px); opacity:0; } }
+  .meta-row { display:flex; gap:24px; flex-wrap:wrap; }
+  .credit { margin-top:84px; padding-top:18px; border-top:1px solid var(--line); font-size:13px; color:var(--ink-3); max-width:46em; }
+
+  /* ---------- Questions (hunch + check) ---------- */
+  .q { max-width:700px; }
+  .q-stem { font-size:clamp(21px,2.5vw,27px); font-weight:400; letter-spacing:-.02em; line-height:1.28; margin-bottom:28px; }
+  .opts { display:grid; gap:0; border-top:1px solid var(--ink); }
+  .opt { display:flex; gap:18px; align-items:flex-start; text-align:left; width:100%; padding:18px 14px 18px 4px; border:none; border-radius:0;
+    border-bottom:1px solid var(--line); background-color:transparent;
+    transition:transform .4s var(--spring), padding .4s var(--spring), background-color .25s; }
+  .opt:hover:not([disabled]) { padding-left:14px; }
+  .opt:active:not([disabled]) { transform:scale(.99); }
+  .opt .k { flex:none; width:24px; height:24px; border:1px solid var(--steel-2); display:grid; place-items:center; margin-top:2px;
+    font-family:var(--mono); font-size:11px; color:var(--ink-3); transition:all .3s var(--spring); }
+  .opt[aria-pressed="true"] { padding-left:14px; background-color:var(--raised); }
+  .opt[aria-pressed="true"] .k { background:var(--ink); border-color:var(--ink); color:var(--raised); }
+  .opt.right { padding-left:14px; background-color:var(--raised); box-shadow:inset 3px 0 0 var(--ink); }
+  .opt.right .k { background:var(--ink); border-color:var(--ink); color:var(--raised); }
+  .opt.wrong { color:var(--ink-3); box-shadow:inset 3px 0 0 var(--shu); }
+  .opt.wrong .k { background:transparent; border-color:var(--shu); color:var(--shu-ink); }
+  .opt[disabled] { cursor:default; }
+  .conf { margin-top:30px; }
+  .conf .label { display:block; margin-bottom:12px; }
+  .seg { display:inline-flex; border:1px solid var(--ink); }
+  .seg button { background:transparent; border:none; border-radius:0; padding:11px 18px; font-size:13px; color:var(--ink-2);
+    transition:background .25s, color .2s; }
+  .seg button + button { border-left:1px solid var(--line); }
+  .seg button:hover { background:var(--raised); }
+  .seg button[aria-pressed="true"] { background:var(--ink); color:var(--raised); }
+  .why { margin-top:26px; padding:2px 0 2px 20px; border-left:2px dashed var(--ink); color:var(--ink-2); max-width:36em; }
+  .why strong { color:var(--ink); font-weight:600; }
+  .q-count { margin-bottom:20px; }
+  .scene.fb > h2, .scene.fb > .lede { display:none; }
+  .scene.fb > .q { margin-top:28px !important; }
+  .fb-head { font-size:clamp(34px,4.6vw,52px); outline:none; margin-bottom:26px; }
+  .fb-rows { margin:0 0 6px; border-top:1px solid var(--ink); }
+  .fb-rows dt { padding-top:14px; }
+  .fb-rows dd { margin:4px 0 0; padding-bottom:14px; border-bottom:1px solid var(--line); font-size:18px; letter-spacing:-.01em; }
+
+  /* ---------- Idea: layers of cloth ---------- */
+  .idea { display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:center; margin-top:48px; }
+  .layer-stage { position:relative; height:370px; perspective:1000px; cursor:pointer; outline-offset:6px; }
+  .layers { position:absolute; left:50%; top:56%; width:0; height:0; transform-style:preserve-3d; transform:rotateX(58deg) rotateZ(-32deg); }
+  .sheet { position:absolute; left:-135px; top:-92px; width:270px; height:184px; border-radius:var(--r); padding:18px 20px;
+    display:flex; align-items:flex-end; font-size:17px; line-height:1.2; border:1px solid var(--steel);
+    background:rgba(251,250,247,.82); box-shadow:0 12px 26px -10px rgba(21,22,26,.18); }
+  .sheet.base { background:var(--indigo); color:var(--raised); border-color:var(--indigo); box-shadow:0 22px 40px -14px rgba(21,22,26,.5); }
+  .sheet.base::after { content:""; position:absolute; left:20px; right:20px; top:20px; height:2px;
+    background:repeating-linear-gradient(90deg,var(--raised) 0 9px,transparent 9px 15px); }
+  .layer-hint { position:absolute; left:0; right:0; bottom:0; text-align:center; }
+  .qtb { list-style:none; margin:0; padding:0; display:grid; gap:0; border-top:1px solid var(--ink); }
+  .qtb li { display:grid; grid-template-columns:54px 1fr; gap:10px; align-items:baseline; padding:18px 0; border-bottom:1px solid var(--line);
+    opacity:.25; transform:translateX(12px);
+    transition:opacity .5s ease, transform .7s var(--spring); transition-delay:calc(var(--i) * 110ms); }
+  .qtb.shown li { opacity:1; transform:none; }
+  .qtb .k { font-size:40px; font-weight:200; letter-spacing:-.04em; line-height:1; }
+  .qtb b { display:block; font-size:18px; font-weight:500; letter-spacing:-.01em; }
+  .qtb span { color:var(--ink-2); font-size:15.5px; }
+
+  /* ---------- Sort ---------- */
+  .sort { display:grid; grid-template-columns:1fr minmax(260px,340px) 1fr; gap:28px; align-items:stretch; margin-top:48px; }
+  .tray { background:transparent; border:1px dashed var(--steel-2); border-radius:var(--r); padding:14px; min-height:264px;
+    display:flex; flex-direction:column; gap:12px; transition:border-color .25s, background .25s, transform .5s var(--spring); }
+  .tray.hot { border-color:var(--ink); background:var(--raised); transform:scale(1.015); }
+  .tray-btn { background:transparent; border:none; border-bottom:1px solid var(--ink); border-radius:0; padding:6px 2px 12px; text-align:left;
+    transition:transform .35s var(--spring); }
+  .tray-btn:hover { transform:translateX(3px); }
+  .tray-btn:active { transform:scale(.97); }
+  .tray-btn b { display:block; font-size:22px; font-weight:400; letter-spacing:-.02em; }
+  .tray-btn small { color:var(--ink-3); font-size:12.5px; }
+  .tray ul { list-style:none; margin:0; padding:0; display:grid; gap:0; }
+  .tray li { font-size:14px; line-height:1.35; padding:9px 2px; border-bottom:1px solid var(--line-2);
+    animation:rise .6s var(--spring) both; }
+  .deck { position:relative; height:264px; perspective:900px; }
+  .ghost, .card { position:absolute; left:0; right:0; top:14px; height:214px; border-radius:var(--r); background:var(--raised); border:1px solid var(--line); }
+  .ghost { transition:transform .6s var(--spring), opacity .4s; }
+  .ghost.g1 { transform:translateY(9px) scale(.965); opacity:.85; }
+  .ghost.g2 { transform:translateY(18px) scale(.93); opacity:.55; }
+  /* each card is a swing tag: a punched hole, a line of type, a care line */
+  .card { display:flex; flex-direction:column; justify-content:space-between; padding:44px 24px 20px; box-shadow:var(--sh-2); border-color:var(--steel);
+    font-size:23px; line-height:1.22; letter-spacing:-.02em; font-weight:400; touch-action:pan-y; user-select:none; -webkit-user-select:none;
+    cursor:grab; will-change:transform; transition:opacity .3s; background-color:var(--raised); }
+  .card::before { content:""; position:absolute; left:22px; top:16px; width:10px; height:10px; border-radius:50%; border:1px solid var(--steel-2); background:var(--bg); }
+  .card:active { cursor:grabbing; }
+  .card .label { display:flex; justify-content:space-between; padding-top:12px; border-top:1px dashed var(--steel); letter-spacing:.14em; }
+  .sort-say { min-height:3.2em; margin-top:26px; max-width:36em; color:var(--ink-2); padding-left:20px; border-left:2px dashed transparent; transition:border-color .3s; }
+  .sort-say.has { border-color:var(--ink); }
+  .deck-done { position:absolute; inset:14px 0 auto 0; padding:10px 4px; color:var(--ink-2); font-size:16px; }
+
+  /* ---------- Bench (CSS 3D): indigo cloth, circuit stitched on ---------- */
+  .bench-wrap { display:grid; grid-template-columns:minmax(0,1fr) 262px; gap:32px; margin-top:40px; align-items:start; }
+  .bench-stage { position:relative; height:calc(440px * var(--bs,1)); border-radius:var(--r); background:var(--surface);
+    border:1px solid var(--line); overflow:hidden; touch-action:pan-y; cursor:grab; transition:background 1.4s ease; }
+  .bench-stage:active { cursor:grabbing; }
+  .bench-stage.warm { background:#f6efdf; }
+  .bench-fit { position:absolute; left:50%; top:0; width:700px; height:440px; margin-left:-350px; transform:scale(var(--bs,1));
+    transform-origin:top center; perspective:1300px; }
+  .board { position:absolute; left:40px; top:84px; width:620px; height:340px; transform-style:preserve-3d;
+    transform:scale3d(.84,.84,.84) rotateX(56deg) rotateZ(-24deg); background:var(--indigo); border-radius:var(--r); }
+  .board::before { content:""; position:absolute; inset:-4px; background:rgba(21,22,26,.3); filter:blur(22px); transform:translateZ(-26px); pointer-events:none; }
+  .board::after { content:""; position:absolute; inset:0; pointer-events:none;
+    background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 1px,transparent 1px 4px),repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 1px,transparent 1px 4px);
+    box-shadow:inset 0 0 0 9px var(--indigo), inset 0 0 0 10px rgba(251,250,247,.28); }
+  .wire { position:absolute; transform:translateZ(1px); }
+  .wire.h { background:repeating-linear-gradient(90deg,var(--raised) 0 10px,transparent 10px 16px) 0 50%/100% 2.5px no-repeat; }
+  .wire.v { background:repeating-linear-gradient(0deg,var(--raised) 0 10px,transparent 10px 16px) 50% 0/2.5px 100% no-repeat; }
+  .pulse { position:absolute; width:8px; height:8px; margin:-4px; border-radius:50%; background:#fff6e0; transform:translateZ(4px);
+    box-shadow:0 0 12px 4px rgba(243,212,154,.85); display:none; }
+  .lampglow { position:absolute; left:412px; top:-88px; width:300px; height:300px; border-radius:50%; transform:translateZ(1px);
+    background:radial-gradient(circle,rgba(243,212,154,.6),rgba(243,212,154,0) 66%); opacity:0; transition:opacity .6s ease; pointer-events:none; }
+  .lampglow.on { opacity:1; }
+  .box { position:absolute; transform-style:preserve-3d; }
+  .face { position:absolute; margin:0; padding:0; border:none; border-radius:0; background:var(--fc,#d9d5cc); }
+  .face.side::after { content:""; position:absolute; inset:0; background:#000; opacity:var(--sh,.2); pointer-events:none; }
+  .face.top { inset:0; background:var(--tc,#fbfaf7); box-shadow:0 0 0 1px rgba(21,22,26,.2) inset;
+    display:grid; place-items:center; font-family:var(--mono); font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-2);
+    transition:box-shadow .3s, background .5s; }
+  button.face.top { cursor:pointer; }
+  button.face.top:hover { box-shadow:0 0 0 2px var(--shu) inset; }
+  button.face.top.sel { box-shadow:0 0 0 3px var(--shu) inset; }
+  .face.f, .face.b { left:0; transform-origin:top; transform:rotateX(90deg); }
+  .face.l, .face.r { top:0; transform-origin:left; transform:rotateY(-90deg); }
+  .face.f { --sh:var(--shf); } .face.b { --sh:var(--shb); } .face.l { --sh:var(--shl); } .face.r { --sh:var(--shr); }
+  .c-panel { --fc:#101218; --tc:#15161a; }
+  .c-panel .face.top { color:var(--indigo-3); background-image:repeating-linear-gradient(90deg,rgba(251,250,247,.5) 0 5px,transparent 5px 9px),repeating-linear-gradient(0deg,rgba(251,250,247,.5) 0 5px,transparent 5px 9px);
+    background-size:100% 1px,1px 100%; background-position:0 50%,50% 0; background-repeat:no-repeat; }
+  .c-batt { --fc:#d6d2c9; --tc:#fbfaf7; }
+  .c-fuse { --fc:#d6d2c9; --tc:#fbfaf7; }
+  .c-fuse .face.top::before { content:""; position:absolute; left:8px; right:8px; top:50%; height:2px; margin-top:8px; background:var(--ink);
+    -webkit-mask:linear-gradient(90deg,#000 0 40%,transparent 40% 60%,#000 60%); mask:linear-gradient(90deg,#000 0 40%,transparent 40% 60%,#000 60%); }
+  .c-fuse.ok .face.top::before { -webkit-mask:none; mask:none; }
+  .c-fuse .face.top { font-size:7.5px; align-items:start; padding-top:5px; }
+  .c-sw { --fc:#d6d2c9; --tc:#fbfaf7; } .c-sw .face.top { font-size:7.5px; }
+  .c-clamp { --fc:#8792ad; --tc:#aab4cc; }
+  .c-post { --fc:#d6d2c9; --tc:#d6d2c9; }
+  .c-lamp { --fc:#e6e2d9; --tc:#fbfaf7; } .c-lamp .face.top { font-size:7.5px; }
+  .c-lamp.on { --fc:#f3d49a; --tc:#fcf0d2; }
+  .c-lamp.on .face { box-shadow:0 0 28px 6px rgba(243,212,154,.6); }
+  /* the fault is a fray; the repair is a patch */
+  .chafe { cursor:pointer; background:radial-gradient(circle at 50% 68%,var(--shu) 0 3.5px,#15161a 4.5px 9px,rgba(21,22,26,0) 16px),var(--fc); }
+  .chafe[disabled] { cursor:default; }
+  .chafe.found { outline:2px solid var(--shu); outline-offset:-2px; }
+  .chafe.fixed { background:linear-gradient(var(--raised),var(--raised)) 50% 62%/18px 14px no-repeat,var(--fc); }
+  .meter { position:absolute; left:0; top:0; z-index:3; background:var(--ink); color:var(--raised); padding:12px 16px 10px; min-width:142px; pointer-events:none; }
+  .meter .label { color:var(--steel); display:block; font-size:9.5px; }
+  .meter .digits { font-family:var(--mono); font-size:30px; font-weight:300; letter-spacing:-.04em; line-height:1.15; }
+  .meter .digits small { font-size:13px; color:var(--steel); margin-left:5px; }
+  .turns { position:absolute; right:12px; top:12px; z-index:3; display:flex; gap:6px; }
+  .turns .tool { background:var(--raised); }
+  .bench-say { margin-top:20px; min-height:4.8em; color:var(--ink-2); padding-left:20px; border-left:2px dashed var(--ink); max-width:38em; }
+  .side-card { border-top:1px solid var(--ink); padding:14px 0 6px; }
+  .side-card + .side-card { margin-top:26px; }
+  .side-card .label { display:block; margin-bottom:12px; }
+  .truths { list-style:none; margin:0; padding:0; display:grid; gap:0; font-size:13px; min-height:24px; }
+  .truths li { animation:rise .5s var(--spring) both; padding:7px 0; border-bottom:1px solid var(--line-2); }
+  .truths .empty { font-family:var(--sans); font-style:italic; color:var(--ink-3); border:none; }
+  .parts { display:grid; gap:0; }
+  .part { display:flex; justify-content:space-between; align-items:center; background:transparent; border:none; border-bottom:1px solid var(--line); border-radius:0;
+    padding:12px 2px; font-size:14.5px; text-align:left; transition:transform .35s var(--spring), padding .35s var(--spring), opacity .2s; }
+  .part:hover:not([disabled]) { padding-left:10px; }
+  .part:active:not([disabled]) { transform:scale(.98); }
+  .part[disabled] { opacity:.36; cursor:not-allowed; }
+  .part span { font-family:var(--mono); font-size:11px; color:var(--ink-3); }
+  .bill { display:flex; justify-content:space-between; padding:12px 2px 0; font-size:13.5px; color:var(--ink-2); }
+
+  /* ---------- Evidence ---------- */
+  #resultLede { display:flex; align-items:center; gap:26px; max-width:none; }
+  .ev { margin-top:44px; border-top:1px solid var(--ink); max-width:860px; }
+  .ev-row { display:grid; grid-template-columns:minmax(180px,1fr) 2fr; gap:28px; padding:22px 0; border-bottom:1px solid var(--line); }
+  .ev-row .what { font-family:var(--mono); font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-3); padding-top:10px; }
+  .ev-row .got { color:var(--ink-2); font-size:15.5px; }
+  .ev-row .big { font-family:var(--mono); font-size:30px; font-weight:300; letter-spacing:-.04em; color:var(--ink); display:block; line-height:1.15; margin-bottom:6px; }
+  /* the verdict is a seal, pressed once */
+  .verdict { flex:none; display:inline-grid; place-items:center; width:92px; height:92px; border-radius:50%; font-family:var(--mono); font-size:11px; font-weight:700;
+    letter-spacing:.16em; text-transform:uppercase; transform:rotate(-9deg); animation:stamp .7s var(--spring) .5s both; }
+  @keyframes stamp { from { opacity:0; transform:rotate(-9deg) scale(1.5); } to { opacity:1; transform:rotate(-9deg) scale(1); } }
+  .verdict.pass { color:var(--shu-ink); border:2px solid var(--shu); box-shadow:inset 0 0 0 3px var(--bg), inset 0 0 0 4px var(--shu); }
+  .verdict.rework { color:var(--ink); border:2px dashed var(--ink); }
+  .ticket { position:relative; margin-top:34px; display:inline-flex; gap:16px; align-items:center; padding:16px 20px 16px 42px; border:1px dashed var(--steel-2); color:var(--ink-2); font-size:15px; background:var(--raised); }
+  .ticket::before { content:""; position:absolute; left:16px; top:50%; width:10px; height:10px; margin-top:-5px; border-radius:50%; border:1px solid var(--steel-2); background:var(--bg); }
+
+  /* ---------- Hint (Tau) ---------- */
+  .tau { position:fixed; right:24px; bottom:24px; z-index:50; }
+  .tau-btn { display:inline-flex; align-items:center; gap:10px; background:var(--raised); border:1px solid var(--ink); padding:12px 18px;
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.2em; text-transform:uppercase; transition:transform .4s var(--spring), background .2s, color .2s; }
+  .tau-btn:hover { transform:translateY(-2px); }
+  .tau-btn:active { transform:scale(.96); }
+  .tau-btn i { font-style:normal; font-size:14px; letter-spacing:0; color:var(--shu-ink); font-weight:700; }
+  .tau-pop { position:absolute; right:0; bottom:54px; width:320px; max-width:calc(100vw - 70px); background:var(--raised); border:1px solid var(--ink);
+    box-shadow:var(--sh-2); padding:20px; transform-origin:bottom right; transform:scale(.92) translateY(8px); opacity:0;
+    pointer-events:none; transition:transform .45s var(--spring), opacity .2s; }
+  .tau-pop.open { transform:none; opacity:1; pointer-events:auto; }
+  .tau-pop ol { margin:12px 0 16px; padding-left:20px; display:grid; gap:10px; font-size:14.5px; color:var(--ink-2); }
+  .tau-pop li { animation:rise .5s var(--spring) both; }
+  .tau-pop .tool { width:100%; }
+  .tau-pop small { display:block; margin-top:12px; font-size:12px; color:var(--ink-3); }
+
+  /* ---------- Design notes: the lining ---------- */
+  .notes { position:fixed; right:0; top:57px; bottom:0; width:348px; z-index:30; background:var(--indigo); color:#dfe3ec; padding:30px 28px 90px;
+    overflow-y:auto; transform:translateX(104%); visibility:hidden; transition:transform .6s var(--spring), visibility 0s .6s;
+    background-image:repeating-linear-gradient(0deg,rgba(251,250,247,.5) 0 9px,transparent 9px 15px); background-size:1px 100%; background-position:13px 0; background-repeat:no-repeat; }
+  body.notes-on .notes { transform:none; visibility:visible; transition-delay:0s; }
+  .notes h3 { font-size:26px; color:var(--raised); margin:10px 0 26px; }
+  .notes .label { color:var(--indigo-3); }
+  .notes dl { margin:0; display:grid; gap:0; border-top:1px solid rgba(251,250,247,.5); }
+  .notes dt { font-family:var(--mono); font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--indigo-3); padding-top:16px; margin-bottom:6px; }
+  .notes dd { margin:0; font-size:14px; line-height:1.55; color:#dfe3ec; padding-bottom:16px; border-bottom:1px solid rgba(251,250,247,.14); }
+  .notes table { width:100%; border-collapse:collapse; font-size:12.5px; margin-top:8px; }
+  .notes th { text-align:left; font-family:var(--mono); font-weight:400; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--indigo-3); padding:6px 6px 6px 0; }
+  .notes td { vertical-align:top; padding:9px 6px 9px 0; border-top:1px solid rgba(251,250,247,.14); color:#dfe3ec; }
+  @media (min-width:1180px) { body.notes-on main { padding-right:380px; max-width:1460px; padding-left:max(32px,calc((100vw - 348px - 1080px)/2)); }
+    body.notes-on .tau { right:372px; } }
+  @media (max-width:1179px) { .notes { top:auto; left:var(--edge); width:auto; max-height:48vh; transform:translateY(104%); padding-bottom:30px; }
+    body.notes-on main { padding-bottom:52vh; } body.notes-on .tau { bottom:calc(48vh + 14px); } }
+
+  @media (max-width:860px) {
+    :root { --edge:10px; }
+    body::before { background:linear-gradient(90deg,var(--raised) 0 4px,var(--shu) 4px 6px,var(--raised) 6px); }
+    main { padding:52px 20px 130px; }
+    .bar { padding:12px 14px; gap:12px; } .mark span { display:none; } #restart { display:none; }
+    #cover .lede { margin-left:0; }
+    .scene::before { top:-34px; }
+    .idea { grid-template-columns:1fr; gap:20px; } .layer-stage { height:300px; }
+    .sort { grid-template-columns:1fr 1fr; gap:16px; } .deck { grid-column:1 / -1; grid-row:1; } .tray { min-height:150px; }
+    .bench-wrap { grid-template-columns:1fr; }
+    .ev-row { grid-template-columns:1fr; gap:2px; } .ev-row .what { padding-top:0; }
+    #resultLede { align-items:flex-start; flex-direction:column; gap:16px; }
+  }
+  @media (prefers-reduced-motion:reduce) {
+    *,*::before,*::after { animation-duration:.001ms !important; animation-delay:0s !important; transition-duration:.001ms !important; }
+    .pathway u { display:none; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to lesson</a>
+
+<header class="bar">
+  <div class="mark"><i aria-hidden="true"></i><span>Sethu&rsquo;s Idea</span></div>
+  <ol class="axon" id="axon" aria-label="Lesson progress"></ol>
+  <div class="bar-tools">
+    <button class="tool" id="notesBtn" aria-pressed="false" aria-controls="notes">Design notes</button>
+    <button class="tool" id="restart">Start over</button>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- 0 · COVER -->
+  <section class="scene on" id="cover" aria-labelledby="h-cover">
+    <p class="label rise" style="--i:0">Thinking Technically &middot; Lesson 0</p>
+    <h1 class="rise" style="--i:1" id="h-cover" tabindex="-1">Fix it once.<br><em>Understand why.</em></h1>
+    <p class="lede rise" style="--i:2">A clinic&rsquo;s solar light has died. In the next ten minutes you will find out why, without guessing and without wasting a single part. Probably.</p>
+    <div class="pathway rise" style="--i:3" aria-hidden="true">
+      <b style="left:0;width:21%;animation-delay:.7s"></b><b style="left:26%;width:21%;animation-delay:.95s"></b>
+      <b style="left:52%;width:21%;animation-delay:1.2s"></b><b style="left:78%;width:22%;animation-delay:1.45s"></b><u></u>
+    </div>
+    <p class="aside-note rise" style="--i:4;max-width:38em">A pathway that gets used gets stronger. Think of it as a seam, sewn a little further every time you practise.</p>
+    <div class="next-row rise" style="--i:5">
+      <button class="btn" data-go="pre">Begin <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+      <div class="meta-row"><span class="label">10 minutes</span><span class="label">3 exercises</span><span class="label">Works offline</span></div>
+    </div>
+    <p class="credit rise" style="--i:6">A learning product study by Sethu Nguna. Turn on <strong>Design notes</strong> at any point to see the objective, the learning principle, the evidence captured and the access decisions behind each screen.</p>
+  </section>
+
+  <!-- 1 · HUNCH (pre-check) -->
+  <section class="scene" id="pre" aria-labelledby="h-pre">
+    <p class="label rise" style="--i:0">Before anything else</p>
+    <h2 class="rise" style="--i:1" id="h-pre" tabindex="-1">A hunch, please.</h2>
+    <p class="lede rise" style="--i:2">No marks here. We only want to know where you are starting from.</p>
+    <div class="q rise" style="--i:3;margin-top:36px" id="preHost"></div>
+  </section>
+
+  <!-- 2 · IDEA -->
+  <section class="scene" id="concept" aria-labelledby="h-concept">
+    <p class="label rise" style="--i:0">The idea</p>
+    <h2 class="rise" style="--i:1" id="h-concept" tabindex="-1">Two ways to be right.</h2>
+    <p class="lede rise" style="--i:2">By analogy: <span class="assumed">it was the bulb last time, so it is the bulb.</span> Quick, and correct until the day it isn&rsquo;t.</p>
+    <p class="lede rise" style="--i:3">From first principles: set aside what you were told and what you assume. Keep only what you can measure. Build from there.</p>
+    <div class="idea rise" style="--i:4">
+      <div class="layer-stage" id="layerStage" role="button" tabindex="0" aria-pressed="false" aria-label="Lift the layers apart">
+        <div class="layers">
+          <div class="sheet base measured" data-z="0">What you can measure</div>
+          <div class="sheet assumed" data-z="1">What you assume</div>
+          <div class="sheet assumed" data-z="2">What you were told</div>
+        </div>
+        <span class="label layer-hint" id="layerHint">Tap to lift the layers</span>
+      </div>
+      <ol class="qtb" id="qtb">
+        <li style="--i:0"><span class="k">Q</span><div><b>Question the assumption</b><span>What am I taking for granted?</span></div></li>
+        <li style="--i:1"><span class="k">T</span><div><b>Find the physical truth</b><span>What can I verify, right now?</span></div></li>
+        <li style="--i:2"><span class="k">B</span><div><b>Build up from there</b><span>From the facts alone, what follows?</span></div></li>
+      </ol>
+    </div>
+    <div class="next-row rise" style="--i:5">
+      <button class="btn" id="conceptNext" data-go="sort" disabled>Try it</button>
+      <span class="aside-note" id="conceptNote">Lift the layers first. Only one of them will hold weight.</span>
+    </div>
+  </section>
+
+  <!-- 3 · SORT -->
+  <section class="scene" id="sort" aria-labelledby="h-sort">
+    <p class="label rise" style="--i:0">Exercise 1 &middot; Q</p>
+    <h2 class="rise" style="--i:1" id="h-sort" tabindex="-1">Hunch, or fact?</h2>
+    <p class="lede rise" style="--i:2">Six things people said about the dead light. Slide each card to the side it belongs on, or use the arrow keys.</p>
+    <div class="sort rise" style="--i:3">
+      <div class="tray" id="trayA"><button class="tray-btn" data-side="assumed"><b class="assumed">Assumed</b><small>Told, guessed or eyeballed</small></button><ul aria-label="Sorted as assumed"></ul></div>
+      <div class="deck" id="deck"><div class="ghost g2"></div><div class="ghost g1"></div></div>
+      <div class="tray" id="trayM"><button class="tray-btn" data-side="measured"><b class="measured">Measured</b><small>Verified, just now</small></button><ul aria-label="Sorted as measured"></ul></div>
+    </div>
+    <p class="sort-say" id="sortSay" role="status"></p>
+    <div class="next-row"><button class="btn" id="sortNext" data-go="bench" disabled>To the bench</button></div>
+  </section>
+
+  <!-- 4 · BENCH -->
+  <section class="scene" id="bench" aria-labelledby="h-bench">
+    <p class="label rise" style="--i:0">Exercise 2 &middot; T, then B</p>
+    <h2 class="rise" style="--i:1" id="h-bench" tabindex="-1">The bench.</h2>
+    <p class="lede rise" style="--i:2">The same dead light, now in front of you. Tap any part to put the meter on it. Drag to turn the bench. The parts bin is open, though every part fitted without a reason goes on the bill.</p>
+    <div class="bench-wrap rise" style="--i:3">
+      <div>
+        <div class="bench-stage" id="stage" tabindex="0" role="group" aria-label="Solar light bench. Left and right arrow keys turn it.">
+          <div class="meter" aria-hidden="true"><span class="label" id="meterLabel">Meter</span><span class="digits"><span id="digits">--.-</span><small>V</small></span></div>
+          <div class="turns"><button class="tool" id="turnL" aria-label="Turn bench left">Turn</button><button class="tool" id="turnB">See the back</button></div>
+          <div class="bench-fit"><div class="board" id="board"></div></div>
+        </div>
+        <p class="bench-say" id="benchSay" role="status">Start anywhere. A good technician starts at the source.</p>
+      </div>
+      <div>
+        <div class="side-card"><span class="label">Measured</span><ul class="truths measured" id="truths"><li class="empty">Nothing yet. So far, it is all opinion.</li></ul></div>
+        <div class="side-card"><span class="label">Parts bin</span>
+          <div class="parts">
+            <button class="part" id="pBulb">Fit a new bulb <span>R45</span></button>
+            <button class="part" id="pFuse">Fit a new fuse <span>R12</span></button>
+            <button class="part" id="pWire" disabled>Repair the wire <span>R0</span></button>
+          </div>
+          <div class="bill"><span>Parts wasted</span><span class="measured" id="wasted">0</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="next-row"><button class="btn" id="benchNext" data-go="check" disabled>Continue</button><span class="aside-note" id="benchNote">The light has to come on, and stay on.</span></div>
+  </section>
+
+  <!-- 5 · CHECK -->
+  <section class="scene" id="check" aria-labelledby="h-check">
+    <p class="label rise" style="--i:0">Exercise 3 &middot; From memory</p>
+    <h2 class="rise" style="--i:1" id="h-check" tabindex="-1">Without the bench.</h2>
+    <div class="q rise" style="--i:2" id="checkHost"></div>
+  </section>
+
+  <!-- 6 · EVIDENCE -->
+  <section class="scene" id="result" aria-labelledby="h-result">
+    <p class="label rise" style="--i:0">Your evidence</p>
+    <h2 class="rise" style="--i:1" id="h-result" tabindex="-1"></h2>
+    <p class="lede rise" style="--i:2" id="resultLede"></p>
+    <div class="ev rise" style="--i:3" id="ev"></div>
+    <div class="ticket rise" style="--i:4"><span class="label">Next</span><span>A two-minute review in two days. A seam holds because it is sewn more than once.</span></div>
+    <div class="next-row rise" style="--i:5" id="resultActions"></div>
+  </section>
+</main>
+
+<!-- Tau: a scripted hint ladder. Works offline; never answers a check. -->
+<div class="tau" id="tau">
+  <div class="tau-pop" id="tauPop" role="dialog" aria-label="Hints from Tau">
+    <span class="label">Tau &middot; thinking partner</span>
+    <ol id="tauList"></ol>
+    <button class="tool" id="tauMore">Another hint</button>
+    <small>Tau nudges your thinking. It does not hand over answers.</small>
+  </div>
+  <button class="tau-btn" id="tauBtn" aria-expanded="false" aria-controls="tauPop"><i aria-hidden="true">&tau;</i> Hint</button>
+</div>
+
+<aside class="notes" id="notes" aria-label="Design notes">
+  <span class="label">Design notes &middot; the lining</span>
+  <h3 id="notesTitle"></h3>
+  <div id="notesBody"></div>
+</aside>
+
+<div class="sr" id="say" aria-live="polite"></div>
+
+<script>
+/* ============================================================
+   SETHU'S IDEA — lesson study. Vanilla JS, single file, no network.
+   1 helpers · 2 spring engine · 3 state + evidence · 4 scenes
+   5 questions · 6 layers · 7 sort · 8 bench (CSS 3D) · 9 evidence
+   10 Tau hints · 11 design notes · 12 wiring
+   ============================================================ */
+
+/* ---------- 1. Helpers ---------- */
+function $(id){ return document.getElementById(id); }
+function el(tag,attrs,kids){
+  var n=document.createElement(tag);
+  if (attrs) for (var k in attrs){
+    if (k==="class") n.className=attrs[k];
+    else if (k==="html") n.innerHTML=attrs[k];
+    else if (k==="text") n.textContent=attrs[k];
+    else if (k.slice(0,2)==="on" && typeof attrs[k]==="function") n.addEventListener(k.slice(2),attrs[k]);
+    else if (attrs[k]!=null) n.setAttribute(k,attrs[k]);
+  }
+  if (kids!=null) (Array.isArray(kids)?kids:[kids]).forEach(function(c){ if(c==null) return;
+    n.appendChild(typeof c==="string"?document.createTextNode(c):c); });
+  return n;
+}
+function say(t){ var s=$("say"); s.textContent=""; setTimeout(function(){ s.textContent=t; },40); }
+var RM = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- 2. Spring engine ----------
+   One damped spring, stepped on a shared frame loop.
+   k = stiffness, c = damping. Ratio ~0.8: a little overshoot, then rest. */
+var springs=[], ticking=false, lastT=0;
+function makeSpring(o){
+  var s={ x:o.x||0, v:0, t:o.x||0, k:o.k||170, c:o.c||22, eps:o.eps||0.01, on:o.on, live:false };
+  s.set=function(t){ s.t=t; if(RM){ s.x=t; s.v=0; s.on(s.x); return; }
+    if(!s.live){ s.live=true; springs.push(s); } if(!ticking){ ticking=true; lastT=performance.now(); requestAnimationFrame(tick); } };
+  s.jump=function(x){ s.x=x; s.t=x; s.v=0; s.on(x); };
+  return s;
+}
+function tick(now){
+  var dt=Math.min(0.034,(now-lastT)/1000); lastT=now; var h=dt/2;
+  for (var i=springs.length-1;i>=0;i--){ var s=springs[i];
+    for (var n=0;n<2;n++){ var a=-s.k*(s.x-s.t)-s.c*s.v; s.v+=a*h; s.x+=s.v*h; }
+    if (Math.abs(s.v)<s.eps*4 && Math.abs(s.x-s.t)<s.eps){ s.x=s.t; s.v=0; s.live=false; springs.splice(i,1); }
+    s.on(s.x);
+  }
+  if (springs.length) requestAnimationFrame(tick); else ticking=false;
+}
+
+/* ---------- 3. State + evidence ---------- */
+var ORDER=["cover","pre","concept","sort","bench","check","result"];
+var NAMES=["Start","Hunch","Idea","Sort","Bench","Check","Evidence"];
+var S={ scene:"cover", pre:null, post:null, sortFirst:0, sortDone:false, check:[], hints:0, events:[],
+  bench:{ measured:{}, count:0, wasted:0, fuseOK:false, wireOK:false, found:false, solved:false, beforePart:null, busy:false } };
+function log(type,detail){ S.events.push({ t:Date.now(), type:type, detail:detail||"" }); }
+
+/* ---------- 4. Scenes ---------- */
+var inited={};
+function buildAxon(){ var ax=$("axon"); ORDER.forEach(function(){ ax.appendChild(el("li",{},[el("span")])); }); paintAxon(); }
+function paintAxon(){ var i=ORDER.indexOf(S.scene); var lis=$("axon").children;
+  for (var n=0;n<lis.length;n++){ lis[n].className=(n<i?"done":"")+(n===i?" cur":""); }
+  $("axon").setAttribute("aria-label","Lesson progress: step "+(i+1)+" of "+ORDER.length+", "+NAMES[i]); }
+function go(id){
+  var from=$(S.scene), to=$(id); if(!to||from===to) return;
+  closeTau(); from.classList.add("out");
+  setTimeout(function(){
+    from.classList.remove("on","out"); S.scene=id; to.classList.add("on");
+    if (!inited[id] && INIT[id]){ INIT[id](); inited[id]=true; }
+    if (id==="result") renderResult();
+    paintAxon(); paintNotes(); paintTau(); log("scene",id);
+    window.scrollTo(0,0);
+    var h=to.querySelector("h1,h2"); if(h) h.focus({preventScroll:true});
+  }, RM?0:200);
+}
+var INIT={ pre:initPre, concept:initLayers, sort:initSort, bench:initBench, check:initCheck };
+
+/* ---------- 5. Questions (hunch, recall, transfer) ---------- */
+var CONF=["Guessing","Fairly sure","Certain"];
+var Q_PRE={ stem:"The light above the clinic door is dead. The solar panel is new. What is your first move?",
+  options:["Replace the bulb. Bulbs go first.","Replace the fuse. It is usually the fuse.","Measure: is there voltage at the battery, and at the light?","Find out what was done last time, and do that."], answer:2 };
+var Q_CHECK=[
+  { stem:"A torch flickers. The flickering is best described as a …", options:["root cause","defect","symptom","failure"], answer:2,
+    why:"The flicker is what you observe. It points towards a cause, a loose contact or a weak cell, but it is not the cause itself." },
+  { stem:"Why is fitting a new fuse straight away a risky move?", options:["It is always slower than diagnosing first","You may fix the symptom while the cause remains, so the fault comes back","Fuses are expensive","Site rules forbid touching a fuse"], answer:1,
+    why:"A fuse that blew was doing its job. Unless you ask what made it blow, the next one goes the same way. You have met this fuse." },
+  { stem:"You have confirmed 0.0 V at the light fitting and 12.4 V at the battery. Which step have you just done, and what comes next?", options:["B. Next, replace the light","T, the physical truths. Next, build from them to narrow down where the break is","Q. Next, assume the bulb is blown","Nothing useful yet. Readings are not evidence"], answer:1,
+    why:"Readings are physical truths: the T step. Next comes B: power is present at the battery and absent at the fitting, so the break lies between them." },
+  { transfer:true, stem:"New job. A borehole pump will not start. The owner says the motor is “finished”. What is your first move?",
+    options:["Order a new motor. The owner knows the pump best.","Reset the breaker and hope.","Check what you can verify: is supply actually reaching the pump?","Do whatever the last technician did."], answer:2,
+    why:"“Finished” is a verdict, not a reading. Different machine, same move: find out what is physically true before you buy anything." }
+];
+function ask(host,q,opt,done){
+  host.innerHTML=""; var choice=null, conf=null, locked=false;
+  var scene=host.closest(".scene"); scene.classList.remove("fb");
+  if (opt.count) host.appendChild(el("p",{class:"label q-count",text:opt.count}));
+  host.appendChild(el("p",{class:"q-stem",text:q.stem}));
+  var opts=el("div",{class:"opts",role:"group","aria-label":"Answers"});
+  var btns=q.options.map(function(txt,i){
+    var b=el("button",{class:"opt lit","aria-pressed":"false",onclick:function(){ if(locked) return; choice=i;
+      btns.forEach(function(x,j){ x.setAttribute("aria-pressed",j===i?"true":"false"); }); confBox.style.display="block"; }},
+      [ el("span",{class:"k",text:String.fromCharCode(65+i)}), el("span",{text:txt}) ]);
+    opts.appendChild(b); return b; });
+  host.appendChild(opts);
+  var seg=el("div",{class:"seg",role:"group","aria-label":"How sure are you?"});
+  var cbtns=CONF.map(function(c,i){ var b=el("button",{"aria-pressed":"false",text:c,onclick:function(){ if(locked) return; conf=i;
+      cbtns.forEach(function(x,j){ x.setAttribute("aria-pressed",j===i?"true":"false"); }); finish(); }}); seg.appendChild(b); return b; });
+  var confBox=el("div",{class:"conf",style:"display:none"},[ el("span",{class:"label",text:"How sure are you?"}), seg ]);
+  host.appendChild(confBox);
+  var tail=el("div"); host.appendChild(tail);
+  function finish(){
+    locked=true; var right=choice===q.answer;
+    /* the answer gets a page of its own: the question leaves, the feedback arrives */
+    host.innerHTML=""; scene.classList.add("fb");
+    if (opt.count) host.appendChild(el("p",{class:"label q-count rise",text:opt.count}));
+    var head=el("h3",{class:"fb-head rise",style:"--i:1",tabindex:"-1",text:opt.reveal?(right?"Yes.":"Not quite."):"Noted."});
+    host.appendChild(head);
+    var rows=el("dl",{class:"fb-rows rise",style:"--i:2"});
+    rows.appendChild(el("dt",{class:"label",text:"You said"})); rows.appendChild(el("dd",{text:q.options[choice]+" ("+CONF[conf].toLowerCase()+")"}));
+    if (opt.reveal && !right){ rows.appendChild(el("dt",{class:"label",text:"Holds up"})); rows.appendChild(el("dd",{text:q.options[q.answer]})); }
+    host.appendChild(rows);
+    host.appendChild(el("p",{class:"why rise",style:"--i:3",text:opt.reveal?q.why:"No verdict yet. We will come back to this at the end, and you can judge it yourself."}));
+    if (opt.reveal) say((right?"Correct. ":"Not quite. ")+q.why);
+    var nb=el("button",{class:"btn",text:opt.next||"Continue",onclick:function(){ done({choice:choice,conf:conf,right:right}); }});
+    host.appendChild(el("div",{class:"next-row rise",style:"--i:4"},[nb]));
+    window.scrollTo(0,0); head.focus({preventScroll:true});
+  }
+}
+function initPre(){ ask($("preHost"),Q_PRE,{reveal:false,next:"Continue"},function(r){ S.pre=r; log("pre",r.choice+"/"+r.conf); go("concept"); }); }
+function initCheck(){ var i=0;
+  (function nextQ(){ var q=Q_CHECK[i];
+    ask($("checkHost"),q,{reveal:true,count:(q.transfer?"Last one · a new job":"Question "+(i+1)+" of 3"),next:(i<Q_CHECK.length-1?"Next":"See your evidence")},function(r){
+      log(q.transfer?"post":"check",r.right+"/"+r.conf);
+      if (q.transfer) S.post=r; else S.check.push(r);
+      i++; if (i<Q_CHECK.length){ nextQ(); var st=$("checkHost").querySelector(".q-stem"); st.setAttribute("tabindex","-1"); st.focus({preventScroll:true}); } else go("result");
+    }); })();
+}
+
+/* ---------- 6. Idea: three layers, one of which holds weight ---------- */
+function initLayers(){
+  var stage=$("layerStage"), sheets=[].slice.call(stage.querySelectorAll(".sheet")), lifted=false, seen=false;
+  var sp=makeSpring({ x:0, k:120, c:17, eps:0.002, on:function(x){
+    sheets.forEach(function(sh){ var z=+sh.getAttribute("data-z");
+      sh.style.transform="translateZ("+(z*8+z*86*x).toFixed(1)+"px)";
+      if (z>0) sh.style.opacity=(1-0.5*Math.max(0,Math.min(1,x))).toFixed(3); }); }});
+  sp.jump(0);
+  function toggle(){ lifted=!lifted; sp.set(lifted?1:0); stage.setAttribute("aria-pressed",lifted?"true":"false");
+    $("layerHint").textContent=lifted?"Only the bottom one is solid":"Tap to lift the layers";
+    if (lifted && !seen){ seen=true; $("qtb").classList.add("shown"); $("conceptNext").disabled=false;
+      $("conceptNote").textContent="Q questions the top two. T finds the bottom one. B builds on it."; log("layers","lifted");
+      say("Layers lifted. What you were told and what you assume are translucent. Only what you can measure is solid."); } }
+  stage.addEventListener("click",toggle);
+  stage.addEventListener("keydown",function(e){ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); toggle(); } });
+}
+
+/* ---------- 7. Sort: hunch or fact ---------- */
+var CARDS=[
+  { t:"The panel is new, so the panel works.", a:"assumed", why:"New is a date, not a measurement." },
+  { t:"12.4 V at the battery terminals.", a:"measured", why:"A number, from a meter, taken just now. That is as true as it gets." },
+  { t:"Bulbs always go first.", a:"assumed", why:"“Always” is doing a great deal of work in that sentence." },
+  { t:"My uncle says it is the breaker.", a:"assumed", why:"Your uncle may well be right. He is still not a multimeter." },
+  { t:"0.0 V at the light fitting.", a:"measured", why:"Zero is still a reading. A very informative one." },
+  { t:"The fuse looks fine from here.", a:"assumed", why:"“Looks” and “from here”: two hedges in six words. Test it." }
+];
+function initSort(){
+  var deck=$("deck"), sayEl=$("sortSay"), idx=0, tried=false, card=null, drag=null;
+  var ghosts=deck.querySelectorAll(".ghost");
+  var st={x:0,rx:0,ry:0};
+  function paint(){ if(!card) return; card.style.transform="translateX("+st.x.toFixed(1)+"px) rotateZ("+(st.x*0.045).toFixed(2)+"deg) rotateX("+st.rx.toFixed(2)+"deg) rotateY("+st.ry.toFixed(2)+"deg)";
+    $("trayA").classList.toggle("hot",st.x<-60); $("trayM").classList.toggle("hot",st.x>60); }
+  var sx=makeSpring({k:190,c:21,eps:0.05,on:function(v){ st.x=v; paint(); }});
+  var srx=makeSpring({k:140,c:18,eps:0.01,on:function(v){ st.rx=v; paint(); }});
+  var sry=makeSpring({k:140,c:18,eps:0.01,on:function(v){ st.ry=v; paint(); }});
+  function tell(t){ sayEl.textContent=t; sayEl.classList.toggle("has",!!t); }
+  function deal(){
+    if (card) card.remove(); tried=false;
+    var left=CARDS.length-idx;
+    ghosts[1].style.display=left>1?"":"none"; ghosts[0].style.display=left>2?"":"none";
+    if (!left){ card=null; deck.appendChild(el("p",{class:"deck-done rise",html:"Six sorted. Look at the type: <span class='assumed'>italics for what was assumed</span>, <span class='measured'>mono for what was measured</span>. It stays that way for the rest of the lesson."}));
+      S.sortDone=true; $("sortNext").disabled=false; $("sortNext").focus({preventScroll:true}); log("sort",S.sortFirst+"/6"); return; }
+    var c=CARDS[idx];
+    card=el("div",{class:"card lit rise",tabindex:"0",role:"group","aria-label":"Card "+(idx+1)+" of 6: "+c.t+" Left arrow for assumed, right arrow for measured."},
+      [ el("span",{text:c.t}), el("span",{class:"label"},[ el("span",{text:"← assumed"}), el("span",{text:(idx+1)+" / 6"}), el("span",{text:"measured →"}) ]) ]);
+    deck.appendChild(card); sx.jump(0); srx.jump(0); sry.jump(0);
+    card.addEventListener("pointerdown",function(e){ drag={x0:e.clientX,id:e.pointerId}; card.setPointerCapture(e.pointerId); });
+    card.addEventListener("pointermove",function(e){
+      if (drag){ sx.jump(e.clientX-drag.x0); return; }
+      var r=card.getBoundingClientRect(); sry.set(((e.clientX-r.left)/r.width-.5)*9); srx.set(-((e.clientY-r.top)/r.height-.5)*7); });
+    card.addEventListener("pointerleave",function(){ if(!drag){ srx.set(0); sry.set(0); } });
+    function up(){ if(!drag) return; drag=null; if (st.x>90) decide("measured"); else if (st.x<-90) decide("assumed"); else sx.set(0); }
+    card.addEventListener("pointerup",up); card.addEventListener("pointercancel",up);
+    card.addEventListener("keydown",function(e){ if(e.key==="ArrowLeft"){ e.preventDefault(); decide("assumed"); } if(e.key==="ArrowRight"){ e.preventDefault(); decide("measured"); } });
+    if (idx>0) card.focus({preventScroll:true});
+  }
+  function decide(side){
+    if (!card) return; var c=CARDS[idx], dir=side==="measured"?1:-1;
+    if (side===c.a){
+      if (!tried) S.sortFirst++;
+      tell(c.why); say("Correct. "+c.why);
+      sx.set(dir*340); card.style.opacity="0"; srx.set(0); sry.set(0);
+      var tray=$(side==="measured"?"trayM":"trayA");
+      setTimeout(function(){ tray.querySelector("ul").appendChild(el("li",{class:side,text:c.t}));
+        $("trayA").classList.remove("hot"); $("trayM").classList.remove("hot"); idx++; deal(); }, RM?0:300);
+    } else {
+      tried=true; sx.v=-dir*900; sx.set(0);
+      tell("Not that side. "+c.why); say("Not that side. "+c.why);
+    }
+  }
+  [].forEach.call(document.querySelectorAll(".tray-btn"),function(b){ b.addEventListener("click",function(){ decide(b.getAttribute("data-side")); }); });
+  deal();
+}
+
+/* ---------- 8. Bench: a small CSS 3D diorama ----------
+   Board lies in the XY plane; Z is up. Each part is a five-faced box.
+   Side faces are shaded from the turn angle, so the light stays put
+   while the bench moves. */
+var WIRES=[ [[95,130],[95,220]], [[160,262],[250,262]], [[306,262],[360,262]], [[400,262],[500,262],[500,62],[540,62]] ];
+var READ={ panel:"Panel", battery:"Battery", fuse:"Fuse", sw:"Switch", lamp:"Light" };
+function initBench(){
+  var B=S.bench, board=$("board"), stage=$("stage"), parts={}, sel=null, back=false;
+  function box(o){
+    var g=el("div",{class:"box "+o.cls,style:"left:"+o.x+"px;top:"+o.y+"px;width:"+o.w+"px;height:"+o.d+"px;"+(o.z?"transform:translateZ("+o.z+"px);":"")});
+    var f=el("div",{class:"face side f",style:"top:"+o.d+"px;width:"+o.w+"px;height:"+o.h+"px"});
+    var b=el(o.backBtn?"button":"div",{class:"face side b"+(o.backBtn?" chafe":""),style:"top:0;width:"+o.w+"px;height:"+o.h+"px"});
+    var l=el("div",{class:"face side l",style:"left:0;width:"+o.h+"px;height:"+o.d+"px"});
+    var r=el("div",{class:"face side r",style:"left:"+o.w+"px;width:"+o.h+"px;height:"+o.d+"px"});
+    var top=el(o.key?"button":"div",{class:"face top",style:"transform:translateZ("+o.h+"px)",text:o.label||""});
+    if (o.key){ top.setAttribute("aria-label","Measure the "+READ[o.key].toLowerCase()); top.addEventListener("click",function(){ measure(o.key); }); }
+    [b,l,r,f,top].forEach(function(n){ g.appendChild(n); });
+    board.appendChild(g); return { g:g, top:top, back:b };
+  }
+  board.appendChild(el("div",{class:"lampglow",id:"lampglow"}));
+  WIRES.forEach(function(line){ for (var i=0;i<line.length-1;i++){ var a=line[i], b=line[i+1];
+    var x=Math.min(a[0],b[0])-2, y=Math.min(a[1],b[1])-2, w=Math.abs(a[0]-b[0])+4, h=Math.abs(a[1]-b[1])+4;
+    board.appendChild(el("div",{class:"wire "+(a[1]===b[1]?"h":"v"),style:"left:"+x+"px;top:"+y+"px;width:"+w+"px;height:"+h+"px"})); } });
+  parts.panel=box({cls:"c-panel",x:30,y:40,w:130,d:90,h:12,key:"panel",label:"Panel"});
+  parts.battery=box({cls:"c-batt",x:35,y:220,w:125,d:84,h:58,key:"battery",label:"Battery"});
+  parts.fuse=box({cls:"c-fuse",x:250,y:247,w:56,d:30,h:16,key:"fuse",label:"Fuse"});
+  parts.sw=box({cls:"c-sw",x:360,y:247,w:40,d:30,h:20,key:"sw",label:"Sw"});
+  parts.clamp=box({cls:"c-clamp",x:474,y:150,w:52,d:22,h:26,backBtn:true});
+  box({cls:"c-post",x:552,y:52,w:20,d:20,h:60});
+  parts.lamp=box({cls:"c-lamp",x:540,y:40,w:44,d:44,h:26,z:60,key:"lamp",label:"Light"});
+  var chafe=parts.clamp.back; chafe.setAttribute("aria-label","Inspect the scorched mark behind the clamp"); chafe.disabled=true;
+  chafe.addEventListener("click",findChafe);
+  var dots=[0,1,2].map(function(){ var d=el("div",{class:"pulse"}); board.appendChild(d); return d; });
+
+  /* turning */
+  var ang=makeSpring({ x:-24, k:90, c:16, eps:0.02, on:function(a){
+    board.style.transform="scale3d(.84,.84,.84) rotateX(56deg) rotateZ("+a.toFixed(2)+"deg)";
+    var r=a*Math.PI/180, c=Math.cos(r), s=Math.sin(r), L=[-0.53,0.85];
+    function sh(nx,ny){ var d=(nx*c-ny*s)*L[0]+(nx*s+ny*c)*L[1]; return (0.36-0.28*Math.max(0,d)).toFixed(3); }
+    board.style.setProperty("--shf",sh(0,1)); board.style.setProperty("--shb",sh(0,-1));
+    board.style.setProperty("--shl",sh(-1,0)); board.style.setProperty("--shr",sh(1,0));
+    var nowBack=c<-0.25;
+    if (nowBack!==back){ back=nowBack; chafe.disabled=!back || B.wireOK; $("turnB").textContent=back?"See the front":"See the back";
+      if (back) say("The back of the bench is facing you. There is a scorched mark behind the steel clamp."); }
+  }});
+  ang.jump(-24);
+  var dr=null, dragged=false;
+  stage.addEventListener("pointerdown",function(e){ if(e.target.closest(".turns")) return; dr={x:e.clientX,a:ang.x,lx:e.clientX,lt:e.timeStamp,vx:0,on:false}; });
+  stage.addEventListener("pointermove",function(e){ if(!dr) return; var dx=e.clientX-dr.x;
+    if (!dr.on && Math.abs(dx)>5){ dr.on=true; try{ stage.setPointerCapture(e.pointerId); }catch(err){} }
+    if (dr.on){ var dt=Math.max(1,e.timeStamp-dr.lt); dr.vx=(e.clientX-dr.lx)/dt; dr.lx=e.clientX; dr.lt=e.timeStamp; ang.jump(dr.a+dx*0.45); } });
+  function endDrag(){ if(!dr) return; if (dr.on){ dragged=true; setTimeout(function(){ dragged=false; },60); ang.set(ang.x+dr.vx*70); log("turn",Math.round(ang.x)); } dr=null; }
+  stage.addEventListener("pointerup",endDrag); stage.addEventListener("pointercancel",endDrag);
+  stage.addEventListener("click",function(e){ if(dragged){ e.stopPropagation(); e.preventDefault(); } },true);
+  stage.addEventListener("keydown",function(e){ if(e.target!==stage) return;
+    if(e.key==="ArrowLeft"){ e.preventDefault(); ang.set(ang.t-30); } if(e.key==="ArrowRight"){ e.preventDefault(); ang.set(ang.t+30); } });
+  $("turnL").addEventListener("click",function(){ ang.set(ang.t+45); });
+  function near(deg){ return deg+Math.round((ang.t-deg)/360)*360; }
+  $("turnB").addEventListener("click",function(){ ang.set(near(back?-24:160)); });
+  function fit(){ stage.style.setProperty("--bs",Math.min(1,stage.clientWidth/700).toFixed(3)); }
+  fit(); window.addEventListener("resize",fit);
+
+  /* meter: digits settle like a needle */
+  var digits=$("digits");
+  var meter=makeSpring({ x:0, k:230, c:19, eps:0.02, on:function(v){ digits.textContent=Math.max(0,v).toFixed(1); }});
+  function tell(t){ $("benchSay").textContent=t; }
+  function volts(key){
+    if (key==="panel") return 18.2; if (key==="battery") return 12.4;
+    if (key==="fuse"||key==="sw") return B.fuseOK?12.4:0; return (B.fuseOK&&B.wireOK)?12.4:0;
+  }
+  function measure(key){
+    if (B.busy) return; var v=volts(key), msg, line;
+    if (sel) sel.classList.remove("sel"); sel=parts[key].top; sel.classList.add("sel");
+    $("meterLabel").textContent=READ[key]; meter.set(v);
+    if (key==="panel"){ line="Panel  18.2 V"; msg="18.2 V. The sun is doing its job."; }
+    else if (key==="battery"){ line="Battery  12.4 V"; msg="12.4 V. Charged. The source is fine, so the trouble is somewhere along the path."; }
+    else if (key==="fuse"){ line=B.fuseOK?"Fuse  12.4 V in, 12.4 V out":"Fuse  12.4 V in, 0.0 V out";
+      msg=B.fuseOK?"12.4 V in, 12.4 V out. This fuse is whole.":"12.4 V going in, 0.0 V coming out. The path stops here. Now the better question: what made it blow?"; }
+    else if (key==="sw"){ line="Switch  "+v.toFixed(1)+" V"; msg=v?"12.4 V. The switch is passing it on.":"0.0 V. Nothing is reaching the switch, so do not blame the switch."; }
+    else { line="Light  "+v.toFixed(1)+" V"; msg=v?"12.4 V at the fitting.":"0.0 V at the fitting. The light has nothing to work with. That is not the light’s fault."; }
+    if (!B.measured[key]) B.count++;
+    B.measured[key]=line; paintTruths(); tell(msg); log("measure",key);
+  }
+  function paintTruths(){ var ul=$("truths"); ul.innerHTML="";
+    ["panel","battery","fuse","sw","lamp","clamp"].forEach(function(k){ if(B.measured[k]) ul.appendChild(el("li",{text:B.measured[k]})); }); }
+  function part(){ if (B.beforePart===null) B.beforePart=B.count; }
+  function waste(){ B.wasted++; $("wasted").textContent=B.wasted; }
+  function lamp(on){ parts.lamp.g.classList.toggle("on",on); $("lampglow").classList.toggle("on",on); stage.classList.toggle("warm",on); }
+
+  /* current: source -> path -> load */
+  var segs=[], total=0;
+  WIRES.forEach(function(line){ for (var i=0;i<line.length-1;i++){ var a=line[i], b=line[i+1], len=Math.abs(a[0]-b[0])+Math.abs(a[1]-b[1]); segs.push({a:a,b:b,s:total,len:len}); total+=len; } });
+  function place(d,dist){ if(dist<0||dist>total){ d.style.display="none"; return; }
+    for (var i=0;i<segs.length;i++){ var g=segs[i]; if (dist<=g.s+g.len){ var f=(dist-g.s)/g.len;
+      d.style.display="block"; d.style.left=(g.a[0]+(g.b[0]-g.a[0])*f)+"px"; d.style.top=(g.a[1]+(g.b[1]-g.a[1])*f)+"px"; return; } } }
+  function flow(ms,cb){ if (RM){ cb(); return; } var t0=performance.now();
+    (function step(now){ var t=now-t0; dots.forEach(function(d,i){ place(d,((t*0.42)-i*90)%(total+140)); });
+      if (t<ms) requestAnimationFrame(step); else { dots.forEach(function(d){ d.style.display="none"; }); cb(); } })(t0); }
+
+  $("pBulb").addEventListener("click",function(){ if(B.busy||B.solved) return; part(); waste(); log("part","bulb");
+    tell(B.wasted>1?"Another part fitted on a hunch. The dark remains unimpressed.":"New bulb. Same darkness. That was R45 and an assumption."); });
+  $("pFuse").addEventListener("click",function(){ if(B.busy||B.fuseOK) return; part(); log("part","fuse"); B.busy=true;
+    parts.fuse.g.classList.add("ok");
+    if (B.wireOK){ B.fuseOK=true; lamp(true); tell("Source, path, load. Current flows.");
+      flow(2600,function(){ B.busy=false; B.solved=true; meter.set(12.4); $("meterLabel").textContent="Light";
+        tell("Fixed once. And you can say exactly why it stopped: the clamp wore through the insulation, the wire shorted to the frame, and the fuse did its job.");
+        $("benchNext").disabled=false; $("benchNote").textContent=B.wasted?("Parts wasted: "+B.wasted+". They will be on the evidence sheet."):"No parts wasted. A clean job.";
+        $("pBulb").disabled=true; $("pFuse").disabled=true; say("The light is on and stays on."); $("benchNext").focus({preventScroll:true}); });
+    } else { lamp(true); tell("Light.");
+      flow(1100,function(){ lamp(false); parts.fuse.g.classList.remove("ok"); waste(); B.busy=false; meter.set(0);
+        if (B.measured.fuse) { B.measured.fuse="Fuse  12.4 V in, 0.0 V out"; paintTruths(); }
+        tell("Light! For about a second. Then the new fuse went the way of the old one. A fuse is a symptom with a job: something past it is drawing far too much current. Have you seen every side of this bench?"); }); }
+  });
+  function findChafe(){ if (B.found||B.busy) return; B.found=true; chafe.classList.add("found"); $("pWire").disabled=false;
+    B.measured.clamp="Clamp  bare copper on steel"; paintTruths(); log("found","chafe");
+    tell("There it is. The clamp has worn through the insulation, and bare copper is touching steel: a short to the frame. That is what has been eating fuses."); $("pWire").focus({preventScroll:true}); }
+  $("pWire").addEventListener("click",function(){ if(B.busy||B.wireOK) return; B.wireOK=true; chafe.classList.remove("found"); chafe.classList.add("fixed"); chafe.disabled=true;
+    $("pWire").disabled=true; B.measured.clamp="Clamp  wire re-insulated"; paintTruths(); log("part","wire");
+    tell(B.fuseOK?"":"Insulated and re-clamped properly. The path is whole again, but the fuse is still open. Nothing crosses a gap."); });
+}
+
+/* ---------- 9. Evidence ---------- */
+function renderResult(){
+  var B=S.bench, ev=$("ev"); ev.innerHTML="";
+  var right=S.check.filter(function(r){ return r.right; }).length;
+  var sureRight=S.check.concat([S.post]).filter(function(r){ return r.conf===2&&r.right; }).length;
+  var sureWrong=S.check.concat([S.post]).filter(function(r){ return r.conf===2&&!r.right; }).length;
+  var pass=B.solved && right>=2 && S.post.right;
+  $("h-result").textContent=pass?"Fixed once. Understood why.":"Close. One more pass.";
+  $("resultLede").innerHTML="<span class='verdict "+(pass?"pass":"rework")+"'>"+(pass?"Passed":"Rework")+"</span> "+
+    (pass?"&nbsp;Here is what you showed, not what you clicked.":"&nbsp;No penalty for practising. Here is what you showed, and the one thing to revisit.");
+  function row(what,big,got){ ev.appendChild(el("div",{class:"ev-row"},[ el("div",{class:"what",text:what}), el("div",{class:"got",html:"<span class='big'>"+big+"</span>"+got}) ])); }
+  var preM=S.pre.choice===Q_PRE.answer;
+  row("First move, before and after",(preM?"Measure":"Hunch")+" → "+(S.post.right?"Measure":"Hunch"),
+    "At the start: <span class='"+(preM?"measured":"assumed")+"'>"+Q_PRE.options[S.pre.choice]+"</span> ("+CONF[S.pre.conf].toLowerCase()+"). On a new job, at the end: "+(S.post.right?"you went for what you could verify":"you went with the owner’s verdict")+" ("+CONF[S.post.conf].toLowerCase()+")."+
+    (!preM&&S.post.right?" That shift is the lesson.":preM&&S.post.right?" You arrived thinking this way. Now you have a name for it.":""));
+  row("Telling a hunch from a fact",S.sortFirst+" / 6","sorted correctly at the first attempt.");
+  row("Finding the fault",B.wasted+" wasted",(B.beforePart===null?B.count:B.beforePart)+" measurement"+((B.beforePart===null?B.count:B.beforePart)===1?"":"s")+" taken before the first part was fitted. "+
+    (B.wasted===0?"Nothing fitted on a hunch.":"Each wasted part was an assumption with a price on it."));
+  row("Recall, and how sure you were",right+" / 3","Across all four questions, certain and right: <span class='measured'>"+sureRight+"</span>; certain and wrong: <span class='measured'>"+sureWrong+"</span>"+(sureWrong?", which is the one to watch on site.":"."));
+  row("Hints from Tau",String(S.hints),S.hints?"Asking is a skill. It is recorded, not penalised.":"None needed.");
+  var act=$("resultActions"); act.innerHTML="";
+  if (!pass) act.appendChild(el("button",{class:"btn",text:"Revisit the idea",onclick:function(){ go("concept"); }}));
+  act.appendChild(el("button",{class:"btn quiet",text:"Start over",onclick:function(){ location.reload(); }}));
+  log("result",pass?"pass":"rework");
+}
+
+/* ---------- 10. Tau: a hint ladder (nudge, question, pointer) ---------- */
+var HINTS={
+  concept:["Tap the stack. Watch which layer stays solid when the others lift away."],
+  sort:["Ask of each card: could I show this to someone on a meter, right now?","Words like “always”, “looks”, “says” and “so” are usually carrying an assumption.","Only two of the six cards contain a number that somebody measured."],
+  bench:["Start at the source and work towards the light. Where does the voltage stop?","The fuse is open. Fuses do not fail out of boredom; something drew too much current. Have you seen every side of this bench?","Turn the bench until you can see behind the steel clamp. Repair what you find there. Then fit the fuse."]
+};
+var hintAt={};
+function paintTau(){ $("tau").style.display=(S.scene==="cover"||S.scene==="result")?"none":""; }
+function closeTau(){ $("tauPop").classList.remove("open"); $("tauBtn").setAttribute("aria-expanded","false"); }
+function openTau(){
+  var list=HINTS[S.scene], ol=$("tauList"); ol.innerHTML="";
+  if (!list){ ol.appendChild(el("li",{text:"No hints on a check. This one is yours. Go with what you can justify."})); $("tauMore").style.display="none"; }
+  else { if (!hintAt[S.scene]) moreHint(true); else drawHints(); }
+  $("tauPop").classList.add("open"); $("tauBtn").setAttribute("aria-expanded","true");
+}
+function drawHints(){ var list=HINTS[S.scene], n=hintAt[S.scene]||0, ol=$("tauList"); ol.innerHTML="";
+  for (var i=0;i<n;i++) ol.appendChild(el("li",{text:list[i]}));
+  $("tauMore").style.display=n<list.length?"":"none"; }
+function moreHint(){ var list=HINTS[S.scene]; if(!list) return; var n=hintAt[S.scene]||0; if(n>=list.length) return;
+  hintAt[S.scene]=n+1; S.hints++; log("hint",S.scene+":"+(n+1)); drawHints(); say("Hint: "+list[n]); }
+
+/* ---------- 11. Design notes ---------- */
+var NOTES={
+  cover:{ title:"The brief", rows:[
+    ["Learner","Entry-level artisan learners. Many are first-generation technical learners on shared or low-spec devices, so the copy sits near a Grade 8 reading level and the file needs no network after it loads."],
+    ["Outcome","Given a dead circuit, the learner separates what is assumed from what is measured, and uses Q, T, B to locate a fault before fitting a part."],
+    ["Method","Backward design: outcome first, then the evidence that would convince a facilitator, then the activity that produces it. The table on the last screen shows the alignment."],
+    ["Metaphor","A pathway that is used gets stronger. Here the pathway is a thread. Progress is sewn one stitch per step, the circuit is stitched onto cloth, the fault is a fray and the repair is a patch."],
+    ["Visual system","One wardrobe, taken from Japanese workwear and tailoring: unbleached cotton, sumi black, indigo cloth, one red thread. Asymmetric cut, wide margins, garment-label type. The only warm colour in the lesson is the light coming on. This panel is the lining: the construction, shown on purpose."] ]},
+  pre:{ title:"A hunch, on the record", rows:[
+    ["Objective","Surface the learner’s existing mental model before teaching touches it."],
+    ["Principle","Pretesting effect. Committing to an answer first, even a wrong one, improves later learning. No feedback is given here on purpose."],
+    ["Evidence","Baseline first move, plus confidence on a three-point scale. Both are compared with a transfer item at the end."],
+    ["Access","Real buttons with pressed state; the confidence control appears only after a choice, so there is one decision on screen at a time."] ]},
+  concept:{ title:"One idea, one object", rows:[
+    ["Objective","Distinguish reasoning by analogy from reasoning from first principles."],
+    ["Principle","Coherence and signalling (Mayer): one idea, under seventy words, one object to act on. The layers are the argument: two are translucent, one holds weight."],
+    ["Motion","The lift is a damped spring with a ratio near 0.8, so it overshoots slightly and settles. Q, T, B only arrive after the learner has caused the separation."],
+    ["Access","The stack is a toggle button; state is announced. With reduced motion set, springs resolve instantly and nothing is lost."] ]},
+  sort:{ title:"Contrasting cases", rows:[
+    ["Objective","Classify statements about a fault as assumed or measured."],
+    ["Principle","Contrasting cases with immediate, explanatory feedback. A wrong sort is refused and explained rather than marked, and the card stays in play."],
+    ["Evidence","First-attempt accuracy only. Corrections are learning, not data."],
+    ["Type as teaching","A sorted card is re-set in italic or mono. From here on the typography carries the distinction without being asked to."],
+    ["Access","Dragging is never the only way (WCAG 2.2, 2.5.7): tray buttons and arrow keys do the same job. Results go to a live region."] ]},
+  bench:{ title:"Consequences as feedback", rows:[
+    ["Objective","Locate a fault by measurement and identify its root cause before replacing a part."],
+    ["Principle","Productive failure, made safe. Fitting a fuse without asking why works for one second, then fails. The simulation argues the point so the copy does not have to."],
+    ["Why 3D","The root cause is on the far side of the clamp. Turning the bench is the lesson: evidence does not always face you."],
+    ["Evidence","Process, not just outcome: measurements taken before the first part, parts wasted, whether the cause was found. Hints are logged and never penalised."],
+    ["Access","Every part is a button with a spoken label. The bench turns by drag, buttons or arrow keys. Readings are text as well as digits. The hidden control is disabled until it is in view, and its appearance is announced."],
+    ["Build","CSS 3D transforms and about forty lines of spring maths. No WebGL, no library, so it runs on a modest phone."] ]},
+  check:{ title:"Retrieval, with calibration", rows:[
+    ["Objective","Recall the vocabulary and the method without the scaffold of the bench."],
+    ["Principle","Retrieval practice, with confidence-based marking. Knowing is one thing; knowing that you know is what keeps people safe on site."],
+    ["Evidence","Score out of three, plus the certain-and-wrong count. The fourth item is a near-transfer twin of the opening question in a new context, so any gain is not just memory of an answer."],
+    ["Tau","Hints are withheld on checks, and the companion says so plainly."] ]},
+  result:{ title:"What a facilitator sees", rows:[
+    ["Measurement","A before-and-after on first move, at Kirkpatrick level 2. On one item pair this is a signal, not a validated instrument, and the screen does not pretend otherwise."],
+    ["Mastery rule","Fault fixed, two of three on recall, and the transfer item correct. Anything else is rework with a named place to return to, and no penalty."],
+    ["Spacing","A short review is scheduled two days out. The sheath forms on repeat use, not on first exposure."] ],
+    extra:"<dt style='margin-top:22px'>Alignment</dt><table><tr><th>Outcome</th><th>Evidence</th><th>Activity</th></tr>"+
+      "<tr><td>Separates assumed from measured</td><td>First-try sort accuracy</td><td>Hunch, or fact?</td></tr>"+
+      "<tr><td>Locates a fault by measurement</td><td>Readings before first part; parts wasted</td><td>The bench</td></tr>"+
+      "<tr><td>Seeks the root cause</td><td>Cause found before final repair</td><td>The bench</td></tr>"+
+      "<tr><td>Transfers the method</td><td>Pre item vs. new-context item, with confidence</td><td>Hunch; Check</td></tr></table>" }
+};
+function paintNotes(){ var n=NOTES[S.scene]; $("notesTitle").textContent=n.title;
+  var dl=el("dl"); n.rows.forEach(function(r){ dl.appendChild(el("dt",{text:r[0]})); dl.appendChild(el("dd",{text:r[1]})); });
+  var body=$("notesBody"); body.innerHTML=""; body.appendChild(dl);
+  if (n.extra) body.appendChild(el("div",{html:n.extra}));
+  if (S.scene==="result") body.appendChild(el("p",{class:"label",style:"margin-top:18px",text:S.events.length+" learner events captured this session"}));
+  $("notes").scrollTop=0; }
+function setNotes(on){ document.body.classList.toggle("notes-on",on); $("notesBtn").setAttribute("aria-pressed",on?"true":"false"); }
+
+/* ---------- 12. Wiring ---------- */
+document.addEventListener("click",function(e){ var b=e.target.closest("[data-go]"); if(b&&!b.disabled) go(b.getAttribute("data-go")); });
+document.addEventListener("pointermove",function(e){ var t=e.target.closest&&e.target.closest(".lit"); if(!t) return;
+  var r=t.getBoundingClientRect(); t.style.setProperty("--mx",(e.clientX-r.left)+"px"); t.style.setProperty("--my",(e.clientY-r.top)+"px"); });
+$("notesBtn").addEventListener("click",function(){ setNotes(!document.body.classList.contains("notes-on")); });
+$("restart").addEventListener("click",function(){ location.reload(); });
+$("tauBtn").addEventListener("click",function(){ $("tauPop").classList.contains("open")?closeTau():openTau(); });
+$("tauMore").addEventListener("click",moreHint);
+document.addEventListener("keydown",function(e){ if(e.key==="Escape") closeTau(); });
+
+ORDER.forEach(function(id,i){ $(id).setAttribute("data-n",(i<10?"0":"")+i); });
+buildAxon(); paintNotes(); paintTau();
+if (location.hash==="#notes") setNotes(true);
+</script>
+</body>
+</html>
