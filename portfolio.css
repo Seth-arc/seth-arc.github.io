@@ -201,7 +201,7 @@ section{padding:120px 0}
 .evidence h4{font-size:14px;font-weight:600;letter-spacing:0;text-transform:none;margin:0 0 6px}
 .evidence p{font-size:15px;color:var(--muted);margin:0}
 .case figure img,main figure img,.case figure video{border-radius:var(--r-media)}
-main img{filter:grayscale(1) contrast(1.06)}
+.case-body>.evidence:first-child{border-top:0;padding-top:0}
 /* Video in a modal: the overview opens over the page and closes back to it */
 button.text-link,.video-trigger{border:0;cursor:pointer;font-family:inherit}
 .play-icon{align-self:center;flex:none}
