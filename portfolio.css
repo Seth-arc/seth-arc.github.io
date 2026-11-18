@@ -142,6 +142,7 @@ section{padding:120px 0}
 .section-head{display:grid;grid-template-columns:1.1fr .9fr;align-items:end;gap:60px;margin-bottom:56px}
 .section-head p{color:var(--muted);margin:0;max-width:30em}
 .section-head h2{margin:0}
+.section-head.label-only{margin-bottom:0}
 .intro-small{padding-top:88px;padding-bottom:56px}
 .intro-small h1{max-width:15em}
 .intro-small .text-link{margin-top:6px}
