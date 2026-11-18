@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="A branching browser story about one trader crossing from Zimbabwe into South Africa: every decision encodes a documented non-tariff barrier, and the AfCFTA’s tools only appear once the player can see what not knowing them cost.">
+<meta name="theme-color" content="#182b2a">
+<title>Beitbridge — Sethu Nguna</title>
+<link rel="canonical" href="https://seth-arc.github.io/projects/beitbridge/">
+<meta property="og:title" content="Beitbridge — Sethu Nguna">
+<meta property="og:description" content="A branching browser story about one trader crossing from Zimbabwe into South Africa: every decision encodes a documented non-tariff barrier, and the AfCFTA’s tools only appear once the player can see what not knowing them cost.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://seth-arc.github.io/img/projects/beitbridge-start.jpg">
+<link rel="stylesheet" href="/portfolio.css">
+<script defer src="/portfolio.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="/">Sethu Nguna<i>.</i></a>
+    <button class="mobile-toggle" aria-expanded="false" aria-controls="navigation">Menu</button>
+    <nav id="navigation" aria-label="Main navigation">
+      <a href="/#work">Selected work</a>
+      <a href="/approach/">Approach</a>
+      <a href="/projects/" aria-current="page">Projects &amp; labs</a>
+      <a href="/experience/">Experience</a>
+      <a class="nav-contact" href="mailto:sethnguna@gmail.com">Let’s connect ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- Intro -->
+  <div class="wrap intro-small">
+    <span class="eyebrow">Independent policy simulation · AfCFTA · 2026</span>
+    <h1>Beitbridge</h1>
+    <span class="status">Prototype</span>
+    <p class="lede">You are Amara, a Zimbabwean smallholder with two tonnes of tomatoes, $480 in your jacket lining and a buyer waiting in South Africa. You have never heard of the AfCFTA. Getting through Beitbridge shows you why that matters.</p>
+    <a class="text-link" href="/projects/">← Explore all projects</a>
+  </div>
+
+  <!-- At a glance -->
+  <div class="wrap">
+    <dl class="facts" aria-label="Project at a glance">
+      <div>
+        <dt>Audience</dt>
+        <dd>Trade policy practitioners, AfCFTA programme staff and people building African SME capacity</dd>
+      </div>
+      <div>
+        <dt>Format</dt>
+        <dd>Single-player branching story; six checkpoints; capital, time and losses tracked on screen; several endings</dd>
+      </div>
+      <div>
+        <dt>Grounded in</dt>
+        <dd>My 2026 <em>African Liberty</em> article, “The Distinction Africa Must Make to Unlock the AfCFTA”</dd>
+      </div>
+      <div>
+        <dt>Built with</dt>
+        <dd>HTML, CSS and vanilla JavaScript; static, with no build step; keyboard and screen-reader support</dd>
+      </div>
+    </dl>
+    <figure style="margin:40px 0 0">
+      <img style="width:100%;display:block;border:1px solid var(--line)" src="/img/projects/beitbridge-start.jpg" alt="Beitbridge opening scene before dawn: crates of tomatoes on a truck, with capital, hours and losses trackers and three route choices" loading="lazy">
+      <figcaption class="note">Before the border wakes: three routes, and $480 that isn’t all Amara’s.</figcaption>
+    </figure>
+  </div>
+
+  <!-- The design problem -->
+  <section>
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">The design problem</span>
+        <article class="capability">
+          <h3>The challenge</h3>
+          <p>The AfCFTA has built the legal capacity for intra-African trade, yet fewer than 20% of African SMEs have ever tried to export. The barrier is capability: knowing how to move goods through documents, levies and delays. That gap is hard to convey in a policy brief.</p>
+        </article>
+        <article class="capability">
+          <h3>The logic</h3>
+          <p>Make the gap between capacity and capability something the player lives through. Every decision point encodes a documented non-tariff barrier, money and hours drain as the player goes, and the policy tools only appear at the end, once the player can see what knowing them in advance would have saved.</p>
+        </article>
+        <article class="capability">
+          <h3>What players take away</h3>
+          <p>The difference between rules that exist and the knowledge needed to use them, plus the specific tools: the SADC Certificate of Origin, the AfCFTA e-Tariff Book, the Guided Trade Initiative and the Non-Tariff Barrier Online Mechanism.</p>
+        </article>
+        <article class="capability">
+          <h3>My role</h3>
+          <p>I wrote, designed and built Beitbridge as a companion to my published argument on AfCFTA capacity and capability.</p>
+        </article>
+      </div>
+      <div>
+        <span class="eyebrow">Inside the story</span>
+        <figure class="shot">
+          <img src="/img/projects/beitbridge-customs.jpg" alt="Beitbridge customs window scene with three choices, the bribe option marked with its cost and risk" loading="lazy">
+          <figcaption class="note">At the customs window, the bribe option shows its cost and risk before you choose it.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="/img/projects/beitbridge-ending.jpg" alt="Beitbridge ending on the documented route, showing money remaining, money lost to the system and total delay, with what Amara did not know" loading="lazy">
+          <figcaption class="note">Journey’s end on the documented route: $445 left, $35 lost to the system, 15 hours of delay, and what Amara didn’t know.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- How a run plays out -->
+  <section class="dark">
+    <div class="wrap">
+      <span class="eyebrow">How a run plays out</span>
+      <h2>Choose, pay, wait, learn.</h2>
+      <p class="lede">Each route runs through up to six checkpoints, and each one has a price.</p>
+      <div class="method">
+        <article class="step"><b>01</b><h3>Start with what you carry</h3><p>$480: half borrowed against a neighbour’s stokvel and owed back on Friday, a third for the truck note, the rest yours.</p></article>
+        <article class="step"><b>02</b><h3>Pick a route</h3><p>The official queue, the brokers at the fuel station, or the informal river crossing someone said was faster.</p></article>
+        <article class="step"><b>03</b><h3>Meet the barriers</h3><p>Documents nobody mentioned, broker fees, duties and offers to look the other way, each costing money, hours or both.</p></article>
+        <article class="step"><b>04</b><h3>Live with the outcome</h3><p>Routes end in a formal warning and a lost day, confiscation, a softened load sold cheap, or, on the documented route, a sale.</p></article>
+        <article class="step"><b>05</b><h3>Learn what existed</h3><p>The ending names the tools that would have cut costs by eighty percent, and notes that the Non-Tariff Barrier Online Mechanism had 1,911 registered users across 54 nations.</p></article>
+        <article class="step"><b>06</b><h3>Try a different path</h3><p>Replay from the start to compare routes and what each one cost.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Design decisions -->
+  <section>
+    <div class="wrap">
+      <span class="eyebrow">Design decisions</span>
+      <h2>Every mechanic has a job.</h2>
+      <p class="lede">The story turns trade statistics into one person’s Monday morning.</p>
+      <table class="design-map">
+        <thead>
+          <tr><th scope="col">Decision</th><th scope="col">What it trains</th><th scope="col">In the story</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>A named trader with borrowed money</td>
+            <td data-label="What it trains">Feeling what a lost hour costs a small trader.</td>
+            <td data-label="In the story">Half of Amara’s $480 belongs to a neighbour and is due on Friday.</td>
+          </tr>
+          <tr>
+            <td>Every choice encodes a documented barrier</td>
+            <td data-label="What it trains">Recognising non-tariff barriers as they appear.</td>
+            <td data-label="In the story">A phytosanitary certificate nobody mentioned until the window, broker fees and unofficial levies.</td>
+          </tr>
+          <tr>
+            <td>Money and time on screen</td>
+            <td data-label="What it trains">Seeing costs build up, not just the total.</td>
+            <td data-label="In the story">Capital, hours elapsed and losses to the system are tracked at every checkpoint.</td>
+          </tr>
+          <tr>
+            <td>Choices that lock</td>
+            <td data-label="What it trains">Treating constraints as real limits.</td>
+            <td data-label="In the story">Choices Amara can’t afford are locked and can’t be activated by keyboard or pointer.</td>
+          </tr>
+          <tr>
+            <td>Delay the policy reveal</td>
+            <td data-label="What it trains">Valuing information by what its absence cost.</td>
+            <td data-label="In the story">The AfCFTA tools appear only at journey’s end.</td>
+          </tr>
+          <tr>
+            <td>Replay</td>
+            <td data-label="What it trains">Comparing routes and outcomes.</td>
+            <td data-label="In the story">“Try a different path” returns to the start.</td>
+          </tr>
+          <tr>
+            <td>Accessible by default</td>
+            <td data-label="What it trains">Reaching readers on any device.</td>
+            <td data-label="In the story">A skip link, focus that moves to each new scene, live-region announcements and reduced-motion support.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="split limits">
+        <div>
+          <span class="eyebrow">Evidence</span>
+          <article class="capability">
+            <h3>What’s documented</h3>
+            <p>The prototype is complete and publicly playable, published alongside the <em>African Liberty</em> article it puts into practice.</p>
+          </article>
+        </div>
+        <div>
+          <span class="eyebrow">Limits</span>
+          <article class="capability">
+            <h3>What the evidence can’t show</h3>
+            <p>Beitbridge hasn’t yet been run with traders or trade officials, so there’s no evidence yet of what players learn from it. It follows one trader through one border corridor.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Artifacts -->
+  <section style="border-top:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">Supporting artifacts</span>
+      <h2>Explore the work.</h2>
+      <div class="list">
+        <article>
+          <a href="https://seth-arc.github.io/beitbridge/"><h3>Play Beitbridge ↗</h3></a>
+          <p>Runs in the browser, about one route per sitting</p>
+        </article>
+        <article>
+          <a href="https://www.africanliberty.org/2026/05/12/the-distinction-africa-must-make-to-unlock-the-afcfta/"><h3>The Distinction Africa Must Make to Unlock the AfCFTA ↗</h3></a>
+          <p>The <em>African Liberty</em> article behind the story</p>
+        </article>
+        <article>
+          <a href="https://github.com/Seth-arc/beitbridge"><h3>Source ↗</h3></a>
+          <p>The static build and its release checks</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="contact">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Start a conversation</span>
+      <h2>Build the capability.<br>Make it work in practice.</h2>
+      <p>Learning strategy, institutional systems and decision practice.</p>
+    </div>
+    <a class="btn" href="mailto:sethnguna@gmail.com">sethnguna@gmail.com ↗</a>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <span>© 2026 Sethu Nguna · Williamsburg, Virginia</span>
+    <span><a href="https://linkedin.com/in/sethunguna">LinkedIn</a> &nbsp; / &nbsp; <a href="https://github.com/Seth-arc">GitHub</a> &nbsp; / &nbsp; <a href="https://runtimestate.org">Runtime State</a> &nbsp; / &nbsp; <a href="/archive.html">Portfolio archive</a></span>
+  </div>
+</footer>
+</body>
+</html>

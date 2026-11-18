@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Strategy experiences centred on the African Union in the Sahel: Sahel Arena, a public turn-based game, and an evidence-governed RPG rebuild that keeps observed evidence, scenario conditions and player knowledge apart.">
+<meta name="theme-color" content="#182b2a">
+<title>African Mandate — Sethu Nguna</title>
+<link rel="canonical" href="https://seth-arc.github.io/projects/african-mandate/">
+<meta property="og:title" content="African Mandate — Sethu Nguna">
+<meta property="og:description" content="Strategy experiences centred on the African Union in the Sahel: Sahel Arena, a public turn-based game, and an evidence-governed RPG rebuild that keeps observed evidence, scenario conditions and player knowledge apart.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://seth-arc.github.io/img/projects/african-mandate-situation-room.jpg">
+<link rel="stylesheet" href="/portfolio.css">
+<script defer src="/portfolio.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="/">Sethu Nguna<i>.</i></a>
+    <button class="mobile-toggle" aria-expanded="false" aria-controls="navigation">Menu</button>
+    <nav id="navigation" aria-label="Main navigation">
+      <a href="/#work">Selected work</a>
+      <a href="/approach/">Approach</a>
+      <a href="/projects/" aria-current="page">Projects &amp; labs</a>
+      <a href="/experience/">Experience</a>
+      <a class="nav-contact" href="mailto:sethnguna@gmail.com">Let’s connect ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- Intro -->
+  <div class="wrap intro-small">
+    <span class="eyebrow">Independent project · Strategy game &amp; RPG · 2025–2026</span>
+    <h1>African Mandate</h1>
+    <span class="status">Public demo · in development</span>
+    <p class="lede">You are the African Union’s Special Envoy to the Sahel. Over 20 turns spanning 48 months, you try to stabilise a region where insurgency, coups, climate stress and outside influence compound one another, and where partial success is the realistic win.</p>
+    <a class="text-link" href="/projects/">← Explore all projects</a>
+  </div>
+
+  <!-- At a glance -->
+  <div class="wrap">
+    <dl class="facts" aria-label="Project at a glance">
+      <div>
+        <dt>Audience</dt>
+        <dd>Strategy players, and policy and governance professionals</dd>
+      </div>
+      <div>
+        <dt>Sahel Arena</dt>
+        <dd>Five countries, 30 interactive zones, three actions a turn, five regional metrics and five endings</dd>
+      </div>
+      <div>
+        <dt>The RPG</dt>
+        <dd>An evidence-governed rebuild: real conflict and finance data, simulated actors labelled as simulated, no overall score</dd>
+      </div>
+      <div>
+        <dt>Built with</dt>
+        <dd>React, TypeScript, Vite and Leaflet; browser saves, with experimental cloud saves on Supabase; Playwright release gates</dd>
+      </div>
+    </dl>
+    <figure style="margin:40px 0 0">
+      <img style="width:100%;display:block;border:1px solid var(--line)" src="/img/projects/african-mandate-situation-room.jpg" alt="Sahel Arena situation room: turn progression, resources and regional metrics on the left, a zone map of the Sahel in the centre, and an intelligence feed on the right" loading="lazy">
+      <figcaption class="note">Sahel Arena’s situation room in the public desktop demo, which runs on synthetic data.</figcaption>
+    </figure>
+  </div>
+
+  <!-- The design problem -->
+  <section>
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">The design problem</span>
+        <article class="capability">
+          <h3>The challenge</h3>
+          <p>The Sahel’s crisis doesn’t fit a lecture. Security, governance, climate and legitimacy pull against one another, and the instruments available to an envoy are limited. Policy audiences need to feel those trade-offs, not just read about them.</p>
+        </article>
+        <article class="capability">
+          <h3>The logic</h3>
+          <p>Put the player in an African Union role rather than an outside power’s, with scarce budget, political capital and personnel, and make every action trade one outcome against another. As the game puts it: you cannot airstrike a drought.</p>
+        </article>
+        <article class="capability">
+          <h3>What players produce</h3>
+          <p>A 20-turn campaign and one of five endings, from stabilisation to the collapse of the mandate.</p>
+        </article>
+        <article class="capability">
+          <h3>My role</h3>
+          <p>I designed, wrote and developed both builds: the systems design, the narrative and the code.</p>
+        </article>
+      </div>
+      <div>
+        <span class="eyebrow">Two builds</span>
+        <article class="capability">
+          <h3>Sahel Arena</h3>
+          <p>The v0.1 public web release for desktop browsers. Players start as a guest with saves kept in the browser and play through narrative acts against AI-driven insurgents. Unsupported setups are stopped before a campaign starts, rather than failing halfway through.</p>
+        </article>
+        <article class="capability">
+          <h3>African Mandate RPG</h3>
+          <p>A rebuild with explicit evidence boundaries. An intelligence-informed model separates observed historical evidence, latent scenario conditions and what the player actually knows. Zones come from Natural Earth, conflict events and development-finance records are cited and hashed, and missing observations stay unknown instead of becoming zero.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- How a turn plays -->
+  <section class="dark">
+    <div class="wrap">
+      <span class="eyebrow">How a turn plays</span>
+      <h2>Read, engage, act, live with it.</h2>
+      <p class="lede">Twenty turns, each one a month or more of the mandate.</p>
+      <div class="method">
+        <article class="step"><b>01</b><h3>Read the feed</h3><p>Intelligence arrives with urgency and confidence signals: threat assessments, insurgent movements, smuggling surges.</p></article>
+        <article class="step"><b>02</b><h3>Engage the actors</h3><p>The African Union Commission, ECOWAS, transitional governments, the donor community and civil society, each with its own readiness to talk.</p></article>
+        <article class="step"><b>03</b><h3>Take three actions</h3><p>Security patrols, diplomacy, governance reform, aid, intelligence operations or community mediation, paid for in budget, political capital and personnel.</p></article>
+        <article class="step"><b>04</b><h3>Watch the metrics</h3><p>Stability, insurgency, civilian support, global legitimacy and regional synergy move, rarely all in the same direction.</p></article>
+        <article class="step"><b>05</b><h3>End the turn</h3><p>Events land: insurgent surges, corruption scandals, donor pullouts. Plans made last turn may no longer hold.</p></article>
+        <article class="step"><b>06</b><h3>Reach an ending</h3><p>After 20 turns the campaign resolves into one of five endings.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Design decisions -->
+  <section>
+    <div class="wrap">
+      <span class="eyebrow">Design decisions</span>
+      <h2>Every mechanic has a job.</h2>
+      <p class="lede">Both builds are designed so that players learn the limits of what an envoy can do.</p>
+      <table class="design-map">
+        <thead>
+          <tr><th scope="col">Decision</th><th scope="col">What it trains</th><th scope="col">In the game</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>An African Union envoy, not an outside power</td>
+            <td data-label="What it trains">Seeing the crisis from the institution that holds the mandate.</td>
+            <td data-label="In the game">The player is the AU Special Envoy for the Sahel.</td>
+          </tr>
+          <tr>
+            <td>Three actions a turn</td>
+            <td data-label="What it trains">Ruthless prioritisation.</td>
+            <td data-label="In the game">Budget, political capital and personnel are never enough for everything.</td>
+          </tr>
+          <tr>
+            <td>Five metrics that pull apart</td>
+            <td data-label="What it trains">Trade-offs instead of a single objective.</td>
+            <td data-label="In the game">Stability, insurgency, civilian support, global legitimacy and regional synergy.</td>
+          </tr>
+          <tr>
+            <td>Confidence on every report</td>
+            <td data-label="What it trains">Acting on imperfect intelligence.</td>
+            <td data-label="In the game">Each feed item carries urgency and confidence signals.</td>
+          </tr>
+          <tr>
+            <td>Evidence, conditions and knowledge kept apart</td>
+            <td data-label="What it trains">Knowing what the model knows and what it assumes.</td>
+            <td data-label="In the game">In the RPG, observed data, latent scenario conditions and player knowledge are modelled separately.</td>
+          </tr>
+          <tr>
+            <td>Simulated actors, labelled</td>
+            <td data-label="What it trains">Not mistaking a game for a forecast.</td>
+            <td data-label="In the game">In the RPG, fictional procedures and actor positions carry a visible “simulated” label, with no real person or asserted private intent.</td>
+          </tr>
+          <tr>
+            <td>Trajectory, not a score</td>
+            <td data-label="What it trains">Judging a mandate by how it went, not by one number.</td>
+            <td data-label="In the game">The RPG weighs the end state at 40% and the trajectory at 60%, penalises prolonged crises and countervailing harm, and shows no overall score or leaderboard.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="split limits">
+        <div>
+          <span class="eyebrow">Evidence</span>
+          <article class="capability">
+            <h3>What’s documented</h3>
+            <p>Sahel Arena v0.1 is publicly playable on desktop browsers, and each release has to pass automated end-to-end tests in Chrome and Edge. The RPG’s build runs through a logged acceptance process, with owner review at every stage.</p>
+          </article>
+        </div>
+        <div>
+          <span class="eyebrow">Limits</span>
+          <article class="capability">
+            <h3>What the evidence can’t show</h3>
+            <p>Neither build is an operational forecasting system. Sahel Arena’s public demo runs on synthetic data. The RPG isn’t playable yet: its production geography and opening campaign values are still awaiting sign-off. No player testing has been reported.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Artifacts -->
+  <section style="border-top:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">Supporting artifacts</span>
+      <h2>Explore the work.</h2>
+      <div class="list">
+        <article>
+          <a href="https://seth-arc.github.io/African-Mandate/"><h3>Play Sahel Arena ↗</h3></a>
+          <p>Public desktop release; Chrome or Edge on a laptop or desktop</p>
+        </article>
+        <article>
+          <a href="https://github.com/Seth-arc/African-Mandate"><h3>Sahel Arena source ↗</h3></a>
+          <p>Game build, design standards and production-readiness docs</p>
+        </article>
+        <article>
+          <a href="https://github.com/Seth-arc/African-Mandate-RPG"><h3>RPG source ↗</h3></a>
+          <p>Specifications, data pipeline and governed build log</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="contact">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Start a conversation</span>
+      <h2>Build the capability.<br>Make it work in practice.</h2>
+      <p>Learning strategy, institutional systems and decision practice.</p>
+    </div>
+    <a class="btn" href="mailto:sethnguna@gmail.com">sethnguna@gmail.com ↗</a>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <span>© 2026 Sethu Nguna · Williamsburg, Virginia</span>
+    <span><a href="https://linkedin.com/in/sethunguna">LinkedIn</a> &nbsp; / &nbsp; <a href="https://github.com/Seth-arc">GitHub</a> &nbsp; / &nbsp; <a href="https://runtimestate.org">Runtime State</a> &nbsp; / &nbsp; <a href="/archive.html">Portfolio archive</a></span>
+  </div>
+</footer>
+</body>
+</html>
