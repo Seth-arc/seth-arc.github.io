@@ -331,6 +331,40 @@ footer a{text-decoration:none}
 footer a:hover{color:var(--ink)}
 
 /* ------------------------------------------------------------------
+   Project pages: fact panel, interface shots and design map
+------------------------------------------------------------------ */
+.intro-small .status{margin:0 0 28px}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:0;padding:28px 0 0;border-top:1px solid var(--line)}
+.facts>div{padding:0 24px 0 0}
+.facts>div+div{padding-left:24px;border-left:1px solid var(--line)}
+.facts dt{font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.facts dd{margin:0;font-size:15px;line-height:1.5;color:var(--ink)}
+.shot{margin:0}
+.shot img{width:100%;display:block;border:1px solid var(--line)}
+.shot+.shot{margin-top:36px}
+.design-map{width:100%;border-collapse:collapse;margin-top:40px;font-size:15px;line-height:1.5}
+.design-map th{text-align:left;font-size:12px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:0 24px 14px 0;border-bottom:1px solid var(--ink)}
+.design-map td{vertical-align:top;padding:20px 24px 20px 0;border-bottom:1px solid var(--line);color:var(--muted)}
+.design-map td:first-child{color:var(--ink);font-weight:500;width:30%}
+.design-map th:last-child,.design-map td:last-child{padding-right:0}
+.limits{margin-top:56px}
+@media(max-width:980px){
+  .facts{grid-template-columns:1fr 1fr;gap:24px 0}
+  .facts>div:nth-child(3){padding-left:0;border-left:0}
+}
+@media(max-width:700px){
+  .facts{grid-template-columns:1fr}
+  .facts>div,.facts>div+div{padding:0 0 18px;border-left:0;border-bottom:1px solid var(--line)}
+  .facts>div:last-child{border-bottom:0;padding-bottom:0}
+  .design-map thead{display:none}
+  .design-map tr{display:block;padding:18px 0;border-bottom:1px solid var(--line)}
+  .design-map td{display:block;padding:0;border:0}
+  .design-map td:first-child{width:auto;margin-bottom:6px}
+  .design-map td+td{margin-top:12px}
+  .design-map td[data-label]::before{content:attr(data-label);display:block;font-size:11px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+}
+
+/* ------------------------------------------------------------------
    One orchestrated entrance: the opening of each page settles into place
 ------------------------------------------------------------------ */
 @keyframes settle{from{opacity:0;transform:translateY(14px)}}
