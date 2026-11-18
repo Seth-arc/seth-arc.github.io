@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="An agent skill from Teludens Lab that reads a codebase and drafts onboarding, tutorials and practice, recording what it actually ran, what it only read and what is still unknown.">
+<meta name="theme-color" content="#182b2a">
+<title>Neckbeard — Sethu Nguna</title>
+<link rel="canonical" href="https://seth-arc.github.io/projects/neckbeard/">
+<meta property="og:title" content="Neckbeard — Sethu Nguna">
+<meta property="og:description" content="An agent skill from Teludens Lab that reads a codebase and drafts onboarding, tutorials and practice, recording what it actually ran, what it only read and what is still unknown.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://seth-arc.github.io/media/neckbeard/neckbeard-overview-poster.jpg">
+<link rel="stylesheet" href="/portfolio.css">
+<script defer src="/portfolio.js"></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+  <div class="wrap bar">
+    <a class="brand" href="/">Sethu Nguna<i>.</i></a>
+    <button class="mobile-toggle" aria-expanded="false" aria-controls="navigation">Menu</button>
+    <nav id="navigation" aria-label="Main navigation">
+      <a href="/#work">Selected work</a>
+      <a href="/approach/">Approach</a>
+      <a href="/projects/" aria-current="page">Projects &amp; labs</a>
+      <a href="/experience/">Experience</a>
+      <a class="nav-contact" href="mailto:sethnguna@gmail.com">Let’s connect ↗</a>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <!-- Intro -->
+  <div class="wrap intro-small">
+    <span class="eyebrow">Teludens Lab · Independent R&amp;D · 2026</span>
+    <h1>Neckbeard</h1>
+    <span class="status">Independent R&amp;D · agent skill</span>
+    <p class="lede">An agent skill that reads a codebase and drafts the learning around it: onboarding, task tutorials, practice and recovery. Every claim is marked by what backs it: what the agent ran, what it only read, and what is still unknown.</p>
+    <a class="text-link" href="/projects/">← Explore all projects</a>
+  </div>
+
+  <!-- At a glance -->
+  <div class="wrap">
+    <dl class="facts" aria-label="Project at a glance">
+      <div>
+        <dt>Audiences</dt>
+        <dd>End users, administrators, developers, support teams and people adopting a new release</dd>
+      </div>
+      <div>
+        <dt>Runs in</dt>
+        <dd>Codex, Claude and Cursor, through portable instruction adapters</dd>
+      </div>
+      <div>
+        <dt>Components</dt>
+        <dd>A required core plus eight optional components, from end-user onboarding to media and release training</dd>
+      </div>
+      <div>
+        <dt>Built with</dt>
+        <dd>Agent instructions and Python standard-library scripts for install, governance, drift checks and media gates</dd>
+      </div>
+    </dl>
+      <figure style="margin:40px 0 0">
+        <video controls preload="none" poster="/media/neckbeard/neckbeard-overview-poster.jpg" style="width:100%;display:block;border:1px solid var(--line);background:var(--green)">
+          <source src="/media/neckbeard/neckbeard-overview.mp4" type="video/mp4">
+          <track kind="captions" src="/media/neckbeard/neckbeard-overview.vtt" srclang="en" label="English" default>
+          <a href="/media/neckbeard/neckbeard-overview.mp4">Download the overview video</a>
+        </video>
+        <figcaption class="note">Overview, 2:20, with captions: the README says one thing, the code decides another, and Neckbeard reads the code.</figcaption>
+      </figure>
+  </div>
+
+  <!-- The design problem -->
+  <section>
+    <div class="wrap split">
+      <div>
+        <span class="eyebrow">The design problem</span>
+        <article class="capability">
+          <h3>The challenge</h3>
+          <p>A README describes what software should do, and the code decides what it actually does. Learning material written from the README, by people or by AI, can confidently teach steps nobody has checked, and it drifts as the code changes.</p>
+        </article>
+        <article class="capability">
+          <h3>The logic</h3>
+          <p>Treat learning content the way engineers treat code. Separate what was run from what was only read, tie every document to the exact source revision it describes, and flag a guide as stale when the code it depends on changes.</p>
+        </article>
+        <article class="capability">
+          <h3>What it produces</h3>
+          <p>Onboarding paths, first-task tutorials with real commands and recovery steps, practice, and a governance record that can be exported as an audit package.</p>
+        </article>
+        <article class="capability">
+          <h3>My role</h3>
+          <p>I designed and built Neckbeard at Teludens Lab, my independent lab for experimental work.</p>
+        </article>
+      </div>
+      <div>
+        <span class="eyebrow">Worked case study</span>
+        <article class="capability">
+          <h3>Fractured Order on Plenum</h3>
+          <p>The repository includes a case study that teaches a Blue Scribe’s first Strategic Orientation handoff in a specific Plenum deployment. It comes with a two-page PDF guide, a job aid, a narrated explainer video, audio, captions, a transcript and a transfer exercise.</p>
+        </article>
+        <article class="capability">
+          <h3>What it shows, and doesn’t</h3>
+          <p>A synthetic rehearsal of the application passed. How it behaves on the hosted platform, and what learners take from it, remain unverified.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- How a run works -->
+  <section class="dark">
+    <div class="wrap">
+      <span class="eyebrow">How a run works</span>
+      <h2>Read, verify, teach, govern.</h2>
+      <p class="lede">The same sequence whichever audience the learning is for.</p>
+      <div class="method">
+        <article class="step"><b>01</b><h3>Load the profile</h3><p>An organisation profile sets house style, terminology, approved tools, classification rules and reviewers. Without one, outputs stay drafts.</p></article>
+        <article class="step"><b>02</b><h3>Inspect the repository</h3><p>The agent reads the implementation and keeps runtime checks separate from code inspection.</p></article>
+        <article class="step"><b>03</b><h3>Draft the learning</h3><p>Orientation, task tutorials, practice and recovery, using whichever components the audience needs.</p></article>
+        <article class="step"><b>04</b><h3>Record the evidence</h3><p>Every document carries an owner, the exact source revision, its evidence state, a reviewer and a review-by date.</p></article>
+        <article class="step"><b>05</b><h3>Gate the media</h3><p>Narration, screenshots and video only go through approved tools, modes and data classifications.</p></article>
+        <article class="step"><b>06</b><h3>Watch for drift</h3><p>A drift check compares code changes to the paths each guide depends on, and flags guides that may be stale.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Design decisions -->
+  <section>
+    <div class="wrap">
+      <span class="eyebrow">Design decisions</span>
+      <h2>Every rule has a job.</h2>
+      <p class="lede">Neckbeard is built so that a guide can’t claim more than its evidence supports.</p>
+      <table class="design-map">
+        <thead>
+          <tr><th scope="col">Decision</th><th scope="col">What it protects</th><th scope="col">In the skill</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Ran versus read</td>
+            <td data-label="What it protects">Trust in what a tutorial says will happen.</td>
+            <td data-label="In the skill">Evidence states separate what the agent ran from what it only inspected.</td>
+          </tr>
+          <tr>
+            <td>No claims without learners</td>
+            <td data-label="What it protects">Honesty about effectiveness.</td>
+            <td data-label="In the skill">The skill doesn’t certify usability or learning effectiveness without learner evidence.</td>
+          </tr>
+          <tr>
+            <td>Drafts until configured</td>
+            <td data-label="What it protects">The organisation’s control over what ships.</td>
+            <td data-label="In the skill">With no configured profile, outputs stay drafts and external media processing is blocked.</td>
+          </tr>
+          <tr>
+            <td>Every document traceable</td>
+            <td data-label="What it protects">Reviews and audits.</td>
+            <td data-label="In the skill">Owner, source revision, evidence state, reviewer, review-by date and a stable ID on every output.</td>
+          </tr>
+          <tr>
+            <td>Approvals bound to the exact files</td>
+            <td data-label="What it protects">Release readiness that means something.</td>
+            <td data-label="In the skill">Each approval records a hash of the approved files and the full source snapshot.</td>
+          </tr>
+          <tr>
+            <td>Drift caught in CI</td>
+            <td data-label="What it protects">Guides that stay current.</td>
+            <td data-label="In the skill">A workflow checks pull requests, and the drift check flags guides whose source has changed.</td>
+          </tr>
+          <tr>
+            <td>Modular components</td>
+            <td data-label="What it protects">Learning that fits the audience.</td>
+            <td data-label="In the skill">Install only what’s needed: end-user, admin, developer, practice, maintenance, media, support or release training.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="split limits">
+        <div>
+          <span class="eyebrow">Evidence</span>
+          <article class="capability">
+            <h3>What’s documented</h3>
+            <p>The repository includes runnable product and service fixtures, five behavioural evaluation cases with a weighted scoring rubric, automated tests of the governance and distribution scripts, and the worked Fractured Order case study.</p>
+          </article>
+        </div>
+        <div>
+          <span class="eyebrow">Limits</span>
+          <article class="capability">
+            <h3>What the evidence can’t show</h3>
+            <p>Live behaviour in each host agent hasn’t been certified, and passing code tests say nothing about learning outcomes. The case study’s hosted behaviour and learner results are unverified.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Artifacts -->
+  <section style="border-top:1px solid var(--line)">
+    <div class="wrap">
+      <span class="eyebrow">Supporting artifacts</span>
+      <h2>Explore the work.</h2>
+      <div class="list">
+        <article>
+          <a href="https://teludens-lab.github.io/neckbeard/"><h3>Project site ↗</h3></a>
+          <p>What Neckbeard does and how to use it</p>
+        </article>
+        <article>
+          <a href="https://github.com/Teludens-Lab/neckbeard"><h3>Repository ↗</h3></a>
+          <p>The skill, its components, governance scripts, evaluations and the Fractured Order case study</p>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="contact">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Start a conversation</span>
+      <h2>Build the capability.<br>Make it work in practice.</h2>
+      <p>Learning strategy, institutional systems and decision practice.</p>
+    </div>
+    <a class="btn" href="mailto:sethnguna@gmail.com">sethnguna@gmail.com ↗</a>
+  </div>
+</section>
+<footer>
+  <div class="wrap">
+    <span>© 2026 Sethu Nguna · Williamsburg, Virginia</span>
+    <span><a href="https://linkedin.com/in/sethunguna">LinkedIn</a> &nbsp; / &nbsp; <a href="https://github.com/Seth-arc">GitHub</a> &nbsp; / &nbsp; <a href="https://runtimestate.org">Runtime State</a> &nbsp; / &nbsp; <a href="/archive.html">Portfolio archive</a></span>
+  </div>
+</footer>
+</body>
+</html>
