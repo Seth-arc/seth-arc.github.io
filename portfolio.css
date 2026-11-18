@@ -347,6 +347,7 @@ footer a:hover{color:var(--ink)}
 .design-map td{vertical-align:top;padding:20px 24px 20px 0;border-bottom:1px solid var(--line);color:var(--muted)}
 .design-map td:first-child{color:var(--ink);font-weight:500;width:30%}
 .design-map th:last-child,.design-map td:last-child{padding-right:0}
+.design-map .text-link{margin-top:0}
 .limits{margin-top:56px}
 @media(max-width:980px){
   .facts{grid-template-columns:1fr 1fr;gap:24px 0}
