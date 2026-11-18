@@ -166,6 +166,10 @@ section{padding:120px 0}
 .caption small{display:block;color:var(--muted);font-size:13px}
 .caption p{font-size:22px;line-height:1.25;letter-spacing:-.02em;margin:6px 0 8px;color:var(--ink)!important;max-width:none!important}
 .caption span{font-size:13px;color:var(--muted)}
+.hero.solo{grid-template-columns:1fr;padding-top:56px}
+.hero.solo .hero-visual img{height:540px;object-position:50% 28%}
+.hero.solo .caption{left:auto;right:28px;max-width:400px}
+.caption h1{font-size:26px;line-height:1.2;letter-spacing:-.022em;font-weight:500;margin:6px 0 8px;max-width:none}
 .stats{
   display:grid;grid-template-columns:repeat(4,1fr);
   padding:28px 0 0;border-top:1px solid var(--line);gap:0
@@ -349,9 +353,11 @@ footer a:hover{color:var(--ink)}
 .design-map .text-link{margin-top:0}
 .limits{margin-top:56px}
 .stats.three{grid-template-columns:repeat(3,1fr)}
+.stats.three strong{font-size:30px;white-space:nowrap}
 @media(max-width:980px){
   .facts{grid-template-columns:1fr 1fr;gap:24px 0}
   .facts>div:nth-child(3){padding-left:0;border-left:0}
+  .stats.three strong{white-space:normal;font-size:28px}
 }
 @media(max-width:700px){
   .facts{grid-template-columns:1fr}
@@ -389,6 +395,7 @@ footer a:hover{color:var(--ink)}
   .wrap{padding:0 28px}
   .hero{grid-template-columns:1fr;gap:48px;padding-top:56px}
   .hero-visual img{height:340px}
+  .hero.solo .hero-visual img{height:420px}
   .caption{left:16px}
   .section-head{grid-template-columns:1fr;gap:18px}
   .case{grid-template-columns:1fr;gap:28px}
@@ -424,6 +431,8 @@ footer a:hover{color:var(--ink)}
   .intro-small{padding-top:52px;padding-bottom:36px}
   .hero{padding:40px 0 48px}
   .hero-visual img{height:240px}
+  .hero.solo .hero-visual img{height:300px}
+  .hero.solo .caption{right:auto;max-width:none}
   .caption{position:relative;left:auto;right:auto;margin:-36px 14px 0;padding:18px}
   .hero-visual{padding-bottom:0}
   .stats{grid-template-columns:1fr 1fr;gap:22px 0}
