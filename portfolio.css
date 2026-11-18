@@ -315,7 +315,6 @@ main h3[style]{margin-top:64px!important}
 .panel-art .label{font-size:12px;color:var(--tray-muted)}
 .panel-art .word{font-size:42px;font-weight:500;letter-spacing:-.035em;line-height:1.05;margin:8px 0 12px}
 .panel-art .word i{color:var(--accent-tint);font-style:normal}
-.panel-art .rail{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--tray-muted)}
 .empty{padding:20px;font-size:15px;color:var(--muted)}
 
 /* ------------------------------------------------------------------
